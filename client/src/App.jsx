@@ -1,18 +1,29 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav";
+import React, { useContext } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { UserContext } from "./hooks/useUserContext";
 import Home from "./pages/Home/Home";
-import CreateUser from "./pages/User/CreateUser";
-import UserList from "./pages/User/UserList";
+import Profile from "./pages/Profile/Profile";
+import Login from "./pages/Login/Login";
+import Nav from "./components/Nav";
 
 const App = () => {
+  const { user } = useContext(UserContext); // using useContext to get the user value from UserContext, if user is not null: means user logged in
   return (
     <>
-      <Nav />
+      {/* Don't show Navbar before user Logged in*/}
+      {user && <Nav />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/user" element={<UserList />} />
-        <Route path="/user/create" element={<CreateUser />} />
+        {/* When Login it will automatically navigate to profile page*/}
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/profile" />}
+        />
+        {/* To secure we need to check if there is user to show this page*/}
+        <Route
+          path="/profile"
+          element={user ? <Profile /> : <Navigate to="/" />}
+        />
       </Routes>
     </>
   );
