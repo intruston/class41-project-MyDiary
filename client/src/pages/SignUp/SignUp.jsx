@@ -32,9 +32,39 @@ function RegisterForm() {
     setAgreeToPrivacyPolicy(event.target.checked);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    // Handle form submission here
+
+    if (!firstName || !lastName || !dateOfBirth || !email || !password) {
+      alert("Please fill out all fields before submitting");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          dateOfBirth,
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create user");
+      }
+
+      const data = await response.json();
+      alert("User created successfully", data);
+      // Redirect to the login page...
+    } catch (error) {
+      alert("Error creating user. Please try again later.");
+    }
   }
 
   return (
@@ -48,6 +78,7 @@ function RegisterForm() {
               type="text"
               value={firstName}
               onChange={handleFirstNameChange}
+              required
             />
           </label>
         </p>
@@ -58,6 +89,7 @@ function RegisterForm() {
               type="text"
               value={lastName}
               onChange={handleLastNameChange}
+              required
             />
           </label>
         </p>
@@ -68,13 +100,19 @@ function RegisterForm() {
               type="date"
               value={dateOfBirth}
               onChange={handleDateOfBirthChange}
+              required
             />
           </label>
         </p>
         <p>
           <label>
             Email:
-            <input type="email" value={email} onChange={handleEmailChange} />
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              required
+            />
           </label>
         </p>
         <p>
@@ -84,6 +122,8 @@ function RegisterForm() {
               type="password"
               value={password}
               onChange={handlePasswordChange}
+              required
+              minLength="8"
             />
           </label>
         </p>
@@ -97,7 +137,9 @@ function RegisterForm() {
             By clicking &ldquo;Sign up&ldquo; you agree to the privacy policy
           </label>
         </p>
-        <button type="submit">Sign up</button>
+        <button type="submit" disabled={!agreeToPrivacyPolicy}>
+          Submit
+        </button>
       </form>
     </div>
   );

@@ -38,6 +38,7 @@ function LoginForm() {
             type="email"
             value={username}
             onChange={handleUsernameChange}
+            required
           />
         </label>
         <br />
@@ -47,6 +48,8 @@ function LoginForm() {
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            required
+            minLength="8"
           />
         </label>
         <br />
