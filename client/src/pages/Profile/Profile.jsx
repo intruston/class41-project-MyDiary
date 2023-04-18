@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../hooks/useUserContext";
+import React from "react";
+import Navbar from "../../components/Navbar";
+import MiddleSection from "../../components/MiddleSection";
+import RightSection from "../../components/RightSection";
 const Profile = () => {
-  const { user } = useContext(UserContext);
   return (
-    <div>
-      <h1>User Name is:</h1>
-      <p>{user}</p>
+    <div className="page-container">
+      <Navbar />
+      <MiddleSection />
+      <RightSection />
     </div>
   );
 };
