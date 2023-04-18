@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import User, { validateUser } from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
@@ -36,6 +37,7 @@ export const createUser = async (req, res) => {
         .status(400)
         .json({ success: false, msg: validationErrorMessage(errorList) });
     } else {
+      user.password = await hashPassword(user.password);
       const newUser = await User.create(user);
 
       res.status(201).json({ success: true, user: newUser });
@@ -47,3 +49,15 @@ export const createUser = async (req, res) => {
       .json({ success: false, msg: "Unable to create user, try again later" });
   }
 };
+
+// generating hashed password by bcrypt
+async function hashPassword(password) {
+  const hash = await bcrypt.hash(password, 10);
+  return hash;
+}
+
+// TODO: compare password to use for verification later
+// async function comparePassword(plaintextPassword, hash) {
+//   const result = await bcrypt.compare(plaintextPassword, hash);
+//   return result;
+// }
