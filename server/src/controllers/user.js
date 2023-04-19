@@ -50,14 +50,90 @@ export const createUser = async (req, res) => {
   }
 };
 
+export const login = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, msg: "login is not succeed" });
+    }
+
+    if (req.body.password) {
+      try {
+        const match = await comparePassword(req.body.password, user.password);
+        if (!match) {
+          return res.status(400).json({ success: false, msg: "Not Matched" });
+        }
+        return res.status(200).json({ success: true, result: user });
+      } catch (err) {
+        return res.status(500).json({ success: false, msg: err });
+      }
+    }
+    return res.status(400).json({ success: false, msg: "Invalid Request" });
+  } catch (err) {
+    return res.status(500).json({ success: false, msg: err });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  if (req.body.userId === req.params.id || req.body.isAdmin) {
+    if (req.body.password) {
+      try {
+        req.body.password = hashPassword(req.body.password);
+      } catch (err) {
+        return res.status(500).json(err);
+      }
+    }
+    try {
+      const user = await User.findByIdAndUpdate(req.params.id, {
+        $set: req.body,
+      });
+      res
+        .status(200)
+        .json({ success: true, msg: user.id + " Account has been updated" });
+    } catch (err) {
+      return res.status(500).json({ success: false, msg: err });
+    }
+  } else {
+    return res
+      .status(403)
+      .json({ success: false, msg: "You can update only your account!" });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  if (req.body.userId === req.params.id || req.body.isAdmin) {
+    try {
+      await User.findByIdAndDelete(req.params.id);
+      res.status(200).json({ success: true, msg: "Account has been deleted" });
+    } catch (err) {
+      return res.status(500).json({ success: false, msg: err });
+    }
+  } else {
+    return res
+      .status(403)
+      .json({ success: false, msg: "You can delete only your account!" });
+  }
+};
+
+export const getAUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    res.status(200).json({ success: true, result: user });
+  } catch (err) {
+    res.status(500).json({ success: true, msg: err });
+  }
+};
+
 // generating hashed password by bcrypt
 async function hashPassword(password) {
   const hash = await bcrypt.hash(password, 10);
   return hash;
 }
-
-// TODO: compare password to use for verification later
-// async function comparePassword(plaintextPassword, hash) {
-//   const result = await bcrypt.compare(plaintextPassword, hash);
-//   return result;
-// }
+// compere plain text Password and encrypted password from Mongo
+async function comparePassword(plaintextPassword, hash) {
+  const result = await bcrypt.compare(plaintextPassword, hash);
+  return result;
+}
