@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-const NavbarLinks = ({ link, svg, text }) => {
+const NavbarLinks = ({ link, svg, text, active }) => {
   return (
-    <li>
+    <li className={active === text ? "active" : ""}>
       <Link to={link}>
         <div className="svg-holder">{svg}</div>
         <div className="link-text">{text}</div>
@@ -17,6 +17,7 @@ NavbarLinks.propTypes = {
   link: PropTypes.string.isRequired,
   svg: PropTypes.element.isRequired,
   text: PropTypes.string.isRequired,
+  active: PropTypes.string,
 };
 
 export default NavbarLinks;

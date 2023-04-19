@@ -1,15 +1,16 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import MiddleSection from "../../components/MiddleSection";
-import RightSection from "../../components/RightSection";
-const Profile = () => {
+import MiddleSection from "./MiddleSection";
+import RightSection from "./RightSection";
+import "./Feeds.css";
+const Feeds = () => {
   return (
     <div className="page-container">
-      <Navbar />
+      <Navbar active={"Feeds"} />
       <MiddleSection />
       <RightSection />
     </div>
   );
 };
 
-export default Profile;
+export default Feeds;

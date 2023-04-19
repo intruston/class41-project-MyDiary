@@ -32,6 +32,7 @@
 .user-information {
   padding-bottom: var(--whiteSpaceSmall);
   text-align: left;
+  cursor: default;
 }
 .user-information h4 {
   color: var(--softGray);
@@ -108,9 +109,17 @@
   fill: var(--yellow);
 }
 
+.active .link-text {
+  color: var(--yellow);
+  font-weight: 700;
+}
+.active .svg-holder svg {
+  fill: var(--yellow);
+}
+
 /* ==========================================================================
-                           Responsive Design
-========================================================================== */
+                             Responsive Design
+  ========================================================================== */
 
 /* ===========================[ 1166px ]================================== */
 @media screen and (max-width: 1166px) {
