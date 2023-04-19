@@ -1,4 +1,5 @@
 import React from "react";
+import "./MiddleSection.css";
 
 const Middle = () => {
   return (

@@ -1,4 +1,5 @@
 import React from "react";
+import "./RightSection.css";
 
 const Right = () => {
   return (

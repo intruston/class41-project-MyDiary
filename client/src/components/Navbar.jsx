@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import NavbarLinks from "./NavbarLinks";
+import "./Navbar.css";
 import { icons } from "../assets/svg.js";
 import profileIcon from "../assets/profile-icon.png";
 import { UserContext } from "../hooks/useUserContext";
