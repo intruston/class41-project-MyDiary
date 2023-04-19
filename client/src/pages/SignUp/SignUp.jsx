@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -6,6 +7,8 @@ function RegisterForm() {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [country, setCountry] = useState("");
+  const [bio, setBio] = useState("");
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
 
   function handleFirstNameChange(event) {
@@ -28,6 +31,14 @@ function RegisterForm() {
     setPassword(event.target.value);
   }
 
+  function handleCountryChange(event) {
+    setCountry(event.target.value);
+  }
+
+  function handleBioChange(event) {
+    setBio(event.target.value);
+  }
+
   function handlePrivacyPolicyChange(event) {
     setAgreeToPrivacyPolicy(event.target.checked);
   }
@@ -35,7 +46,15 @@ function RegisterForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (!firstName || !lastName || !dateOfBirth || !email || !password) {
+    if (
+      !firstName ||
+      !lastName ||
+      !dateOfBirth ||
+      !email ||
+      !password ||
+      !country ||
+      !bio
+    ) {
       alert("Please fill out all fields before submitting");
       return;
     }
@@ -53,8 +72,8 @@ function RegisterForm() {
             birthday: dateOfBirth,
             email,
             password,
-            country: "",
-            bio: "",
+            country,
+            bio,
           },
         }),
       });
@@ -64,8 +83,8 @@ function RegisterForm() {
       }
 
       const data = await response.json();
-      alert("User created successfully", data);
-      // Redirect to the login page...
+      alert("User created successfully", data); //delete in production, for now we should see what we have created.
+      Navigate("/login");
     } catch (error) {
       alert("Error creating user. Please try again later.");
     }
@@ -128,6 +147,29 @@ function RegisterForm() {
               onChange={handlePasswordChange}
               required
               minLength="8"
+            />
+          </label>
+        </p>
+        <p>
+          <label>
+            Country:
+            <input
+              type="country"
+              value={country}
+              onChange={handleCountryChange}
+              required
+            />
+          </label>
+        </p>
+        <p>
+          <label>
+            Bio:
+            <input
+              type="bio"
+              value={bio}
+              onChange={handleBioChange}
+              required
+              minLength="10"
             />
           </label>
         </p>
