@@ -1,0 +1,70 @@
+/* google font we are lucky our design font is free :D*/
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+
+/* ==========================================================================
+                           General Settings
+========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  /*This make borders included while calculating boz size*/
+  box-sizing: border-box;
+}
+/* These are the main colors of our design. Can be used with: var(--background)*/
+:root {
+  --gray: #292929;
+  --softGray: #b2b1b0;
+  --yellow: #ff9f23;
+  --softYellow: #ffecd3;
+  --success: #1aac83;
+  --error: #dd2e44;
+  --background: #f5f5f5;
+  /* This paddings look good almost every size more info: https://matthewjamestaylor.com/responsive-padding*/
+  --whiteSpaceLarger: calc(10px + 1.7vw);
+  --whiteSpaceLarge: calc(8px + 1.5625vw);
+  --whiteSpaceMedium: calc(8px + 0.5625vw);
+  --whiteSpaceSmall: calc(4px + 0.5625vw);
+  --whiteSpaceSmaller: calc(4px + 0.1vw);
+}
+html {
+  /* This will take the browser default font size, which usually around 16px then we can scale relatively with rem*/
+  font-size: 100%;
+}
+body {
+  font-family: "Fira Sans", sans-serif;
+  color: var(--gray);
+  background-color: var(--background);
+}
+/* React Links need style one bye one, so we style them all with a */
+a {
+  color: var(--gray);
+  text-decoration: none;
+}
+
+.page-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+/* ==========================================================================
+                           Responsive Design
+========================================================================== */
+
+/* ===========================[ 1166px ]================================== */
+@media screen and (max-width: 1166px) {
+}
+
+/* ===========================[ 1024px ]================================== */
+@media screen and (max-width: 1024px) {
+}
+
+/* ===========================[ 768px ]================================== */
+@media screen and (max-width: 768px) {
+}
+
+/* ===========================[ 480px ]================================== */
+@media screen and (max-width: 480px) {
+}
