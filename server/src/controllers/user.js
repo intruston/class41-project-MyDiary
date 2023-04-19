@@ -77,21 +77,19 @@ export const login = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
+  if (req.body._id === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       try {
-        req.body.password = hashPassword(req.body.password);
+        req.body.password = await hashPassword(req.body.password);
       } catch (err) {
-        return res.status(500).json(err);
+        return res.status(500).json({ success: false, msg: err });
       }
     }
     try {
       const user = await User.findByIdAndUpdate(req.params.id, {
         $set: req.body,
       });
-      res
-        .status(200)
-        .json({ success: true, msg: user.id + " Account has been updated" });
+      res.status(200).json(user);
     } catch (err) {
       return res.status(500).json({ success: false, msg: err });
     }
@@ -103,7 +101,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
+  if (req.body._id === req.params.id || req.body.isAdmin) {
     try {
       await User.findByIdAndDelete(req.params.id);
       res.status(200).json({ success: true, msg: "Account has been deleted" });
@@ -123,7 +121,7 @@ export const getAUser = async (req, res) => {
 
     res.status(200).json({ success: true, result: user });
   } catch (err) {
-    res.status(500).json({ success: true, msg: err });
+    res.status(500).json({ success: false, msg: err });
   }
 };
 
