@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -9,6 +10,7 @@ function RegisterForm() {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
+  const navigate = useNavigate();
 
   function handleFirstNameChange(event) {
     setFirstName(event.target.value);
@@ -82,6 +84,7 @@ function RegisterForm() {
       }
 
       alert("User created successfully");
+      navigate("/login");
     } catch (error) {
       alert("Error creating user. Please try again later.");
     }
@@ -155,6 +158,7 @@ function RegisterForm() {
               value={country}
               onChange={handleCountryChange}
               required
+              minLength="3"
             />
           </label>
         </p>
