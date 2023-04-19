@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -82,9 +81,7 @@ function RegisterForm() {
         throw new Error("Failed to create user");
       }
 
-      const data = await response.json();
-      alert("User created successfully", data); //delete in production, for now we should see what we have created.
-      Navigate("/login");
+      alert("User created successfully");
     } catch (error) {
       alert("Error creating user. Please try again later.");
     }
