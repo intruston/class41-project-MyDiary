@@ -143,29 +143,34 @@ a {
   color: var(--error);
 }
 
+/* !! Loader parent div must have this class */
 .has-loading {
   position: relative;
 }
+
 .loadingSpinnerContainer {
   position: absolute;
-  top: 0%;
-  right: 0%;
-  bottom: 0%;
-  left: 0%;
-  backdrop-filter: blur(0.2rem);
-  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  /* this will contain all space in parent */
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+
+  backdrop-filter: blur(0.2rem);
+  z-index: 1;
 }
 
 .loadingSpinner {
   display: inline-block;
   width: 20%;
   height: 0;
-  /* Padding bottom actually decide the height for it to resizable */
+  /* Padding bottom actually decide the height for spinner. */
   padding-bottom: calc(20% - 3px);
+
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: #202020;
@@ -175,10 +180,11 @@ a {
 
 .spin-message {
   margin: calc(8px + 0.5625vw);
+  padding: 0 8px 0 8px;
+
   text-align: center;
   color: #232323;
   font-weight: bolder;
-  padding: 0 8px 0 8px;
   border-radius: 4px;
   background-color: #e4e4e4c6;
 }

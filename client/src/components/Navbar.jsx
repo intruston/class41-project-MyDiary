@@ -7,6 +7,7 @@ import profileIcon from "../assets/profile-icon.png";
 import { UserContext } from "../hooks/useUserContext";
 
 const Navbar = ({ active }) => {
+  // Getting user information and logout function from context
   const { user, logout } = useContext(UserContext);
   const logoutUser = () => {
     logout();
@@ -58,9 +59,11 @@ const Navbar = ({ active }) => {
           active={active}
         />
       </ul>
-      <div className="logout" onClick={logoutUser}>
+      <div className="logout">
         <hr />
-        <NavbarLinks link={""} text={"Logout"} svg={icons.logout} />
+        <div onClick={logoutUser}>
+          <NavbarLinks link={""} text={"Logout"} svg={icons.logout} />
+        </div>
       </div>
     </nav>
   );

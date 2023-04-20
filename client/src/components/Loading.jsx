@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 function Loading({ loadMessage }) {
+  // !! -Loading- parent div must have has-loader as a class. Other way loader will expand
   return (
     <div className="loadingSpinnerContainer">
       <div className="loadingSpinner"></div>
