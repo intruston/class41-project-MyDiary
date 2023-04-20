@@ -118,7 +118,52 @@ export const deleteUser = async (req, res) => {
       .json({ success: false, msg: "You can delete only your account!" });
   }
 };
-
+export const followUser = async (req, res) => {
+  if (req.body._id !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body._id);
+      if (!user.followers.includes(req.body._id)) {
+        await user.updateOne({ $push: { followers: req.body._id } });
+        await currentUser.updateOne({ $push: { followings: req.params.id } });
+        res.status(200).json({ success: true, result: user });
+      } else {
+        res
+          .status(403)
+          .json({ success: false, msg: "You already follow this user!" });
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res
+      .status(403)
+      .json({ success: false, msg: "you can not follow yourself!" });
+  }
+};
+export const unfollowUser = async (req, res) => {
+  if (req.body._id !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body._id);
+      if (!user.followers.includes(req.body._id)) {
+        await user.updateOne({ $pull: { followers: req.body._id } });
+        await currentUser.updateOne({ $pull: { followings: req.params.id } });
+        res.status(200).json({ success: true, result: user });
+      } else {
+        res
+          .status(403)
+          .json({ success: false, msg: "You do not follow this user!" });
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res
+      .status(403)
+      .json({ success: false, msg: "you can not unfollow yourself!" });
+  }
+};
 export const getAUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
