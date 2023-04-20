@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState /*useEffect*/ } from "react";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -12,82 +13,42 @@ function RegisterForm() {
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
   const navigate = useNavigate();
 
-  function handleFirstNameChange(event) {
-    setFirstName(event.target.value);
-  }
+  const { isLoading, error, performFetch /*cancelFetch*/ } = useFetch(
+    "/user/create",
+    () => {
+      alert("User created successfully");
+      // Redirect the user to the login page
+      navigate("/login");
+    }
+  );
 
-  function handleLastNameChange(event) {
-    setLastName(event.target.value);
-  }
+  // useEffect(() => {
+  //   return () => {
+  //     cancelFetch();
+  //   };
+  // }, [cancelFetch]);
 
-  function handleDateOfBirthChange(event) {
-    setDateOfBirth(event.target.value);
-  }
-
-  function handleEmailChange(event) {
-    setEmail(event.target.value);
-  }
-
-  function handlePasswordChange(event) {
-    setPassword(event.target.value);
-  }
-
-  function handleCountryChange(event) {
-    setCountry(event.target.value);
-  }
-
-  function handleBioChange(event) {
-    setBio(event.target.value);
-  }
-
-  function handlePrivacyPolicyChange(event) {
-    setAgreeToPrivacyPolicy(event.target.checked);
-  }
-
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
-    if (
-      !firstName ||
-      !lastName ||
-      !dateOfBirth ||
-      !email ||
-      !password ||
-      !country ||
-      !bio
-    ) {
-      alert("Please fill out all fields before submitting");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:5000/api/user/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    // Send the data to the server
+    performFetch({
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user: {
+          firstName,
+          lastName,
+          birthday: dateOfBirth,
+          email,
+          password,
+          country,
+          bio,
         },
-        body: JSON.stringify({
-          user: {
-            firstName,
-            lastName,
-            birthday: dateOfBirth,
-            email,
-            password,
-            country,
-            bio,
-          },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create user");
-      }
-
-      alert("User created successfully");
-      navigate("/login");
-    } catch (error) {
-      alert("Error creating user. Please try again later.");
-    }
+      }),
+    });
   }
 
   return (
@@ -100,7 +61,9 @@ function RegisterForm() {
             <input
               type="text"
               value={firstName}
-              onChange={handleFirstNameChange}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
               required
             />
           </label>
@@ -111,7 +74,9 @@ function RegisterForm() {
             <input
               type="text"
               value={lastName}
-              onChange={handleLastNameChange}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
               required
             />
           </label>
@@ -122,7 +87,9 @@ function RegisterForm() {
             <input
               type="date"
               value={dateOfBirth}
-              onChange={handleDateOfBirthChange}
+              onChange={(e) => {
+                setDateOfBirth(e.target.value);
+              }}
               required
             />
           </label>
@@ -133,7 +100,9 @@ function RegisterForm() {
             <input
               type="email"
               value={email}
-              onChange={handleEmailChange}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               required
             />
           </label>
@@ -144,7 +113,9 @@ function RegisterForm() {
             <input
               type="password"
               value={password}
-              onChange={handlePasswordChange}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               required
               minLength="8"
             />
@@ -154,11 +125,11 @@ function RegisterForm() {
           <label>
             Country:
             <input
-              type="country"
+              type="text"
               value={country}
-              onChange={handleCountryChange}
-              required
-              minLength="3"
+              onChange={(e) => {
+                setCountry(e.target.value);
+              }}
             />
           </label>
         </p>
@@ -166,11 +137,11 @@ function RegisterForm() {
           <label>
             Bio:
             <input
-              type="bio"
+              type="text"
               value={bio}
-              onChange={handleBioChange}
-              required
-              minLength="10"
+              onChange={(e) => {
+                setBio(e.target.value);
+              }}
             />
           </label>
         </p>
@@ -179,7 +150,9 @@ function RegisterForm() {
             <input
               type="checkbox"
               checked={agreeToPrivacyPolicy}
-              onChange={handlePrivacyPolicyChange}
+              onChange={(e) => {
+                setAgreeToPrivacyPolicy(e.target.checked);
+              }}
             />
             By clicking &ldquo;Sign up&ldquo; you agree to the privacy policy
           </label>
@@ -187,6 +160,8 @@ function RegisterForm() {
         <button type="submit" disabled={!agreeToPrivacyPolicy}>
           Submit
         </button>
+        {isLoading && <div>Loading...</div>}
+        {error && <div>Something is wrong: {error.message}</div>}
       </form>
     </div>
   );
