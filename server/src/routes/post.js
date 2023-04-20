@@ -2,15 +2,17 @@ import express from "express";
 import {
   createPost,
   deletePost,
+  getFeed,
   getPost,
-  getPosts,
+  getTimeline,
   likePost,
   updatePost,
 } from "../controllers/post.js";
 
 const postRouter = express.Router();
 
-postRouter.get("/", getPosts); // get all posts //get timeline posts
+postRouter.get("/feed/:id", getFeed); // get friends feed and my posts sorted by date
+postRouter.get("/timeline/:id", getTimeline); // get all my posts
 postRouter.get("/:id", getPost); //get a post
 postRouter.post("/create", createPost); // create a new post
 postRouter.put("/:id", updatePost); // update a post

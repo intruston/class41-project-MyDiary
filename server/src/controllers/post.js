@@ -1,16 +1,40 @@
 import Post, { validatePost } from "../models/Post.js";
+import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
 
-export const getPosts = async (req, res) => {
+export const getTimeline = async (req, res) => {
   try {
-    const posts = await Post.find();
-    res.status(200).json({ success: true, result: posts });
+    const timelinePosts = await Post.find({ userId: req.params.id });
+    res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
-    res
-      .status(500)
-      .json({ success: false, msg: "Unable to get posts, try again later" });
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get timeline posts, error: ${error}`,
+    });
+  }
+};
+
+export const getFeed = async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.params.id);
+    const userPosts = await Post.find({ userId: currentUser._id });
+    const friendsPosts = await Promise.all(
+      currentUser.following.map((friendId) => {
+        return Post.find({ userId: friendId, isPrivate: false });
+      })
+    );
+    const feedPosts = userPosts.concat(...friendsPosts).sort((post1, post2) => {
+      return new Date(post2.createdAt) - new Date(post1.createdAt);
+    });
+    res.status(200).json({ success: true, result: feedPosts });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get feed posts, error: ${error}`,
+    });
   }
 };
 
