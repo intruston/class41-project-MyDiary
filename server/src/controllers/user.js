@@ -125,8 +125,9 @@ export const followUser = async (req, res) => {
       const currentUser = await User.findById(req.body._id);
       if (!user.followers.includes(req.body._id)) {
         await user.updateOne({ $push: { followers: req.body._id } });
-        await currentUser.updateOne({ $push: { followings: req.params.id } });
-        res.status(200).json({ success: true, result: user });
+        await currentUser.updateOne({ $push: { following: req.params.id } });
+        const updatedUser = await User.findById(req.params.id);
+        res.status(200).json({ success: true, result: updatedUser });
       } else {
         res
           .status(403)
@@ -146,10 +147,11 @@ export const unfollowUser = async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
       const currentUser = await User.findById(req.body._id);
-      if (!user.followers.includes(req.body._id)) {
+      if (user.followers.includes(req.body._id)) {
         await user.updateOne({ $pull: { followers: req.body._id } });
-        await currentUser.updateOne({ $pull: { followings: req.params.id } });
-        res.status(200).json({ success: true, result: user });
+        await currentUser.updateOne({ $pull: { following: req.params.id } });
+        const updatedUser = await User.findById(req.params.id);
+        res.status(200).json({ success: true, result: updatedUser });
       } else {
         res
           .status(403)
