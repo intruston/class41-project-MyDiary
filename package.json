@@ -51,6 +51,7 @@
     "husky": "^7.0.0"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "concurrently": "^6.4.0"
   }
 }
