@@ -1,4 +1,4 @@
-import React, { useState /*useEffect*/ } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
@@ -13,15 +13,14 @@ function RegisterForm() {
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
   const navigate = useNavigate();
 
-  const { isLoading, error, performFetch /*cancelFetch*/ } = useFetch(
-    "/user/create",
-    () => {
-      alert("User created successfully");
-      // Redirect the user to the login page
-      navigate("/login");
-    }
-  );
+  const { isLoading, error, performFetch } = useFetch("/user/create", () => {
+    alert("User created successfully");
+    // Redirect the user to the login page
+    navigate("/login");
+  });
 
+  // This was added to prevent this Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+  // But React 18 has removed this warning message, because of misleading.
   // useEffect(() => {
   //   return () => {
   //     cancelFetch();
