@@ -10,7 +10,6 @@ import Feeds from "./pages/Feeds/Feeds";
 import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
 
-
 const App = () => {
   const { user } = useContext(UserContext); // using useContext to get the user value from UserContext, if user is not null: means user logged in
   return (
@@ -36,7 +35,7 @@ const App = () => {
           path="/search"
           element={user ? <Search /> : <Navigate to="/" />}
         />
-         <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route
           path="/settings"
           element={user ? <Settings /> : <Navigate to="/" />}

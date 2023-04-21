@@ -1,27 +1,45 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 import { UserContext } from "../../hooks/useUserContext";
 
 function LoginForm() {
   //Basic Login page. Just to reach profile page
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(UserContext);
 
-  function handleUsernameChange(event) {
-    setUsername(event.target.value);
-  }
+  const { isLoading, error, performFetch } = useFetch(
+    "/user/login",
+    (response) => {
+      // Extract the firstName property from the response object
+      const firstName = response.result.firstName;
+      // Call the login function with the extracted firstName property
+      login(firstName);
+    }
+  );
 
-  function handlePasswordChange(event) {
-    setPassword(event.target.value);
-  }
+  // This was added to prevent this Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+  // But React 18 has removed this warning message, because of misleading.
+  // useEffect(() => {
+  //   return () => {
+  //     cancelFetch();
+  //   };
+  // }, [cancelFetch]);
 
   function handleSubmit(event) {
     event.preventDefault();
-    //When Backend ready we will send userName and password with Rob's useFetch and expect to have user information back. Then we will save it in our UserContext with Login function
-    //Right now simply sending userName
-    login(username);
+    performFetch({
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
   }
 
   return (
@@ -36,8 +54,10 @@ function LoginForm() {
           Email:
           <input
             type="email"
-            value={username}
-            onChange={handleUsernameChange}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             required
           />
         </label>
@@ -47,7 +67,9 @@ function LoginForm() {
           <input
             type="password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             required
             minLength="8"
           />
@@ -57,6 +79,8 @@ function LoginForm() {
         <button type="button">
           <Link to="/signup">Sign up</Link>
         </button>
+        {isLoading && <div>Loading...</div>}
+        {error && <div>Something is wrong: {error.message}</div>}
       </form>
     </div>
   );
