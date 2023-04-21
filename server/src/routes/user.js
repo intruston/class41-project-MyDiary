@@ -2,6 +2,8 @@ import express from "express";
 import {
   createUser,
   deleteUser,
+  followUser,
+  unfollowUser,
   getAUser,
   getUsers,
   login,
@@ -16,5 +18,7 @@ userRouter.post("/login", login);
 userRouter.put("/:id", updateUser);
 userRouter.delete("/:id", deleteUser);
 userRouter.get("/:id", getAUser);
+userRouter.put("/:id/follow", followUser);
+userRouter.put("/:id/unfollow", unfollowUser);
 
 export default userRouter;
