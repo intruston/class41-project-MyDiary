@@ -4,7 +4,7 @@ import {
   deleteUser,
   followUser,
   unfollowUser,
-  getAUser,
+  getUser,
   getUsers,
   login,
   updateUser,
@@ -17,7 +17,7 @@ userRouter.post("/create", createUser);
 userRouter.post("/login", login);
 userRouter.put("/:id", updateUser);
 userRouter.delete("/:id", deleteUser);
-userRouter.get("/:id", getAUser);
+userRouter.get("/:id", getUser);
 userRouter.put("/:id/follow", followUser);
 userRouter.put("/:id/unfollow", unfollowUser);
 

@@ -2,6 +2,87 @@
                            Settings CSS
 ========================================================================== */
 
+.settingsTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settingsUpdateTitle {
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: lightcoral;
+}
+
+.settingsDeleteTitle {
+  color: red;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsPP {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.settingsPP > img {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.setPPButton {
+  width: 110px;
+  border-radius: 10px;
+  background-color: lightcoral;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  margin-left: 20px;
+  cursor: pointer;
+  font-size: smaller;
+}
+
+.settingsForm > label {
+  margin-top: 20px;
+}
+
+.settingsForm > input {
+  margin: 10px 0;
+  padding: 10px;
+  height: 30px;
+  border: none;
+  border-bottom: 1px solid lightgray;
+}
+
+.settingsSubmit {
+  width: 150px;
+  align-self: center;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: teal;
+  padding: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.successMessage {
+  color: green;
+  text-align: center;
+  margin-top: 20px;
+}
+
 /* ==========================================================================
                              Responsive Design
   ========================================================================== */
