@@ -4,6 +4,7 @@ import { UserContext } from "./hooks/useUserContext";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
 import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
 
 const App = () => {
   const { user } = useContext(UserContext); // using useContext to get the user value from UserContext, if user is not null: means user logged in
@@ -17,6 +18,7 @@ const App = () => {
           path="/login"
           element={!user ? <Login /> : <Navigate to="/profile" />}
         />
+        <Route path="/signup" element={<SignUp />} />
         {/* To secure we need to check if there is user to show this page*/}
         <Route
           path="/profile"
