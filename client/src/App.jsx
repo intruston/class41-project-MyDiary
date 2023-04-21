@@ -4,10 +4,12 @@ import { UserContext } from "./hooks/useUserContext";
 import Home from "./pages/Home/Home";
 import MyPosts from "./pages/MyPosts/MyPosts";
 import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
 import Friends from "./pages/Friends/Friends";
 import Feeds from "./pages/Feeds/Feeds";
 import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
+
 
 const App = () => {
   const { user } = useContext(UserContext); // using useContext to get the user value from UserContext, if user is not null: means user logged in
@@ -34,6 +36,7 @@ const App = () => {
           path="/search"
           element={user ? <Search /> : <Navigate to="/" />}
         />
+         <Route path="/signup" element={<SignUp />} />
         <Route
           path="/settings"
           element={user ? <Settings /> : <Navigate to="/" />}

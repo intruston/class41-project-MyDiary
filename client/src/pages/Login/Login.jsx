@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../hooks/useUserContext";
 
 function LoginForm() {
@@ -24,24 +25,40 @@ function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Login</h3>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={handleUsernameChange} />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-      </label>
-      <br />
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <h1>Log in to My diary</h1>
+      <p>
+        You will be able to comment on posts, save posts to your calendar and
+        find friends according to your interests
+      </p>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={username}
+            onChange={handleUsernameChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            required
+            minLength="8"
+          />
+        </label>
+        <br />
+        <button type="submit">Log in</button>
+        <button type="button">
+          <Link to="/signup">Sign up</Link>
+        </button>
+      </form>
+    </div>
   );
 }
 
