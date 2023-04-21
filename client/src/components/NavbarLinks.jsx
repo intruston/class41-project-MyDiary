@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-const NavbarLinks = ({ link, svg, text }) => {
+const NavbarLinks = ({ link, svg, text, active }) => {
+  // if active(string coming from page) and the text(Navbar name of link) are same that link will be active
   return (
-    <li>
+    <li className={active === text ? "active" : ""}>
       <Link to={link}>
         <div className="svg-holder">{svg}</div>
         <div className="link-text">{text}</div>
@@ -17,6 +18,7 @@ NavbarLinks.propTypes = {
   link: PropTypes.string.isRequired,
   svg: PropTypes.element.isRequired,
   text: PropTypes.string.isRequired,
+  active: PropTypes.string,
 };
 
 export default NavbarLinks;
