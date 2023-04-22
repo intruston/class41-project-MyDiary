@@ -137,7 +137,7 @@ a {
 .login-div {
   position: absolute;
   width: 300px;
-  height: 380px;
+  height: 350px;
   z-index: 15;
   top: 50%;
   left: 50%;
@@ -145,6 +145,16 @@ a {
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
   background-color: white;
+}
+
+.login-div h2 {
+  margin-left: 7px;
+  margin-top: 7px;
+}
+
+.login-div p {
+  font-size: small;
+  margin: 0 7px;
 }
 
 .signup-div {
@@ -160,17 +170,40 @@ a {
   background-color: white;
 }
 
+.signup-div h2 {
+  margin-left: 7px;
+  margin-top: 7px;
+}
+
+.signup-div p {
+  margin-left: 7px;
+}
+
 .signup-name-div {
   width: 130px;
   height: 80px;
   float: left;
 }
 
+.signup-checkbox-div {
+  margin-top: 7px;
+}
+
+input {
+  font-family: "Fira Sans", sans-serif;
+  padding-inline-start: 1px;
+  cursor: default;
+  overflow: hidden;
+}
+
+button {
+  font-family: "Fira Sans", sans-serif;
+}
+
 .login-input {
   width: 250px;
   height: 40px;
   background: #f5f5f5;
-  color: #757575;
   border: none;
   border-radius: 7px;
   margin: 7px;
@@ -200,11 +233,24 @@ input:focus {
 }
 
 input[type="checkbox"] {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   accent-color: #f5f5f5;
   float: left;
-  margin: 7px;
+  margin: 7px 20px 7px 7px;
+}
+
+.exit-button {
+  background: white;
+  border: none;
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  font-size: 30px;
+}
+
+.exit-button a {
+  color: #c4c4c4;
 }
 
 .login-button {

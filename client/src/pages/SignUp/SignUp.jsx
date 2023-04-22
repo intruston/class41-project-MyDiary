@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import Loading from "../../components/Loading";
 
@@ -55,116 +55,105 @@ function RegisterForm() {
     <div className="signup-div">
       <form onSubmit={handleSubmit}>
         <h2>Register</h2>
+        <button type="button" className="exit-button">
+          <Link to="/login">×</Link>
+        </button>
         <br />
         <div className="signup-name-div">
-          <p>
-            <label>
-              First Name
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-                required
-                className="signup-input"
-                placeholder="John"
-              />
-            </label>
-          </p>
+          <label>
+            <p>First Name</p>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+              required
+              className="signup-input"
+              placeholder="John"
+            />
+          </label>
         </div>
         <div className="signup-name-div">
-          <p>
-            <label>
-              Surname
-              <input
-                type="text"
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-                required
-                className="signup-input"
-                placeholder="Doe"
-              />
-            </label>
-          </p>
+          <label>
+            <p>Surname</p>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+              required
+              className="signup-input"
+              placeholder="Doe"
+            />
+          </label>
         </div>
-        <p>
-          <label>
-            Date of Birth
-            <input
-              type="date"
-              value={dateOfBirth}
-              onChange={(e) => {
-                setDateOfBirth(e.target.value);
-              }}
-              required
-              className="login-input"
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Email
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              required
-              placeholder="example@mail.com"
-              className="login-input"
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              required
-              minLength="8"
-              placeholder="Your password"
-              className="login-input"
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Country
-            <input
-              type="text"
-              value={country}
-              onChange={(e) => {
-                setCountry(e.target.value);
-              }}
-              className="login-input"
-              placeholder="Netherlands"
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Bio
-            <input
-              type="text"
-              value={bio}
-              onChange={(e) => {
-                setBio(e.target.value);
-              }}
-              className="login-input"
-              placeholder="Welcome to my diary!"
-            />
-          </label>
-        </p>
+        <label>
+          <p>Date of Birth</p>
+          <input
+            type="date"
+            value={dateOfBirth}
+            onChange={(e) => {
+              setDateOfBirth(e.target.value);
+            }}
+            required
+            className="login-input"
+          />
+        </label>
+        <label>
+          <p>Email</p>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            required
+            placeholder="example@mail.com"
+            className="login-input"
+          />
+        </label>
+        <label>
+          <p>Password</p>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            required
+            minLength="8"
+            placeholder="Your password"
+            className="login-input"
+          />
+        </label>
+        <label>
+          <p>Country</p>
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => {
+              setCountry(e.target.value);
+            }}
+            className="login-input"
+            placeholder="Netherlands"
+          />
+        </label>
+        <label>
+          <p>Bio</p>
+          <input
+            type="text"
+            value={bio}
+            onChange={(e) => {
+              setBio(e.target.value);
+            }}
+            className="login-input"
+            placeholder="Welcome to my diary!"
+          />
+        </label>
         <br />
-        <p>
+        <div className="signup-checkbox-div">
           <label>
             <input
               type="checkbox"
@@ -174,9 +163,11 @@ function RegisterForm() {
               }}
               className="checkbox-input"
             />
-            By clicking &ldquo;Sign up&ldquo; you agree to the privacy policy
+            <small>
+              By clicking &ldquo;Sign up&ldquo; you agree to the privacy policy
+            </small>
           </label>
-        </p>
+        </div>
         <br />
         <button
           type="submit"
@@ -185,9 +176,10 @@ function RegisterForm() {
         >
           Sign up
         </button>
-        {isLoading && <Loading />}
-        {error && <div>Something is wrong: {error.message}</div>}
       </form>
+      <br />
+      {isLoading && <Loading />}
+      {error && <div className="error">{error}</div>}
     </div>
   );
 }

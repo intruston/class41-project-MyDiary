@@ -84,9 +84,10 @@ function LoginForm() {
         <button type="button" className="signup-button">
           <Link to="/signup">Sign up</Link>
         </button>
-        {isLoading && <Loading />}
-        {error && <div>Something is wrong: {error.message}</div>}
       </form>
+      <br />
+      {isLoading && <Loading />}
+      {error && <div className="error">{error}</div>}
     </div>
   );
 }
