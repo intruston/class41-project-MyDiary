@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import Loading from "../../components/Loading";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -51,38 +52,47 @@ function RegisterForm() {
   }
 
   return (
-    <div>
+    <div className="signup-div">
       <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
+        <h2>Register</h2>
+        <br />
+        <div className="signup-name-div">
+          <p>
+            <label>
+              First Name
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
+                required
+                className="signup-input"
+                placeholder="John"
+              />
+            </label>
+          </p>
+        </div>
+        <div className="signup-name-div">
+          <p>
+            <label>
+              Surname
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+                required
+                className="signup-input"
+                placeholder="Doe"
+              />
+            </label>
+          </p>
+        </div>
         <p>
           <label>
-            First Name:
-            <input
-              type="text"
-              value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
-              required
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Surname:
-            <input
-              type="text"
-              value={lastName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
-              required
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Date of Birth:
+            Date of Birth
             <input
               type="date"
               value={dateOfBirth}
@@ -90,12 +100,13 @@ function RegisterForm() {
                 setDateOfBirth(e.target.value);
               }}
               required
+              className="login-input"
             />
           </label>
         </p>
         <p>
           <label>
-            Email:
+            Email
             <input
               type="email"
               value={email}
@@ -103,12 +114,14 @@ function RegisterForm() {
                 setEmail(e.target.value);
               }}
               required
+              placeholder="example@mail.com"
+              className="login-input"
             />
           </label>
         </p>
         <p>
           <label>
-            Password:
+            Password
             <input
               type="password"
               value={password}
@@ -117,33 +130,40 @@ function RegisterForm() {
               }}
               required
               minLength="8"
+              placeholder="Your password"
+              className="login-input"
             />
           </label>
         </p>
         <p>
           <label>
-            Country:
+            Country
             <input
               type="text"
               value={country}
               onChange={(e) => {
                 setCountry(e.target.value);
               }}
+              className="login-input"
+              placeholder="Netherlands"
             />
           </label>
         </p>
         <p>
           <label>
-            Bio:
+            Bio
             <input
               type="text"
               value={bio}
               onChange={(e) => {
                 setBio(e.target.value);
               }}
+              className="login-input"
+              placeholder="Welcome to my diary!"
             />
           </label>
         </p>
+        <br />
         <p>
           <label>
             <input
@@ -152,14 +172,20 @@ function RegisterForm() {
               onChange={(e) => {
                 setAgreeToPrivacyPolicy(e.target.checked);
               }}
+              className="checkbox-input"
             />
             By clicking &ldquo;Sign up&ldquo; you agree to the privacy policy
           </label>
         </p>
-        <button type="submit" disabled={!agreeToPrivacyPolicy}>
-          Submit
+        <br />
+        <button
+          type="submit"
+          disabled={!agreeToPrivacyPolicy}
+          className="login-button"
+        >
+          Sign up
         </button>
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <Loading />}
         {error && <div>Something is wrong: {error.message}</div>}
       </form>
     </div>

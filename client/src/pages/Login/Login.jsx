@@ -2,10 +2,9 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { UserContext } from "../../hooks/useUserContext";
+import Loading from "../../components/Loading";
 
 function LoginForm() {
-  //Basic Login page. Just to reach profile page
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(UserContext);
@@ -43,15 +42,16 @@ function LoginForm() {
   }
 
   return (
-    <div>
-      <h1>Log in to My diary</h1>
+    <div className="login-div">
+      <h2>Log in to My diary</h2>
+      <br />
       <p>
         You will be able to comment on posts, save posts to your calendar and
         find friends according to your interests
       </p>
+      <br />
       <form onSubmit={handleSubmit}>
         <label>
-          Email:
           <input
             type="email"
             value={email}
@@ -59,11 +59,12 @@ function LoginForm() {
               setEmail(e.target.value);
             }}
             required
+            placeholder="Email"
+            className="login-input"
           />
         </label>
         <br />
         <label>
-          Password:
           <input
             type="password"
             value={password}
@@ -72,14 +73,18 @@ function LoginForm() {
             }}
             required
             minLength="8"
+            placeholder="Password"
+            className="login-input"
           />
         </label>
         <br />
-        <button type="submit">Log in</button>
-        <button type="button">
+        <button type="submit" className="login-button">
+          Log in
+        </button>
+        <button type="button" className="signup-button">
           <Link to="/signup">Sign up</Link>
         </button>
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <Loading />}
         {error && <div>Something is wrong: {error.message}</div>}
       </form>
     </div>
