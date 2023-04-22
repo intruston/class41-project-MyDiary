@@ -58,11 +58,19 @@
 }
 
 .settingsForm > input {
+  font-size: 0.9rem;
+  color: darkslategray;
   margin: 10px 0;
   padding: 10px;
   height: 30px;
   border: none;
   border-bottom: 1px solid lightgray;
+}
+
+.settingsForm > input:focus {
+  color: black;
+  outline: 1px solid lightgray;
+  border-radius: 5px;
 }
 
 .settingsSubmit {

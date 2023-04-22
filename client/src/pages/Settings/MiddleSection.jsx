@@ -9,27 +9,27 @@ const MiddleSection = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  // const [dateOfBirth, setDateOfBirth] = useState("");
-  // const [country, setCountry] = useState("");
-  // const [bio, setBio] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [success, setSuccess] = useState(false);
+  const [birthday, setBirthday] = useState("");
+  const [country, setCountry] = useState("");
+  const [bio, setBio] = useState("");
+  const [password, setPassword] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const onSuccess = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
-    // setBirthday("");
-    // setCountry("");
-    // setBio("");
-    // setPassword("");
+    setBirthday("");
+    setCountry("");
+    setBio("");
+    setPassword("");
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/${user._id}`,
     () => {
       onSuccess;
-      // setSuccess(true);
+      setSuccess(true);
       alert("User updated successfully");
     }
   );
@@ -46,10 +46,10 @@ const MiddleSection = () => {
       email,
       firstName,
       lastName,
-      // birthday: dateOfBirth,
-      // country,
-      // bio,
-      // password,
+      birthday,
+      country,
+      bio,
+      password,
     };
 
     if (file) {
@@ -90,7 +90,7 @@ const MiddleSection = () => {
               alt="profile photo"
             />
             <label htmlFor="fileInput">
-              <i className="setPPButton">Choose picture</i>
+              <i className="setPPButton">Change picture</i>
             </label>
             <input
               type="file"
@@ -117,17 +117,35 @@ const MiddleSection = () => {
             placeholder={user.email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {/* <label>Password</label>
+          <label>Birthday</label>
+          <input
+            type="date"
+            placeholder={user.birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+          />
+          <label>Country</label>
+          <input
+            type="text"
+            placeholder={user.country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+          <label>Bio</label>
+          <input
+            type="text"
+            placeholder={user.bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+          <label>Password</label>
           <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-          /> */}
+          />
           <button className="settingsSubmit" type="submit">
             Update
           </button>
-          {/* {success && (
+          {success && (
             <span className="successMessage">Profile has been updated...</span>
-          )} */}
+          )}
           {isLoading && <div>Loading...</div>}
           {error && <div>Something is wrong: {error.message}</div>}
         </form>
