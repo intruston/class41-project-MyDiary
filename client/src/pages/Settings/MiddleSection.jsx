@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import { UserContext } from "../../hooks/useUserContext";
 import profileIcon from "../../assets/profile-icon.png";
 
-const MiddleSection = () => {
+const MiddleSection = ({ setActive }) => {
   const { user } = useContext(UserContext);
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
@@ -26,7 +26,7 @@ const MiddleSection = () => {
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/user/${user._id}`,
+    `/user/${user?._id}`,
     () => {
       onSuccess;
       setSuccess(true);
@@ -41,6 +41,12 @@ const MiddleSection = () => {
   function handleSubmit(event) {
     event.preventDefault();
 
+    if (password !== user.password) {
+      return alert(
+        "Wrong password! Please enter your password to confirm this changes."
+      );
+    }
+
     const updatedUser = {
       _id: user._id,
       email,
@@ -49,7 +55,6 @@ const MiddleSection = () => {
       birthday,
       country,
       bio,
-      password,
     };
 
     if (file) {
@@ -102,46 +107,55 @@ const MiddleSection = () => {
           <label>First name</label>
           <input
             type="text"
-            placeholder={user.firstName}
+            placeholder={user?.firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
           <label>Last name</label>
           <input
             type="text"
-            placeholder={user.lastName}
+            placeholder={user?.lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
           <label>Email</label>
           <input
             type="email"
-            placeholder={user.email}
+            placeholder={user?.email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <label>Birthday</label>
           <input
             type="date"
-            placeholder={user.birthday}
+            placeholder={user?.birthday}
             onChange={(e) => setBirthday(e.target.value)}
           />
           <label>Country</label>
           <input
             type="text"
-            placeholder={user.country}
+            placeholder={user?.country}
             onChange={(e) => setCountry(e.target.value)}
           />
           <label>Bio</label>
           <input
             type="text"
-            placeholder={user.bio}
+            placeholder={user?.bio}
             onChange={(e) => setBio(e.target.value)}
           />
-          <label>Password</label>
+          <div className="passwordLabel">
+            <label>Please enter your password to confirm</label>
+            <button
+              className="changePasswordButton"
+              type="button"
+              onClick={() => setActive(true)}
+            >
+              Change Password
+            </button>
+          </div>
           <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="settingsSubmit" type="submit">
-            Update
+            Update Profile
           </button>
           {success && (
             <span className="successMessage">Profile has been updated...</span>
