@@ -8,6 +8,7 @@ import {
   getUsers,
   login,
   updateUser,
+  upload,
 } from "../controllers/user.js";
 
 const userRouter = express.Router();
@@ -20,5 +21,6 @@ userRouter.delete("/:id", deleteUser);
 userRouter.get("/:id", getAUser);
 userRouter.put("/:id/follow", followUser);
 userRouter.put("/:id/unfollow", unfollowUser);
+userRouter.post("/upload/:id", upload);
 
 export default userRouter;

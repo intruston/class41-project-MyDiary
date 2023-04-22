@@ -175,6 +175,15 @@ export const getAUser = async (req, res) => {
     res.status(500).json({ success: false, msg: err });
   }
 };
+export const upload = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    res.status(200).json({ success: true, result: user });
+  } catch (err) {
+    res.status(500).json({ success: false, msg: err });
+  }
+};
 
 // generating hashed password by bcrypt
 async function hashPassword(password) {
