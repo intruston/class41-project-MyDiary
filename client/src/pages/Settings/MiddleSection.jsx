@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { UserContext } from "../../hooks/useUserContext";
+import PropTypes from "prop-types";
 import profileIcon from "../../assets/profile-icon.png";
 
 const MiddleSection = ({ setActive }) => {
@@ -166,6 +167,10 @@ const MiddleSection = ({ setActive }) => {
       </div>
     </div>
   );
+};
+
+MiddleSection.propTypes = {
+  setActive: PropTypes.func.isRequired,
 };
 
 export default MiddleSection;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./changePasswordForm.css";
 
 const ChangePasswordForm = ({ setActive }) => {
@@ -31,6 +32,10 @@ const ChangePasswordForm = ({ setActive }) => {
       </form>
     </div>
   );
+};
+
+ChangePasswordForm.propTypes = {
+  setActive: PropTypes.func.isRequired,
 };
 
 export default ChangePasswordForm;
