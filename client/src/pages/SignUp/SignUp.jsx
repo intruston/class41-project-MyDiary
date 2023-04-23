@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import Loading from "../../components/Loading";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -51,12 +52,16 @@ function RegisterForm() {
   }
 
   return (
-    <div>
+    <div className="signup-div">
       <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
-        <p>
+        <h2>Register</h2>
+        <button type="button" className="exit-button">
+          <Link to="/login">×</Link>
+        </button>
+        <br />
+        <div className="signup-name-div">
           <label>
-            First Name:
+            <p>First Name</p>
             <input
               type="text"
               value={firstName}
@@ -64,12 +69,14 @@ function RegisterForm() {
                 setFirstName(e.target.value);
               }}
               required
+              className="signup-input"
+              placeholder="John"
             />
           </label>
-        </p>
-        <p>
+        </div>
+        <div className="signup-name-div">
           <label>
-            Surname:
+            <p>Surname</p>
             <input
               type="text"
               value={lastName}
@@ -77,74 +84,76 @@ function RegisterForm() {
                 setLastName(e.target.value);
               }}
               required
+              className="signup-input"
+              placeholder="Doe"
             />
           </label>
-        </p>
-        <p>
-          <label>
-            Date of Birth:
-            <input
-              type="date"
-              value={dateOfBirth}
-              onChange={(e) => {
-                setDateOfBirth(e.target.value);
-              }}
-              required
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Email:
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              required
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Password:
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              required
-              minLength="8"
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Country:
-            <input
-              type="text"
-              value={country}
-              onChange={(e) => {
-                setCountry(e.target.value);
-              }}
-            />
-          </label>
-        </p>
-        <p>
-          <label>
-            Bio:
-            <input
-              type="text"
-              value={bio}
-              onChange={(e) => {
-                setBio(e.target.value);
-              }}
-            />
-          </label>
-        </p>
-        <p>
+        </div>
+        <label>
+          <p>Date of Birth</p>
+          <input
+            type="date"
+            value={dateOfBirth}
+            onChange={(e) => {
+              setDateOfBirth(e.target.value);
+            }}
+            required
+            className="login-input"
+          />
+        </label>
+        <label>
+          <p>Email</p>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            required
+            placeholder="example@mail.com"
+            className="login-input"
+          />
+        </label>
+        <label>
+          <p>Password</p>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            required
+            minLength="8"
+            placeholder="Your password"
+            className="login-input"
+          />
+        </label>
+        <label>
+          <p>Country</p>
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => {
+              setCountry(e.target.value);
+            }}
+            className="login-input"
+            placeholder="Netherlands"
+          />
+        </label>
+        <label>
+          <p>Bio</p>
+          <input
+            type="text"
+            value={bio}
+            onChange={(e) => {
+              setBio(e.target.value);
+            }}
+            className="login-input"
+            placeholder="Welcome to my diary!"
+          />
+        </label>
+        <br />
+        <div className="signup-checkbox-div">
           <label>
             <input
               type="checkbox"
@@ -152,16 +161,25 @@ function RegisterForm() {
               onChange={(e) => {
                 setAgreeToPrivacyPolicy(e.target.checked);
               }}
+              className="checkbox-input"
             />
-            By clicking &ldquo;Sign up&ldquo; you agree to the privacy policy
+            <small>
+              By clicking &ldquo;Sign up&ldquo; you agree to the privacy policy
+            </small>
           </label>
-        </p>
-        <button type="submit" disabled={!agreeToPrivacyPolicy}>
-          Submit
+        </div>
+        <br />
+        <button
+          type="submit"
+          disabled={!agreeToPrivacyPolicy}
+          className="login-button"
+        >
+          Sign up
         </button>
-        {isLoading && <div>Loading...</div>}
-        {error && <div>Something is wrong: {error.message}</div>}
       </form>
+      <br />
+      {isLoading && <Loading />}
+      {error && <div className="error">{error}</div>}
     </div>
   );
 }
