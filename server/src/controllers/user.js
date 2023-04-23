@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import User, { validateUser } from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 // get all users we don't need it later just keep for now
 export const getUsers = async (req, res) => {
@@ -76,7 +78,6 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, msg: err });
   }
 };
-
 export const updateUser = async (req, res) => {
   if (req.body._id === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
@@ -176,6 +177,46 @@ export const getUser = async (req, res) => {
 
     res.status(200).json({ success: true, result: user });
   } catch (err) {
+    res.status(500).json({ success: false, msg: err });
+  }
+};
+export const uploadPicture = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, msg: "User not found" });
+    }
+
+    // Upload image to Cloudinary
+    if (req.files) {
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+      });
+      const result = await cloudinary.uploader.upload(
+        req.files.file.tempFilePath,
+        {
+          use_filename: true,
+          folder: "Diary/profile_pictures/" + user._id,
+        }
+      );
+      //delete file from temp
+      fs.unlinkSync(req.files.file.tempFilePath);
+
+      // Update profilePicture field for user
+      user.profilePicture = result.secure_url;
+
+      // Save changes to user document
+      await user.save();
+
+      res.status(200).json({ success: true, result: user.profilePicture });
+    } else {
+      res.status(404).json({ success: false, msg: "Picture not found" });
+    }
+  } catch (err) {
+    logError(err);
     res.status(500).json({ success: false, msg: err });
   }
 };
