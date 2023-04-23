@@ -8,10 +8,9 @@ import { UserContext } from "../../hooks/useUserContext";
 
 const Middle = () => {
   const { user } = useContext(UserContext);
-  const [posts, setPosts] = useState(null);
-  const userId = "643d9697b5f5be3e8607144c";
+  const [posts, setPosts] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${userId}`,
+    `/post/timeline/${user._id}`,
     (response) => {
       setPosts(response.result);
     }
@@ -31,7 +30,7 @@ const Middle = () => {
         {isLoading && <Loading />}
         {error && (
           <div className="error">
-            {error}
+            {error.toString()}
             {user}
           </div>
         )}

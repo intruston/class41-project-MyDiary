@@ -19,7 +19,7 @@ const PageHeader = ({ postCount }) => {
 };
 
 PageHeader.propTypes = {
-  postCount: PropTypes.number.isRequired,
+  postCount: PropTypes.number,
 };
 
 export default PageHeader;

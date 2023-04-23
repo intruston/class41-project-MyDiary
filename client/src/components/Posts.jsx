@@ -20,7 +20,7 @@ const Posts = ({ posts }) => {
 };
 
 Posts.propTypes = {
-  posts: PropTypes.element.isRequired,
+  posts: PropTypes.array,
 };
 
 export default Posts;

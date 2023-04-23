@@ -10,8 +10,8 @@ const Button = ({ buttonFunction, buttonContent }) => {
 };
 // This required for Eslint, without this: { props } make a problem.
 Button.propTypes = {
-  buttonFunction: PropTypes.element.isRequired,
-  buttonContent: PropTypes.string.isRequired,
+  buttonFunction: PropTypes.func,
+  buttonContent: PropTypes.string,
 };
 
 export default Button;

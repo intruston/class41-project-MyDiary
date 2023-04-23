@@ -31,7 +31,7 @@ const SinglePost = ({ mappedPost }) => {
 };
 
 SinglePost.propTypes = {
-  mappedPost: PropTypes.element.isRequired,
+  mappedPost: PropTypes.object.isRequired,
 };
 
 export default SinglePost;
