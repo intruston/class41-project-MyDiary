@@ -53,6 +53,7 @@
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.36.1",
-    "concurrently": "^6.4.0"
+    "concurrently": "^6.4.0",
+    "express-fileupload": "^1.4.0"
   }
 }

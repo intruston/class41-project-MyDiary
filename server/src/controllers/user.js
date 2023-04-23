@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import User, { validateUser } from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 export const getUsers = async (req, res) => {
   try {
@@ -75,7 +77,6 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, msg: err });
   }
 };
-
 export const updateUser = async (req, res) => {
   if (req.body._id === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
@@ -175,12 +176,47 @@ export const getAUser = async (req, res) => {
     res.status(500).json({ success: false, msg: err });
   }
 };
-export const upload = async (req, res) => {
+export const uploadPicture = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
+    if (!user) {
+      return res.status(404).json({ success: false, msg: "User not found" });
+    }
+
+    // Upload image to Cloudinary
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
+    });
+
+    // eslint-disable-next-line no-console
+    console.log(req.files);
+
+    const result = await cloudinary.uploader.upload(
+      req.files.file.tempFilePath,
+      {
+        // public_id: `${Date.now()}`,
+        use_filename: true,
+        // resource_type: "auto",
+        folder: "Diary/profile_pictures",
+      }
+    );
+
+    //delete file from temp
+    fs.unlinkSync(req.files.file.tempFilePath);
+
+    // Update profilePicture field for user
+    user.profilePicture = result.secure_url;
+
+    // Save changes to user document
+    await user.save();
+    //await user.updateOne({ $pull: { profilePicture: result.secure_url } });
+
     res.status(200).json({ success: true, result: user });
   } catch (err) {
+    logError(err);
     res.status(500).json({ success: false, msg: err });
   }
 };
