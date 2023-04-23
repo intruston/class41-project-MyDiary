@@ -3,6 +3,7 @@ import User, { validateUser } from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
 
+// get all users we don't need it later just keep for now
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -104,6 +105,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
+//maybe this option only for admins and for users only isActive or not
 export const deleteUser = async (req, res) => {
   if (req.body._id === req.params.id || req.body.isAdmin) {
     try {
@@ -118,6 +120,7 @@ export const deleteUser = async (req, res) => {
       .json({ success: false, msg: "You can delete only your account!" });
   }
 };
+
 export const followUser = async (req, res) => {
   if (req.body._id !== req.params.id) {
     try {
@@ -142,6 +145,7 @@ export const followUser = async (req, res) => {
       .json({ success: false, msg: "you can not follow yourself!" });
   }
 };
+
 export const unfollowUser = async (req, res) => {
   if (req.body._id !== req.params.id) {
     try {
@@ -166,7 +170,7 @@ export const unfollowUser = async (req, res) => {
       .json({ success: false, msg: "you can not unfollow yourself!" });
   }
 };
-export const getAUser = async (req, res) => {
+export const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
