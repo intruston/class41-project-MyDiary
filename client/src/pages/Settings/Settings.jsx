@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
-import MiddleSection from "./MiddleSection";
-import RightSection from "./RightSection";
+import SettingsMiddle from "../../components/SettingsMiddle";
+import SettingsRight from "../../components/SettingsRight";
 import "./Settings.css";
 import Modal from "../../components/Modal";
 import ChangePasswordForm from "../../components/ChangePasswordForm";
@@ -12,8 +12,8 @@ const Settings = () => {
   return (
     <div className="page-container">
       <Navbar active={"Settings"} />
-      <MiddleSection setActive={setModalActive} />
-      <RightSection />
+      <SettingsMiddle setActive={setModalActive} />
+      <SettingsRight />
       <Modal active={modalActive} setActive={setModalActive}>
         <ChangePasswordForm setActive={setModalActive} />
       </Modal>

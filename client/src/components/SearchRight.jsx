@@ -1,6 +1,6 @@
 import React from "react";
 
-const Right = () => {
+const SearchRight = () => {
   return (
     <div className="right-section">
       <div className="double-container">
@@ -11,4 +11,4 @@ const Right = () => {
   );
 };
 
-export default Right;
+export default SearchRight;

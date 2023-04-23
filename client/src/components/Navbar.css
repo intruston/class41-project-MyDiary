@@ -19,9 +19,10 @@
 
 .user-status {
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
   padding-left: var(--whiteSpaceLarge);
-  padding-top: var(--whiteSpaceLarge);
+  padding-top: var(--whiteSpaceMedium);
+  padding-bottom: var(--whiteSpaceMedium);
 }
 .user-online {
   padding: var(--whiteSpaceSmaller);
@@ -30,16 +31,15 @@
   width: 100%;
 }
 .user-information {
-  padding-bottom: var(--whiteSpaceSmall);
-  text-align: left;
   cursor: default;
+}
+.user-information h3 {
+  text-align: left;
+  font-size: 1.3rem;
 }
 .user-information h4 {
   color: var(--softGray);
   font-size: 0.8rem;
-}
-.user-information h3 {
-  font-size: 1.3rem;
 }
 .profile-picture {
   margin: auto;
@@ -206,7 +206,7 @@
 /* ===========================[ 600px !HEIGHT ]================================== */
 @media screen and (max-height: 600px) {
   .profile-picture {
-    width: 50%;
+    width: 100%;
   }
   .navbar {
     padding-top: var(--whiteSpaceSmaller);
@@ -215,6 +215,11 @@
 
 /* ===========================[ 480px ]================================== */
 @media screen and (max-width: 480px) {
+  .navbar {
+    min-width: 80px;
+    padding: 0;
+  }
+
   .user-information h3 {
     font-size: 0.9rem;
   }

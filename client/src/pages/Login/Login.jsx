@@ -1,26 +1,28 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { UserContext } from "../../hooks/useUserContext";
 import Loading from "../../components/Loading";
 
 function LoginForm() {
+  const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
   const [password, setPassword] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const { login } = useContext(UserContext);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/user/login",
     (response) => {
       setUser(response.result);
-      navigate("/myPosts");
     }
   );
   useEffect(() => {
     return cancelFetch;
   }, []);
 
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+    login(user);
+  }, [user]);
+
   function handleSubmit(event) {
     event.preventDefault();
     performFetch({

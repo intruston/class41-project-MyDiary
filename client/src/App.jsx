@@ -18,7 +18,14 @@ const App = () => {
         <Route path="/" element={<Home />} />
         {/* When Login it will automatically navigate to profile page*/}
         {/* To secure we need to check if there is user to show this page*/}
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/myPosts" /> : <Login />}
+        />
+        <Route
+          path="/signUp"
+          element={user ? <Navigate to="/myPosts" /> : <SignUp />}
+        />
         <Route
           path="/myPosts"
           element={user ? <MyPosts /> : <Navigate to="/" />}
@@ -32,7 +39,6 @@ const App = () => {
           path="/search"
           element={user ? <Search /> : <Navigate to="/" />}
         />
-        <Route path="/signup" element={<SignUp />} />
         <Route
           path="/settings"
           element={user ? <Settings /> : <Navigate to="/" />}

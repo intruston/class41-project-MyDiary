@@ -1,5 +1,5 @@
 import React from "react";
-const Middle = () => {
+const FriendsMiddle = () => {
   return (
     <div className="middle-section">
       <div className="middle-container">Friends</div>
@@ -7,4 +7,4 @@ const Middle = () => {
   );
 };
 
-export default Middle;
+export default FriendsMiddle;

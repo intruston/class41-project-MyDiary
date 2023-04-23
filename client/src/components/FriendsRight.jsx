@@ -1,6 +1,6 @@
 import React from "react";
 
-const Right = () => {
+const FriendsRight = () => {
   return (
     <div className="right-section">
       <div className="single-container">
@@ -13,4 +13,4 @@ const Right = () => {
   );
 };
 
-export default Right;
+export default FriendsRight;
