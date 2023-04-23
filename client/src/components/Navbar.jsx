@@ -18,7 +18,7 @@ const Navbar = ({ active }) => {
         <div className="user-status">
           <div className="user-online">{icons.online}</div>
           <div className="user-information">
-            <h3>{user}</h3>
+            <h3>{user.firstName}</h3>
             <h4>user id</h4>
           </div>
         </div>

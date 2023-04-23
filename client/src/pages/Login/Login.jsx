@@ -21,7 +21,10 @@ function LoginForm() {
     event.preventDefault();
     //When Backend ready we will send userName and password with Rob's useFetch and expect to have user information back. Then we will save it in our UserContext with Login function
     //Right now simply sending userName
-    login(username);
+    //Till login page builded we can use password section to save userID in userContext
+    const user = { _id: password, firstName: username, lastName: username };
+
+    login(user);
   }
 
   return (

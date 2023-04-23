@@ -134,6 +134,20 @@ a {
 /* ==========================================================================
                            Error & Loader
 ========================================================================== */
+.orange-button {
+  border: none;
+  border-radius: 7px;
+  background-color: var(--yellow);
+  color: white;
+  font-weight: 800;
+  font-size: 1rem;
+  width: 196px;
+  height: 42px;
+}
+.orange-button:hover {
+  color: var(--gray);
+}
+
 .error {
   padding: 10px;
   background: #ffefef;
@@ -155,11 +169,12 @@ a {
   align-items: center;
   flex-direction: column;
   /* this will contain all space in parent */
-  top: 0%;
-  right: 0%;
-  bottom: 0%;
-  left: 0%;
+  top: 2%;
+  right: 2%;
+  bottom: 2%;
+  left: 2%;
 
+  border-radius: 37px;
   backdrop-filter: blur(0.2rem);
   z-index: 1;
 }

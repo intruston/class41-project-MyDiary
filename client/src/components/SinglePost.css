@@ -1,0 +1,44 @@
+.public-private {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--whiteSpaceLarge);
+}
+.post-date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.post-date hr {
+  border-top: 2px solid var(--gray);
+  width: 40%;
+}
+
+.post-profile-img {
+  margin: auto;
+  width: 20%;
+}
+.post-profile-img img {
+  display: block;
+  width: 80%;
+}
+
+.pos-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: var(--whiteSpaceLarge);
+}
+
+.post-content {
+  width: 80%;
+}
+
+.post-header {
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--whiteSpaceSmaller);
+  padding-bottom: var(--whiteSpaceMedium);
+}
