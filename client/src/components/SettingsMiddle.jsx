@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import useFetch from "../../hooks/useFetch";
-import { UserContext } from "../../hooks/useUserContext";
+import useFetch from "../hooks/useFetch";
+import { UserContext } from "../hooks/useUserContext";
 import PropTypes from "prop-types";
-import profileIcon from "../../assets/profile-icon.png";
+import profileIcon from "../assets/profile-icon.png";
 
-const MiddleSection = ({ setActive }) => {
+const SettingsMiddle = ({ setActive }) => {
   const { user } = useContext(UserContext);
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
@@ -169,8 +169,8 @@ const MiddleSection = ({ setActive }) => {
   );
 };
 
-MiddleSection.propTypes = {
+SettingsMiddle.propTypes = {
   setActive: PropTypes.func.isRequired,
 };
 
-export default MiddleSection;
+export default SettingsMiddle;

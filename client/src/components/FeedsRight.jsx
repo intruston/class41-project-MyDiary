@@ -1,6 +1,6 @@
 import React from "react";
-import Loading from "../../components/Loading";
-const Right = () => {
+import Loading from "./Loading";
+const FeedsRight = () => {
   const loading = true;
   const error = "This is an error example";
   return (
@@ -31,4 +31,4 @@ const Right = () => {
   );
 };
 
-export default Right;
+export default FeedsRight;

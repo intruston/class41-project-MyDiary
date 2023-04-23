@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import AddNewPosts from "../../components/AddNewPost";
-import PageHeader from "../../components/PageHeader";
-import Posts from "../../components/Posts";
-import useFetch from "../../hooks/useFetch";
-import Loading from "../../components/Loading";
-import { UserContext } from "../../hooks/useUserContext";
+import AddNewPosts from "./AddNewPost";
+import PageHeader from "./PageHeader";
+import Posts from "./Posts";
+import useFetch from "../hooks/useFetch";
+import Loading from "./Loading";
+import { UserContext } from "../hooks/useUserContext";
 
-const Middle = () => {
+const MyPostsMiddle = () => {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -39,4 +39,4 @@ const Middle = () => {
   );
 };
 
-export default Middle;
+export default MyPostsMiddle;

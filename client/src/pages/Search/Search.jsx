@@ -1,14 +1,14 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import MiddleSection from "./MiddleSection";
-import RightSection from "./RightSection";
+import SearchMiddle from "../../components/SearchMiddle";
+import SearchRight from "../../components/SearchRight";
 import "./Search.css";
 const Search = () => {
   return (
     <div className="page-container">
       <Navbar active={"Search"} />
-      <MiddleSection />
-      <RightSection />
+      <SearchMiddle />
+      <SearchRight />
     </div>
   );
 };

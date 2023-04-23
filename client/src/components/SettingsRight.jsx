@@ -1,7 +1,7 @@
 import React from "react";
-import FollowingFriends from "../../components/FollowingFriends";
+import FollowingFriends from "./FollowingFriends";
 
-const Right = () => {
+const SettingsRight = () => {
   return (
     <div className="right-section">
       <div className="triple-container">
@@ -15,4 +15,4 @@ const Right = () => {
   );
 };
 
-export default Right;
+export default SettingsRight;
