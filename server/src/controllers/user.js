@@ -185,36 +185,32 @@ export const uploadPicture = async (req, res) => {
     }
 
     // Upload image to Cloudinary
-    cloudinary.config({
-      cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET,
-    });
+    if (req.files) {
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+      });
+      const result = await cloudinary.uploader.upload(
+        req.files.file.tempFilePath,
+        {
+          use_filename: true,
+          folder: "Diary/profile_pictures/" + user._id,
+        }
+      );
+      //delete file from temp
+      fs.unlinkSync(req.files.file.tempFilePath);
 
-    // eslint-disable-next-line no-console
-    console.log(req.files);
+      // Update profilePicture field for user
+      user.profilePicture = result.secure_url;
 
-    const result = await cloudinary.uploader.upload(
-      req.files.file.tempFilePath,
-      {
-        // public_id: `${Date.now()}`,
-        use_filename: true,
-        // resource_type: "auto",
-        folder: "Diary/profile_pictures",
-      }
-    );
+      // Save changes to user document
+      await user.save();
 
-    //delete file from temp
-    fs.unlinkSync(req.files.file.tempFilePath);
-
-    // Update profilePicture field for user
-    user.profilePicture = result.secure_url;
-
-    // Save changes to user document
-    await user.save();
-    //await user.updateOne({ $pull: { profilePicture: result.secure_url } });
-
-    res.status(200).json({ success: true, result: user });
+      res.status(200).json({ success: true, result: user.profilePicture });
+    } else {
+      res.status(404).json({ success: false, msg: "Picture not found" });
+    }
   } catch (err) {
     logError(err);
     res.status(500).json({ success: false, msg: err });
