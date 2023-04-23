@@ -20,6 +20,7 @@ export const UserProvider = ({ children }) => {
   // This will be provided
   const contextValue = {
     user,
+    setUser,
     login,
     logout,
   };

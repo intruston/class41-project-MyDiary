@@ -18,10 +18,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         {/* When Login it will automatically navigate to profile page*/}
         {/* To secure we need to check if there is user to show this page*/}
-        <Route
-          path="/login"
-          element={!user ? <Login /> : <Navigate to="/myPosts" />}
-        />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/myPosts"
           element={user ? <MyPosts /> : <Navigate to="/" />}
