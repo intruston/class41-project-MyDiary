@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
 import { UserContext } from "../hooks/useUserContext";
-import PropTypes from "prop-types";
-import profileIcon from "../assets/profile-icon.png";
+import "./settingsMiddle.css";
+import NoAvatar from "../assets/NoAvatar.png";
 
 const SettingsMiddle = ({ setActive }) => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -28,10 +29,10 @@ const SettingsMiddle = ({ setActive }) => {
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/${user?._id}`,
-    () => {
+    (response) => {
       onSuccess;
+      setUser(response.result);
       setSuccess(true);
-      alert("User updated successfully");
     }
   );
 
@@ -39,24 +40,20 @@ const SettingsMiddle = ({ setActive }) => {
     return cancelFetch;
   }, []);
 
-  function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (password !== user.password) {
-      return alert(
-        "Wrong password! Please enter your password to confirm this changes."
-      );
-    }
+    setSuccess(false);
 
     const updatedUser = {
       _id: user._id,
-      email,
-      firstName,
-      lastName,
-      birthday,
-      country,
-      bio,
+      password,
     };
+    if (email !== "") updatedUser.email = email;
+    if (firstName !== "") updatedUser.firstName = firstName;
+    if (lastName !== "") updatedUser.lastName = lastName;
+    if (birthday !== "") updatedUser.birthday = birthday;
+    if (country !== "") updatedUser.country = country;
+    if (bio !== "") updatedUser.bio = bio;
 
     if (file) {
       const data = new FormData();
@@ -65,6 +62,7 @@ const SettingsMiddle = ({ setActive }) => {
       data.append("file", file);
       updatedUser.profilePicture = filename;
       try {
+        // console.log("file here!");
         //upload the file
       } catch (error) {
         //error
@@ -78,7 +76,7 @@ const SettingsMiddle = ({ setActive }) => {
       },
       body: JSON.stringify(updatedUser),
     });
-  }
+  };
 
   return (
     <div className="middle-section">
@@ -91,9 +89,15 @@ const SettingsMiddle = ({ setActive }) => {
           <label>Profile Picture</label>
           <div className="settingsPP">
             <img
-              // src={file ? URL.createObjectURL(file) : user.profilePicture}
-              src={profileIcon} // must be changed to user.profilePicture
+              src={
+                file
+                  ? URL.createObjectURL(file)
+                  : user.profilePicture
+                  ? user.profilePicture
+                  : NoAvatar
+              }
               alt="profile photo"
+              onError={(e) => (e.target.src = NoAvatar)}
             />
             <label htmlFor="fileInput">
               <i className="setPPButton">Change picture</i>
@@ -153,6 +157,8 @@ const SettingsMiddle = ({ setActive }) => {
           </div>
           <input
             type="password"
+            required
+            minLength="8"
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="settingsSubmit" type="submit">
@@ -162,7 +168,7 @@ const SettingsMiddle = ({ setActive }) => {
             <span className="successMessage">Profile has been updated...</span>
           )}
           {isLoading && <div>Loading...</div>}
-          {error && <div>Something is wrong: {error.message}</div>}
+          {error && <div>Something went wrong! Error: {error}</div>}
         </form>
       </div>
     </div>
