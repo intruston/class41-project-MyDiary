@@ -1,6 +1,50 @@
 /* ==========================================================================
                            My Posts CSS
 ========================================================================== */
+/* Page Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--whiteSpaceLarge);
+  cursor: default;
+}
+
+.page-header .left {
+  text-align: left;
+  width: 20%;
+}
+.page-header h4 {
+  font-weight: lighter;
+  color: var(--softGray);
+}
+.page-header strong {
+  font-weight: bolder;
+}
+
+.page-header .right {
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: right;
+  width: 80%;
+}
+
+/* Add New Post */
+.add-new-post {
+  position: relative;
+  margin: auto;
+  width: 100%;
+}
+.add-new-post img {
+  display: block;
+  width: 100%;
+}
+
+.post-button {
+  position: absolute;
+  bottom: 15%;
+  right: 0.2%;
+}
 
 /* ==========================================================================
                              Responsive Design
