@@ -1,17 +1,19 @@
 import React from "react";
+import "./Button.css";
 import PropTypes from "prop-types";
 
-const Button = ({ buttonFunction, buttonContent }) => {
+const Button = ({ onClick, content, color }) => {
   return (
-    <button className="orange-button" onClick={buttonFunction}>
-      {buttonContent}
+    <button className={`generic-use-button ${color}`} onClick={onClick}>
+      {content}
     </button>
   );
 };
 // This required for Eslint, without this: { props } make a problem.
 Button.propTypes = {
-  buttonFunction: PropTypes.func,
-  buttonContent: PropTypes.string,
+  onClick: PropTypes.func,
+  content: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default Button;
