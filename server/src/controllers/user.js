@@ -171,6 +171,7 @@ export const unfollowUser = async (req, res) => {
       .json({ success: false, msg: "you can not unfollow yourself!" });
   }
 };
+
 export const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -218,6 +219,34 @@ export const uploadPicture = async (req, res) => {
   } catch (err) {
     logError(err);
     res.status(500).json({ success: false, msg: err });
+  }
+};
+
+export const getOnlineFriends = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    const friends = await Promise.all(
+      user.following.map((friendId) => {
+        return User.findById(friendId);
+      })
+    );
+
+    let onlineFriends = [];
+
+    friends.map((friend) => {
+      if (friend.onlineStatus) {
+        const { _id, firstName, lastName, profilePicture } = friend;
+        onlineFriends.push({ _id, firstName, lastName, profilePicture });
+      }
+    });
+
+    res.status(200).json({ success: true, result: onlineFriends });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: "Unable to get online friends, try again later",
+    });
   }
 };
 

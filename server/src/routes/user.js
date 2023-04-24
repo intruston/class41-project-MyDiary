@@ -9,6 +9,7 @@ import {
   login,
   updateUser,
   uploadPicture,
+  getOnlineFriends,
 } from "../controllers/user.js";
 
 const userRouter = express.Router();
@@ -22,5 +23,6 @@ userRouter.get("/:id", getUser);
 userRouter.put("/:id/follow", followUser);
 userRouter.put("/:id/unfollow", unfollowUser);
 userRouter.post("/upload/:id", uploadPicture);
+userRouter.get("/friends/online/:userId", getOnlineFriends);
 
 export default userRouter;
