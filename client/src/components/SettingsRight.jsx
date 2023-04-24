@@ -1,5 +1,5 @@
 import React from "react";
-import FriendsOnline from "../../components/FriendsOnline";
+import FriendsList from "./FriendsList";
 
 const SettingsRight = () => {
   return (
@@ -7,7 +7,7 @@ const SettingsRight = () => {
       <div className="triple-container">
         <div className="top-div">Settings page has not yet designed</div>
         <div className="middle-div">
-          <FriendsOnline />
+          <FriendsList />
         </div>
         <div className="bottom-div">Third part</div>
       </div>

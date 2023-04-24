@@ -5,19 +5,6 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
-// get all users we don't need it later just keep for now
-export const getUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json({ success: true, result: users });
-  } catch (error) {
-    logError(error);
-    res
-      .status(500)
-      .json({ success: false, msg: "Unable to get users, try again later" });
-  }
-};
-
 export const createUser = async (req, res) => {
   try {
     const { user } = req.body;
@@ -78,6 +65,7 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, msg: err });
   }
 };
+
 export const updateUser = async (req, res) => {
   if (req.body._id === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
@@ -176,11 +164,24 @@ export const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
-    res.status(200).json({ success: true, result: user });
+    const { _id, firstName, lastName, profilePicture, birthday, country, bio } =
+      user;
+    const userInfo = {
+      _id,
+      firstName,
+      lastName,
+      profilePicture,
+      birthday,
+      country,
+      bio,
+    };
+
+    res.status(200).json({ success: true, result: userInfo });
   } catch (err) {
     res.status(500).json({ success: false, msg: err });
   }
 };
+
 export const uploadPicture = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -222,7 +223,7 @@ export const uploadPicture = async (req, res) => {
   }
 };
 
-export const getOnlineFriends = async (req, res) => {
+export const getUserFriends = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     const friends = await Promise.all(
@@ -231,21 +232,17 @@ export const getOnlineFriends = async (req, res) => {
       })
     );
 
-    let onlineFriends = [];
-
-    friends.map((friend) => {
-      if (friend.onlineStatus) {
-        const { _id, firstName, lastName, profilePicture } = friend;
-        onlineFriends.push({ _id, firstName, lastName, profilePicture });
-      }
+    const userFriends = friends.map((friend) => {
+      const { _id, firstName, lastName, profilePicture } = friend;
+      return { _id, firstName, lastName, profilePicture };
     });
 
-    res.status(200).json({ success: true, result: onlineFriends });
+    res.status(200).json({ success: true, result: userFriends });
   } catch (error) {
     logError(error);
     res.status(500).json({
       success: false,
-      msg: "Unable to get online friends, try again later",
+      msg: "Unable to get friends list, try again later",
     });
   }
 };
