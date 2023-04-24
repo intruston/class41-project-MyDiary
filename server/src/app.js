@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 
 import userRouter from "./routes/user.js";
 import postRouter from "./routes/post.js";
@@ -15,6 +16,9 @@ app.use(fileUpload({ useTempFiles: true }));
 
 // Allow everyone to access our API. In a real application, we would need to restrict this!
 app.use(cors());
+
+// Helmet helps you secure your Express apps by setting various HTTP headers.
+app.use(helmet());
 
 /****** Attach routes ******/
 /**
