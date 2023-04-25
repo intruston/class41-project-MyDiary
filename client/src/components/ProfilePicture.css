@@ -1,0 +1,36 @@
+.profile-picture-component {
+  margin: auto;
+  width: 13vw;
+  height: 13vw;
+  min-width: 3.5vw;
+  min-height: 3.5vw;
+}
+.profile-picture-component img {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  max-width: 100%;
+  border-radius: 37px;
+}
+
+.profile-picture-component.medium {
+  width: 8.5vw;
+  height: 8.5vw;
+}
+.profile-picture-component.small {
+  width: 6.5vw;
+  height: 6.5vw;
+}
+.profile-picture-component.smaller {
+  width: 4.5vw;
+  height: 4.5vw;
+}
+
+.profile-picture-component img.square {
+  border-radius: 0;
+}
+.profile-picture-component img.circle {
+  border-radius: 50%;
+}
