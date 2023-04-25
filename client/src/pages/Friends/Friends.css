@@ -2,45 +2,50 @@
                            Friends CSS
 ========================================================================== */
 
-.friend-page-name h3 {
-  text-align: left;
-  margin-top: 0px;
+.friends-page-header {
+  border-bottom: 2px solid var(--gray);
+  margin-bottom: var(--whiteSpaceMedium);
 }
 
-.friend-page {
-  margin: 20px 15px;
+.friends-page {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.friend-page-item {
+.friends-page-item {
   flex: 0 0 48%;
   min-width: 300px;
   display: flex;
   margin-bottom: 20px;
+  margin-right: 10px;
   cursor: pointer;
 }
 
-.friend-page-avatar {
+.friend-avatar {
   border-radius: 50%;
-  width: 60px;
-  min-width: 60px;
-  height: 60px;
-  min-height: 60px;
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
+  min-height: 80px;
   object-fit: cover;
 }
 
-.friend-page-name,
-.friend-page-bio {
+.friend-name,
+.friend-bio {
   display: flex;
   align-content: center;
   margin-left: 20px;
   color: darkslategray;
 }
 
-.friend-page-bio {
+.friend-name h3 {
+  margin-top: 0px;
+  text-align: left;
+}
+
+.friend-bio {
   margin-top: 6px;
   font-size: smaller;
 }
@@ -48,16 +53,49 @@
 .dots-container {
   height: 22px;
   width: 22px;
-  float: right;
+  text-align: center;
 }
 
-.dots {
-  margin: -50% 0%;
+.upper-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.friend-page-details {
+.friend-details {
   display: block;
   width: 100%;
+}
+
+/* Search form */
+
+.search-form {
+  background-color: #e8e8e8;
+  padding: 8px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 7px;
+}
+
+.search-form input[type="text"] {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  flex: 1;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.search-form button[type="submit"] {
+  background-color: transparent;
+  color: black;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin: 0 0 0 10px;
 }
 
 /* ==========================================================================

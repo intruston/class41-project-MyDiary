@@ -9,7 +9,7 @@ const SingleFriend = ({ mappedFriend }) => {
     <Link
       key={mappedFriend._id}
       to={`/user/${mappedFriend._id}`}
-      className="friend-page-item"
+      className="friends-page-item"
     >
       <img
         src={
@@ -18,20 +18,22 @@ const SingleFriend = ({ mappedFriend }) => {
             : profileIcon
         }
         alt="friend avatar"
-        className="friend-page-avatar"
+        className="friend-avatar"
       />
-      <div className="friend-page-details">
-        <div className="dots-container">
-          <h2 className="dots">...</h2>
-        </div>
-        <div className="friend-page-name">
-          <h3>
-            {mappedFriend.firstName} {mappedFriend.lastName}
-          </h3>
+      <div className="friend-details">
+        <div className="upper-row">
+          <div className="friend-name">
+            <h3>
+              {mappedFriend.firstName} {mappedFriend.lastName}
+            </h3>
+          </div>
+          <div className="dots-container">
+            <span className="dots">•••</span>
+          </div>
         </div>
 
-        <div className="friend-page-bio">
-          <span>{mappedFriend.bio ? mappedFriend.bio : "no bio"}</span>
+        <div className="friend-bio">
+          <span>{mappedFriend.bio}</span>
         </div>
       </div>
     </Link>
@@ -44,7 +46,7 @@ SingleFriend.propTypes = {
 
 const FriendsList = ({ friends }) => {
   return (
-    <div className="friend-page">
+    <div className="friends-page">
       {friends &&
         friends.map((mappedFriend) => (
           <SingleFriend key={mappedFriend._id} mappedFriend={mappedFriend} />
