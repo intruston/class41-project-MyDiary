@@ -12,6 +12,7 @@ const ProfilePicture = ({ profilePicture, size, border }) => {
         className={border}
         src={profilePicture ? profilePicture : profileIcon}
         alt="profile picture"
+        onError={(e) => (e.target.src = profileIcon)}
       />
     </div>
   );
