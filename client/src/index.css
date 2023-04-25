@@ -48,6 +48,19 @@ a {
   width: 100%;
 }
 
+button,
+input {
+  font-family: "Fira Sans", sans-serif;
+}
+
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder {
+  text-align: center;
+}
+
 /* ==========================================================================
                            Middle Section
 ========================================================================== */
@@ -189,17 +202,6 @@ a {
   margin-top: 7px;
 }
 
-input {
-  font-family: "Fira Sans", sans-serif;
-  padding-inline-start: 1px;
-  cursor: default;
-  overflow: hidden;
-}
-
-button {
-  font-family: "Fira Sans", sans-serif;
-}
-
 .login-input {
   width: 250px;
   height: 40px;
@@ -208,6 +210,9 @@ button {
   border-radius: 7px;
   margin: 7px;
   text-align: center;
+  padding-inline-start: 1px;
+  cursor: default;
+  overflow: hidden;
 }
 
 .signup-input {
@@ -218,26 +223,28 @@ button {
   border-radius: 7px;
   margin: 7px;
   text-align: center;
+  padding-inline-start: 1px;
+  cursor: default;
+  overflow: hidden;
 }
 
-::-webkit-input-placeholder {
-  text-align: center;
-}
-
-:-moz-placeholder {
-  text-align: center;
-}
-
-input:focus {
+.login-input:focus {
   outline-color: #757575;
 }
 
-input[type="checkbox"] {
+.signup-input:focus {
+  outline-color: #757575;
+}
+
+.checkbox-input {
   width: 25px;
   height: 25px;
   accent-color: #f5f5f5;
   float: left;
   margin: 7px 20px 7px 7px;
+  padding-inline-start: 1px;
+  cursor: default;
+  overflow: hidden;
 }
 
 .exit-button {
