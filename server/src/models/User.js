@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { comparePassword, hashPassword } from "../util/password.js";
+import validationErrorMessage from "../util/validationErrorMessage.js";
 
 import validateAllowedFields from "../util/validateAllowedFields.js";
 
@@ -24,6 +26,51 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// static signup static method
+userSchema.statics.signup = async function (user) {
+  const errorList = validateUser(user);
+
+  if (errorList.length > 0) {
+    throw new Error(
+      `You need to provide a 'user' object. Received: ${validationErrorMessage(
+        errorList
+      )}`
+    );
+  } else {
+    const exists = await this.findOne({ email: user.email });
+
+    if (exists) {
+      throw new Error("Email already in use");
+    }
+    user.password = await hashPassword(user.password);
+    const newUser = await this.create({ user });
+
+    return newUser;
+  }
+};
+
+// login static method
+userSchema.statics.login = async function (email, password) {
+  // validation
+  if (!email || !password) {
+    throw new Error("Email and password are required");
+  }
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw new Error("Invalid email");
+  }
+
+  const isValid = await comparePassword(password, user.password);
+
+  if (!isValid) {
+    throw new Error("Invalid password");
+  }
+
+  return user;
+};
 
 const User = mongoose.model("users", userSchema);
 
@@ -53,6 +100,7 @@ export const validateUser = (userObject) => {
   if (userObject.email == null) {
     errorList.push("email is a required field");
   }
+  this;
   if (userObject.password == null) {
     errorList.push("password is a required field");
   }
