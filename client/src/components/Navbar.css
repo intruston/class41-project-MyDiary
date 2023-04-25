@@ -7,7 +7,6 @@
   top: 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
-
   /* Size */
   width: 18%;
   height: 100vh;
@@ -20,12 +19,14 @@
 .user-status {
   display: flex;
   align-items: center;
-  padding-left: var(--whiteSpaceLarge);
+  justify-content: start;
   padding-top: var(--whiteSpaceMedium);
+  padding-left: var(--whiteSpaceLarge);
   padding-bottom: var(--whiteSpaceMedium);
 }
 .user-online {
-  padding: var(--whiteSpaceSmaller);
+  padding-top: var(--whiteSpaceSmaller);
+  padding-right: var(--whiteSpaceSmaller);
 }
 .user-online svg {
   width: 100%;
@@ -34,20 +35,10 @@
   cursor: default;
 }
 .user-information h3 {
-  text-align: left;
+  margin-top: 0px;
   font-size: 1.3rem;
-}
-.user-information h4 {
-  color: var(--softGray);
-  font-size: 0.8rem;
-}
-.profile-picture {
-  margin: auto;
-  width: 70%;
-}
-.profile-picture img {
-  display: block;
-  width: 100%;
+  text-align: left;
+  text-transform: capitalize;
 }
 
 /* =============[ Nav Links ]===================*/
@@ -55,65 +46,62 @@
   /* Position */
   display: flex;
   flex-direction: column;
+  align-items: center;
   row-gap: var(--whiteSpaceMedium);
 
   /* Size */
   padding-top: var(--whiteSpaceLarge);
 
   /* Design */
-  text-align: center;
   list-style: none;
 }
-.nav-links a,
-.logout a {
+.link-group {
+  width: 10vw;
   display: flex;
+  justify-content: space-between;
   font-size: 1.1rem;
   transition: 0.3s;
 }
 
-.svg-holder {
-  width: 60%;
-}
-.nav-links li svg,
-.logout svg {
+.link-group svg {
+  width: 90%;
   fill: var(--gray);
-  width: 20%;
   transition: 0.3s;
 }
 .link-text {
+  width: 100%;
+  padding-left: var(--whiteSpaceLarge);
   text-align: left;
   padding-top: var(--whiteSpaceSmaller);
 }
 
 .logout {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   list-style: none;
 }
-.logout hr {
-  border-top: 3px solid var(--gray);
+.navbar hr {
+  border-top: 2px solid var(--gray);
   margin-bottom: var(--whiteSpaceMedium);
 }
 
-.nav-links a:hover,
-.logout a:hover,
-.nav-links a:active,
-.logout a:active {
+.link-group:hover,
+.link-group:active {
   color: var(--yellow);
   font-weight: 700;
 }
 
-.nav-links a:hover svg,
-.logout a:hover svg,
-.nav-links a:active svg,
-.logout a:active svg {
+.link-group:hover svg,
+.link-group:active svg {
   fill: var(--yellow);
 }
 
-.active .link-text {
+.active .link-group {
   color: var(--yellow);
   font-weight: 700;
 }
-.active .svg-holder svg {
+.active .link-group svg {
   fill: var(--yellow);
 }
 
@@ -123,54 +111,58 @@
 
 /* ===========================[ 1166px ]================================== */
 @media screen and (max-width: 1166px) {
-  .nav-links a,
-  .logout a {
-    font-size: 1.1rem;
+  .link-group {
+    font-size: 1rem;
   }
-  .svg-holder {
-    width: 50%;
+}
+/* ===========================[ 1120px ]================================== */
+@media screen and (max-width: 1120px) {
+  .navbar {
+    padding: var(--whiteSpaceMedium);
+    padding-top: var(--whiteSpaceLarger);
   }
-  .nav-links li svg,
-  .logout svg {
-    width: 25%;
+  .link-group {
+    width: 12vw;
   }
 }
 
 /* ===========================[ 1024px ]================================== */
 @media screen and (max-width: 1024px) {
-  .navbar {
-    padding: var(--whiteSpaceMedium);
-  }
   .user-information h3 {
-    font-size: 1.1rem;
-  }
-  .user-information h4 {
-    font-size: 0.7rem;
+    font-size: 1.2rem;
   }
   .user-online {
     padding-top: 2px;
     padding-right: 4px;
-    width: 18%;
+    width: 12%;
   }
 
-  .nav-links a,
-  .logout a {
-    font-size: 1.1rem;
+  .link-group {
+    width: 11vw;
   }
-  .svg-holder {
-    width: 40%;
-  }
-  .nav-links li svg,
-  .logout svg {
-    width: 30%;
+  .link-group {
+    font-size: 0.9rem;
   }
 }
-
+/* ===========================[ 866px ]================================== */
+@media screen and (max-width: 916px) {
+  .nav-links {
+    row-gap: var(--whiteSpaceLarger);
+  }
+  .link-text {
+    display: none;
+  }
+  .link-group {
+    justify-content: center;
+  }
+}
 /* ===========================[ 768px ]================================== */
 @media screen and (max-width: 768px) {
   .navbar {
     padding: var(--whiteSpaceSmall);
+    padding-top: var(--whiteSpaceLarger);
   }
+
   .user-status {
     padding-left: 0;
     justify-content: center;
@@ -184,32 +176,12 @@
   .user-information h3 {
     font-size: 1rem;
   }
-  .user-information h4 {
-    font-size: 0.7rem;
-  }
-  .nav-links a,
-  .logout a {
-    font-size: 0.9rem;
-  }
-  .svg-holder {
-    width: 30%;
-  }
-  .nav-links li svg,
-  .logout svg {
-    width: 50%;
-  }
-  .link-text {
-    padding-top: var(--whiteSpaceSmall);
-  }
 }
 
 /* ===========================[ 600px !HEIGHT ]================================== */
 @media screen and (max-height: 600px) {
   .profile-picture {
     width: 100%;
-  }
-  .navbar {
-    padding-top: var(--whiteSpaceSmaller);
   }
 }
 
@@ -224,21 +196,8 @@
     font-size: 0.9rem;
   }
 
-  .user-information h4 {
-    font-size: 0.6rem;
-  }
-  .nav-links a,
-  .logout a {
-    padding: var(--whiteSpaceSmaller);
-  }
-  .svg-holder {
-    width: 100%;
-  }
-  .nav-links li svg,
-  .logout svg {
-    width: 24px;
-  }
-  .link-text {
-    display: none;
+  .link-group svg {
+    width: 60%;
+    margin-left: 20%;
   }
 }

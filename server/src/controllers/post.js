@@ -139,17 +139,19 @@ export const likePost = async (req, res) => {
 
     if (!post.likes.includes(req.body.userId)) {
       await post.updateOne({ $push: { likes: req.body.userId } });
-      res.status(200).json({
-        success: true,
-        msg: "The post has been liked",
-      });
     } else {
       await post.updateOne({ $pull: { likes: req.body.userId } });
-      res.status(200).json({
-        success: true,
-        msg: "The post has been disliked",
-      });
     }
+
+    const updatedPost = await Post.findById(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      msg: `The post has been ${
+        post.likes.includes(req.body.userId) ? "disliked" : "liked"
+      }`,
+      result: updatedPost.likes,
+    });
   } catch (error) {
     logError(error);
     res.status(500).json({
