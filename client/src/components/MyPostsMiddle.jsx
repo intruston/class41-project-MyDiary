@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import Button from "../components/Button";
 import postBackground from "../assets/post-background.png";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
@@ -11,6 +10,7 @@ import { UserContext } from "../hooks/useUserContext";
 const MyPostsMiddle = ({ setActive }) => {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
+  const [activeTab, setActiveTab] = useState("public");
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/timeline/${user._id}`,
     (response) => {
@@ -24,6 +24,10 @@ const MyPostsMiddle = ({ setActive }) => {
 
   useEffect(() => {}, [posts]);
 
+  const handleTabClick = (tab) => {
+    performFetch();
+    setActiveTab(tab);
+  };
   return (
     <div className="middle-section">
       <div className="middle-container">
@@ -36,7 +40,7 @@ const MyPostsMiddle = ({ setActive }) => {
             </h4>
           </div>
           <div className="right">
-            <h3>{user.bio}</h3>
+            <h3>{`"${user.bio}"`}</h3>
           </div>
         </div>
 
@@ -44,28 +48,42 @@ const MyPostsMiddle = ({ setActive }) => {
         <div className="add-new-post">
           <img src={postBackground} alt="user background" />
           <div className="post-button">
-            <Button
-              onClick={() => setActive(true)}
-              content={"+ Add Post"}
-              color={"orange"}
-            />
+            <button onClick={() => setActive(true)}>+ Add Post</button>
           </div>
         </div>
         {error && <div className="error">{error.message}</div>}
 
         {/* Posts */}
         <div className="public-private">
-          <h3>Public Posts</h3>
-          <h3>Private Posts</h3>
+          <h4
+            className={activeTab === "public" ? "active-posts" : ""}
+            onClick={() => handleTabClick("public")}
+          >
+            Public Posts
+          </h4>
+          <h4
+            className={activeTab === "private" ? "active-posts" : ""}
+            onClick={() => handleTabClick("private")}
+          >
+            Private Posts
+          </h4>
         </div>
         <div>
           {posts &&
-            posts.map((mappedPost) => (
-              <div className="single-post has-loading" key={mappedPost._id}>
-                {isLoading && <Loading />}
-                <SinglePost mappedPost={mappedPost} />
-              </div>
-            ))}
+            posts
+              .filter((mappedPost) => {
+                if (activeTab === "private") {
+                  return mappedPost.isPrivate;
+                } else {
+                  return !mappedPost.isPrivate;
+                }
+              })
+              .map((mappedPost) => (
+                <div className="single-post has-loading" key={mappedPost._id}>
+                  {isLoading && <Loading />}
+                  <SinglePost mappedPost={mappedPost} />
+                </div>
+              ))}
         </div>
       </div>
     </div>

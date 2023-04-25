@@ -1,29 +1,20 @@
 /* ==========================================================================
                            Single Post
 ========================================================================== */
-.public-private {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: var(--whiteSpaceLarge);
-}
+
 .post-date {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .post-date hr {
-  border-top: 2px solid var(--gray);
+  border-top: 2px solid var(--softGray);
   width: 40%;
 }
-
-.post-profile-img {
-  margin: auto;
-  width: 20%;
-}
-.post-profile-img img {
-  display: block;
-  width: 80%;
+.post-date h3 {
+  margin-top: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
 .pos-container {
@@ -32,18 +23,53 @@
   justify-content: space-between;
   padding-bottom: var(--whiteSpaceLarge);
 }
-
+.pos-container .profile-picture-component {
+  margin-top: var(--whiteSpaceMedium);
+}
 .post-content {
   width: 80%;
 }
 
 .post-header {
+  text-transform: capitalize;
   font-weight: 800;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   padding-top: var(--whiteSpaceSmaller);
   padding-bottom: var(--whiteSpaceMedium);
+}
+.inside-profile .profile-picture-component {
+  display: none;
+}
+.side-profile {
+  margin: auto;
+}
+.post-header h2 {
+  cursor: pointer;
+}
+.post-header h3 {
+  cursor: pointer;
+}
+
+.post-reaction {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--whiteSpaceSmaller);
+  font-size: 1rem;
+}
+.post-reaction .has-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post-reaction svg {
+  margin: auto;
+  width: 16px;
+}
+.post-reaction svg:hover {
+  width: 18px;
 }
 
 /* ==========================================================================
@@ -56,12 +82,39 @@
 
 /* ===========================[ 1024px ]================================== */
 @media screen and (max-width: 1024px) {
+  .inside-profile h3 {
+    font-size: 1rem;
+  }
+  .post-content p {
+    font-size: 0.9rem;
+  }
 }
 
 /* ===========================[ 768px ]================================== */
 @media screen and (max-width: 768px) {
+  .inside-profile .profile-picture-component {
+    display: block;
+  }
+  .inside-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--whiteSpaceSmaller);
+  }
+  .inside-profile h3 {
+    font-size: 0.8rem;
+  }
+  .side-profile {
+    display: none;
+  }
 }
 
 /* ===========================[ 480px ]================================== */
 @media screen and (max-width: 480px) {
+  .post-date hr {
+    width: 30%;
+  }
+  .post-date h3 {
+    font-size: 0.6rem;
+  }
 }

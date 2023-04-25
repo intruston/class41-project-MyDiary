@@ -3,8 +3,8 @@ import NavbarLinks from "./NavbarLinks";
 import "./Navbar.css";
 import PropTypes from "prop-types";
 import { icons } from "../assets/svg.js";
-import profileIcon from "../assets/profile-icon.png";
 import { UserContext } from "../hooks/useUserContext";
+import ProfilePicture from "./ProfilePicture";
 
 const Navbar = ({ active }) => {
   // Getting user information and logout function from context
@@ -14,16 +14,14 @@ const Navbar = ({ active }) => {
   };
   return (
     <nav className="navbar">
-      <div className="user-profile">
+      <div>
         <div className="user-status">
           <div className="user-online">{icons.online}</div>
           <div className="user-information">
             <h3>{user.firstName}</h3>
           </div>
         </div>
-        <div className="profile-picture">
-          <img src={profileIcon} alt="profile picture" />
-        </div>
+        <ProfilePicture profilePicture={user.profilePicture} />
       </div>
 
       <ul className="nav-links">
@@ -58,9 +56,9 @@ const Navbar = ({ active }) => {
           active={active}
         />
       </ul>
-      <div className="logout">
+      <div>
         <hr />
-        <div onClick={logoutUser}>
+        <div className="logout" onClick={logoutUser}>
           <NavbarLinks link={""} text={"Logout"} svg={icons.logout} />
         </div>
       </div>

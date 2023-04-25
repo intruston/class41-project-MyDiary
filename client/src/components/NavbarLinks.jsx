@@ -5,8 +5,8 @@ const NavbarLinks = ({ link, svg, text, active }) => {
   // if active(string coming from page) and the text(Navbar name of link) are same that link will be active
   return (
     <li className={active === text ? "active" : ""}>
-      <Link to={link}>
-        <div className="svg-holder">{svg}</div>
+      <Link className="link-group" to={link}>
+        <div>{svg}</div>
         <div className="link-text">{text}</div>
       </Link>
     </li>
