@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "./ProfilePicture.css";
 
 //Size: "":13vw | "medium":8.5vw | "small":6.5vw | "smaller":4.5vw
-//Border: "":37px | "square":0px | "circle":50%
+//Border: "":50% | "square":0px | "rounded":37px
 const ProfilePicture = ({ profilePicture, size, border }) => {
   return (
     <div className={`profile-picture-component ${size}`}>

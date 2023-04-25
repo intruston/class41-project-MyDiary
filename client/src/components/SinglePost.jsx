@@ -45,11 +45,7 @@ const SinglePost = ({ mappedPost }) => {
       </div>
       <div className="pos-container">
         <div className="side-profile">
-          <ProfilePicture
-            profilePicture={user.profilePicture}
-            size={"small"}
-            border={"circle"}
-          />
+          <ProfilePicture profilePicture={user.profilePicture} size={"small"} />
         </div>
         <div className="post-content">
           <div className="post-header">
@@ -57,7 +53,6 @@ const SinglePost = ({ mappedPost }) => {
               <ProfilePicture
                 profilePicture={user.profilePicture}
                 size={"smaller"}
-                border={"circle"}
               />
               <h3>{user.firstName}</h3>
             </div>
