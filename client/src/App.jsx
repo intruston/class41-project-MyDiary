@@ -9,6 +9,7 @@ import Friends from "./pages/Friends/Friends";
 import Feeds from "./pages/Feeds/Feeds";
 import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
+import AnotherUser from "./pages/AnotherUser/AnotherUser";
 
 const App = () => {
   const { user } = useContext(UserContext); // using useContext to get the user value from UserContext, if user is not null: means user logged in
@@ -43,6 +44,7 @@ const App = () => {
           path="/settings"
           element={user ? <Settings /> : <Navigate to="/" />}
         />
+        <Route path="/user/:id" element={<AnotherUser />} />
       </Routes>
     </>
   );

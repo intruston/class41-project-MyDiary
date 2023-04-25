@@ -21,7 +21,6 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding-bottom: var(--whiteSpaceLarge);
 }
 .pos-container .profile-picture-component {
   margin-top: var(--whiteSpaceMedium);
@@ -53,25 +52,47 @@
 }
 
 .post-reaction {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--whiteSpaceSmaller);
-  font-size: 1rem;
+  padding-bottom: var(--whiteSpaceLarger);
 }
-.post-reaction .has-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.post-reaction svg {
-  margin: auto;
-  width: 16px;
-}
-.post-reaction svg:hover {
-  width: 18px;
+.heart-icon {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  margin-right: var(--whiteSpaceSmall);
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: 2900%;
 }
 
+.likes {
+  position: absolute;
+  font-size: 1rem;
+  padding-right: var(--whiteSpaceSmall);
+}
+
+.heart-icon:hover,
+.heart-icon.pink {
+  background-position: right;
+}
+.heart-icon.grey {
+  background-position: left;
+}
+.is-animating {
+  animation: heart-burst 0.8s steps(28) 1;
+}
+
+@keyframes heart-burst {
+  from {
+    background-position: left;
+  }
+  to {
+    background-position: right;
+  }
+}
 /* ==========================================================================
                              Responsive Design
   ========================================================================== */

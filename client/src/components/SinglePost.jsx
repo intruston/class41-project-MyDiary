@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
+import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import useFetch from "../hooks/useFetch";
 import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
-import { icons } from "../assets/svg.js";
 import "./SinglePost.css";
 import { UserContext } from "../hooks/useUserContext";
 
@@ -13,11 +13,23 @@ const SinglePost = ({ mappedPost }) => {
   const date = new Date(mappedPost.createdAt);
   const options = { month: "long", day: "numeric" };
   const formattedDate = date.toLocaleDateString("en-US", options);
-  const [likes, setLikes] = useState(mappedPost.likes.length);
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
+  const [likes, setLikes] = useState(mappedPost.likes);
+  const isLikedByUser = likes.includes(user._id);
+  const heartIcon = document.querySelector(".heart-icon");
+  const {
+    isLoading: anotherUserLoading,
+    error: anotherUserError,
+    anotherUser,
+  } = useGetAnotherUser({
+    anotherUserId: mappedPost.userId,
+  });
+  const { error, performFetch, cancelFetch } = useFetch(
     `/post/${mappedPost._id}/like`,
     (response) => {
-      setLikes(response.result.length);
+      setLikes(response.result);
+      isLikedByUser
+        ? heartIcon.classList.remove("is-animating")
+        : heartIcon.classList.add("is-animating");
     }
   );
   useEffect(() => {
@@ -44,17 +56,21 @@ const SinglePost = ({ mappedPost }) => {
         <hr />
       </div>
       <div className="pos-container">
-        <div className="side-profile">
-          <ProfilePicture profilePicture={user.profilePicture} size={"small"} />
+        <div className="side-profile has-loading">
+          {anotherUserLoading && <Loading />}
+          <ProfilePicture
+            profilePicture={anotherUser ? anotherUser.profilePicture : null}
+            size={"small"}
+          />
         </div>
         <div className="post-content">
           <div className="post-header">
             <div className="inside-profile">
               <ProfilePicture
-                profilePicture={user.profilePicture}
+                profilePicture={anotherUser ? anotherUser.profilePicture : null}
                 size={"smaller"}
               />
-              <h3>{user.firstName}</h3>
+              <h3>{anotherUser ? anotherUser.firstName : null}</h3>
             </div>
 
             <h2>...</h2>
@@ -63,12 +79,17 @@ const SinglePost = ({ mappedPost }) => {
         </div>
       </div>
       <div className="post-reaction" onClick={likePost}>
-        <div className="has-loading">
-          {icons.hearth} {isLoading && <Loading />}
-        </div>
-        {likes}
+        <div
+          style={{ backgroundImage: "url(/heart-animation.png)" }}
+          className={`heart-icon ${isLikedByUser ? "pink" : "grey"}`}
+        ></div>
+        <div className="likes">{likes.length}</div>
       </div>
-      {error && <div className="error">{error.message}</div>}
+      {(error || anotherUserError) && (
+        <div className="error">
+          {error.message}||{anotherUserError.message}{" "}
+        </div>
+      )}
     </>
   );
 };

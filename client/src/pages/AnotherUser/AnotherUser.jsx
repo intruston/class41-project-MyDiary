@@ -1,16 +1,17 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import FeedsMiddle from "../../components/FeedsMiddle";
+import AnotherUserMiddle from "../../components/AnotherUserMiddle";
 import MyPostsRight from "../../components/MyPostsRight";
-import "./Feeds.css";
-const Feeds = () => {
+import "./AnotherUser.css";
+const AnotherUser = () => {
   return (
     <div className="page-container">
+      {/* active must be same with navbar name of the page */}
       <Navbar active={"Feeds"} />
-      <FeedsMiddle />
+      <AnotherUserMiddle />
       <MyPostsRight />
     </div>
   );
 };
 
-export default Feeds;
+export default AnotherUser;

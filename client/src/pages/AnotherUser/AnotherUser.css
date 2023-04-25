@@ -1,23 +1,36 @@
 /* ==========================================================================
-                           Feeds CSS
+                           My Posts CSS
 ========================================================================== */
-.feed-header {
+/* Page Header */
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: var(--whiteSpaceLarge);
   cursor: default;
 }
-
-.feed-header .left {
+.another-profile {
+  padding-right: var(--whiteSpaceSmaller);
+}
+.page-header .left {
   width: 20%;
 }
+.page-header h4 {
+  padding-top: var(--whiteSpaceSmaller);
+  text-align: left;
+  font-weight: 300;
+  color: var(--softGray);
+}
 
-.feed-header .right {
+.page-header .right {
   width: 80%;
 }
-.feed-header .right h3 {
+.page-header .right h3 {
+  margin-top: 0;
   text-align: right;
+  font-style: italic;
+  font-weight: 200;
+  font-size: 0.9rem;
 }
 
 /* ==========================================================================
