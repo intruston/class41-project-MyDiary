@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -25,6 +25,15 @@ export const authReducer = (state, action) => {
 //Providing basic functions to control user
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, { user: null });
+
+  // check if the user is logged in
+  // if so, update the auth context
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      dispatch({ type: "LOGIN", payload: user });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
