@@ -10,6 +10,10 @@ import {
 } from "../controllers/post.js";
 
 const postRouter = express.Router();
+import requireAuth from "../middleware/requireAuth.js";
+
+// require authorization for all the protected routes
+postRouter.use(requireAuth);
 
 postRouter.get("/feed/:id", getFeed); // get friends feed and my posts sorted by date
 postRouter.get("/timeline/:id", getTimeline); // get all my posts

@@ -9,11 +9,15 @@ import {
   getUserFriends,
 } from "../controllers/user.js";
 import { loginUser, signupUser } from "../controllers/auth.js";
+import requireAuth from "../middleware/requireAuth.js";
 
 const userRouter = express.Router();
 
 userRouter.post("/signup", signupUser);
 userRouter.post("/login", loginUser);
+
+// require authorization for all the protected routes
+userRouter.use(requireAuth);
 userRouter.put("/:id", updateUser);
 userRouter.delete("/:id", deleteUser);
 userRouter.get("/:id", getUser);
