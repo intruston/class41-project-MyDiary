@@ -67,6 +67,11 @@
   border-bottom: 1px solid lightgray;
 }
 
+.settingsForm > ::placeholder {
+  color: darkslategray;
+  text-align: left;
+}
+
 .settingsForm > input:focus {
   color: black;
   outline: 1px solid lightgray;

@@ -99,6 +99,39 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const updateUserPassword = async (req, res) => {
+  if (req.body._id !== req.params.id) {
+    return res
+      .status(403)
+      .json({ success: false, msg: "You can change only your password!" });
+  }
+  try {
+    const user = await User.findById(req.params.id);
+    const match = await comparePassword(req.body.password, user.password);
+
+    if (match) {
+      req.body.password = await hashPassword(req.body.newPassword);
+      delete req.body.newPassword;
+
+      const user = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      res.status(200).json({ success: true, result: user });
+    } else {
+      return res
+        .status(404)
+        .json({ success: false, msg: "Password not changed. Wrong password!" });
+    }
+  } catch (err) {
+    logError(err);
+    res.status(500).json({ success: false, msg: err });
+  }
+};
+
 //maybe this option only for admins and for users only isActive or not
 export const deleteUser = async (req, res) => {
   if (req.body._id === req.params.id || req.body.isAdmin) {
