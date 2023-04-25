@@ -5,10 +5,12 @@ import PropTypes from "prop-types";
 import { icons } from "../assets/svg.js";
 import { UserContext } from "../hooks/useUserContext";
 import ProfilePicture from "./ProfilePicture";
+import useLogout from "../hooks/useLogout";
 
 const Navbar = ({ active }) => {
   // Getting user information and logout function from context
-  const { user, logout } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const logout = useLogout();
   const logoutUser = () => {
     logout();
   };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { useSignup } from "../../hooks/useSignup";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -12,42 +12,13 @@ function RegisterForm() {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
-  const navigate = useNavigate();
 
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    "/user/signup",
-    () => {
-      alert("User created successfully");
-      // Redirect the user to the login page
-      navigate("/login");
-    }
-  );
+  const { signupError, isLoading, signup } = useSignup();
 
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
-
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    // Send the data to the server
-    performFetch({
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          firstName,
-          lastName,
-          birthday: dateOfBirth,
-          email,
-          password,
-          country,
-          bio,
-        },
-      }),
-    });
+    await signup(email, password); // signup the user
   }
 
   return (
@@ -172,7 +143,7 @@ function RegisterForm() {
         <br />
         <button
           type="submit"
-          disabled={!agreeToPrivacyPolicy}
+          disabled={!agreeToPrivacyPolicy || isLoading}
           className="login-button"
         >
           Sign up
@@ -180,7 +151,7 @@ function RegisterForm() {
       </form>
       <br />
       {isLoading && <Loading />}
-      {error && <div className="error">{error}</div>}
+      {signupError && <div className="error">{signupError}</div>}
     </div>
   );
 }
