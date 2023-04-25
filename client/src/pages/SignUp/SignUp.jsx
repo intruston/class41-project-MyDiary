@@ -15,7 +15,7 @@ function RegisterForm() {
   const navigate = useNavigate();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    "/user/create",
+    "/user/signup",
     () => {
       alert("User created successfully");
       // Redirect the user to the login page
