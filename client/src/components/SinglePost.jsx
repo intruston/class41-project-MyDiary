@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import useFetch from "../hooks/useFetch";
 import ProfilePicture from "./ProfilePicture";
@@ -15,7 +15,6 @@ const SinglePost = ({ mappedPost }) => {
   const formattedDate = date.toLocaleDateString("en-US", options);
   const [likes, setLikes] = useState(mappedPost.likes);
   const isLikedByUser = likes.includes(user._id);
-  const heartIcon = document.querySelector(".heart-icon");
   const {
     isLoading: anotherUserLoading,
     error: anotherUserError,
@@ -27,14 +26,18 @@ const SinglePost = ({ mappedPost }) => {
     `/post/${mappedPost._id}/like`,
     (response) => {
       setLikes(response.result);
-      isLikedByUser
-        ? heartIcon.classList.remove("is-animating")
-        : heartIcon.classList.add("is-animating");
+      if (heartIconRef.current) {
+        isLikedByUser
+          ? heartIconRef.current.classList.remove("is-animating")
+          : heartIconRef.current.classList.add("is-animating");
+      }
     }
   );
   useEffect(() => {
     return cancelFetch;
   }, []);
+
+  const heartIconRef = useRef(null);
 
   const likePost = () => {
     performFetch({
@@ -82,6 +85,7 @@ const SinglePost = ({ mappedPost }) => {
         <div
           style={{ backgroundImage: "url(/heart-animation.png)" }}
           className={`heart-icon ${isLikedByUser ? "pink" : "grey"}`}
+          ref={heartIconRef}
         ></div>
         <div className="likes">{likes.length}</div>
       </div>

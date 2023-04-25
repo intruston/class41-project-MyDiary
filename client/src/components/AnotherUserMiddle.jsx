@@ -12,12 +12,13 @@ const AnotherUserMiddle = () => {
     isLoading: anotherUserLoading,
     error: anotherUserError,
     anotherUser,
+    reset: resetAnotherUser, // add reset function here
   } = useGetAnotherUser({
     anotherUserId: id,
   });
   const [posts, setPosts] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${anotherUser && anotherUser._id}`,
+    `/post/timeline/${id}`,
     (response) => {
       setPosts(response.result);
     }
@@ -25,7 +26,11 @@ const AnotherUserMiddle = () => {
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    resetAnotherUser(); // call reset function here
+  }, [id]);
 
   useEffect(() => {}, [posts]);
 
@@ -33,7 +38,7 @@ const AnotherUserMiddle = () => {
     <div className="middle-section">
       <div className="middle-container">
         {/* Page Header */}
-        <div className="page-header">
+        <div className="page-header has-loading">
           {anotherUserLoading && <Loading />}
           <div className="another-profile">
             <ProfilePicture

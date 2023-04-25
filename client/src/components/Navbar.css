@@ -189,7 +189,6 @@
 @media screen and (max-width: 480px) {
   .navbar {
     min-width: 80px;
-    padding: 0;
   }
 
   .user-information h3 {

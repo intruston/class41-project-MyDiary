@@ -44,7 +44,10 @@ const App = () => {
           path="/settings"
           element={user ? <Settings /> : <Navigate to="/" />}
         />
-        <Route path="/user/:id" element={<AnotherUser />} />
+        <Route
+          path="/user/:id"
+          element={user ? <AnotherUser /> : <Navigate to="/" />}
+        />
       </Routes>
     </>
   );
