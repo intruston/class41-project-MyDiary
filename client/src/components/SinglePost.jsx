@@ -5,10 +5,12 @@ import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
 import "./SinglePost.css";
 import { useUserContext } from "../hooks/useUserContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 import PropTypes from "prop-types";
 
 const SinglePost = ({ mappedPost }) => {
+  const { auth } = useAuthContext();
   const { user } = useUserContext();
   const date = new Date(mappedPost.createdAt);
   const options = { month: "long", day: "numeric" };
@@ -44,6 +46,7 @@ const SinglePost = ({ mappedPost }) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
       },
       body: JSON.stringify({
         userId: user._id,

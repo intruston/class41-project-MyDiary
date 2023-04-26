@@ -26,6 +26,7 @@ const FeedsMiddle = () => {
   }, []);
 
   useEffect(() => {}, [posts]);
+
   return (
     <div className="middle-section">
       <div className="middle-container">
