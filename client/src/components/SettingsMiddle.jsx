@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
-import { UserContext } from "../hooks/useUserContext";
+import { useUserContext } from "../hooks/useUserContext";
 import PropTypes from "prop-types";
 import profileIcon from "../assets/profile-icon.png";
 
 const SettingsMiddle = ({ setActive }) => {
-  const { user } = useContext(UserContext);
+  const { user } = useUserContext();
   const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");

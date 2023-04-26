@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import useFetch from "../hooks/useFetch";
 import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
 import "./SinglePost.css";
-import { UserContext } from "../hooks/useUserContext";
+import { useUserContext } from "../hooks/useUserContext";
 
 import PropTypes from "prop-types";
 
 const SinglePost = ({ mappedPost }) => {
-  const { user } = useContext(UserContext);
+  const { user } = useUserContext();
   const date = new Date(mappedPost.createdAt);
   const options = { month: "long", day: "numeric" };
   const formattedDate = date.toLocaleDateString("en-US", options);

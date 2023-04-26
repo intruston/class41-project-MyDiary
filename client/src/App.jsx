@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import MyPosts from "./pages/MyPosts/MyPosts";
 import Login from "./pages/Login/Login";
@@ -9,20 +9,46 @@ import Feeds from "./pages/Feeds/Feeds";
 import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
 import AnotherUser from "./pages/AnotherUser/AnotherUser";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 const App = () => {
+  const { auth } = useAuthContext();
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/myPosts" element={<MyPosts />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/feeds" element={<Feeds />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/user/:id" element={<AnotherUser />} />
+        <Route path="/" element={auth ? <Home /> : <Navigate to="/login" />} />
+        <Route
+          path="/login"
+          element={!auth ? <Login /> : <Navigate to="/myPosts" />}
+        />
+        <Route
+          path="/signup"
+          element={!auth ? <SignUp /> : <Navigate to="/myPosts" />}
+        />
+        <Route
+          path="/myPosts"
+          element={auth ? <MyPosts /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/friends"
+          element={auth ? <Friends /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/feeds"
+          element={auth ? <Feeds /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/search"
+          element={auth ? <Search /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/settings"
+          element={auth ? <Settings /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/auth/:id"
+          element={auth ? <AnotherUser /> : <Navigate to="/login" />}
+        />
       </Routes>
     </>
   );

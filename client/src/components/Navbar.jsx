@@ -1,29 +1,37 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import NavbarLinks from "./NavbarLinks";
 import "./Navbar.css";
 import PropTypes from "prop-types";
 import { icons } from "../assets/svg.js";
-import { UserContext } from "../hooks/useUserContext";
 import ProfilePicture from "./ProfilePicture";
 import useLogout from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
 
 const Navbar = ({ active }) => {
   // Getting user information and logout function from context
-  const { user } = useContext(UserContext);
+  const { auth } = useAuthContext();
+  const { user, getUser } = useUserContext();
+
+  useEffect(() => {
+    getUser(auth.id, auth.token);
+  }, [auth]);
+
   const logout = useLogout();
   const logoutUser = () => {
     logout();
   };
+
   return (
     <nav className="navbar">
       <div>
         <div className="user-status">
           <div className="user-online">{icons.online}</div>
           <div className="user-information">
-            <h3>{user.firstName}</h3>
+            <h3>{user ? user.firstName : ""}</h3>
           </div>
         </div>
-        <ProfilePicture profilePicture={user.profilePicture} />
+        <ProfilePicture profilePicture={user ? user.profilePicture : ""} />
       </div>
 
       <ul className="nav-links">

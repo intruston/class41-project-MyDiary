@@ -23,7 +23,7 @@ export const useSignup = () => {
       setSignupError(json.error);
     } else {
       // save the user to local storage
-      localStorage.setItem("user", JSON.stringify(json));
+      localStorage.setItem("auth", JSON.stringify(json));
 
       // update the auth context
       dispatch({ type: "LOGIN", payload: json });

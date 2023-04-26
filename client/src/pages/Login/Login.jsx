@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { useLogin } from "../../hooks/useLogin";
@@ -12,6 +12,13 @@ function LoginForm() {
     event.preventDefault();
     await login(email, password);
   }
+
+  useEffect(() => {
+    return () => {
+      // Clean up any resources, such as subscriptions
+      // or async tasks
+    };
+  }, []);
 
   return (
     <div className="login-div">

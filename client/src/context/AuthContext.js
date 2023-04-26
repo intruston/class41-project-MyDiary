@@ -10,12 +10,12 @@ export const authReducer = (state, action) => {
     case "LOGIN":
       return {
         ...state,
-        user: action.payload,
+        auth: action.payload,
       };
     case "LOGOUT":
       return {
         ...state,
-        user: null,
+        auth: null,
       };
     default:
       return state;
@@ -24,14 +24,14 @@ export const authReducer = (state, action) => {
 
 //Providing basic functions to control user
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, { user: null });
+  const [state, dispatch] = useReducer(authReducer, { auth: null });
 
   // check if the user is logged in
   // if so, update the auth context
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      dispatch({ type: "LOGIN", payload: user });
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    if (auth) {
+      dispatch({ type: "LOGIN", payload: auth });
     }
   }, []);
 
