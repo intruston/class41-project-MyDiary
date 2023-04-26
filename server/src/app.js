@@ -4,6 +4,7 @@ import helmet from "helmet";
 
 import userRouter from "./routes/user.js";
 import postRouter from "./routes/post.js";
+import searchRouter from "./routes/search.js";
 import fileUpload from "express-fileupload";
 
 // Create an express server
@@ -31,5 +32,6 @@ app.use(helmet());
  */
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
+app.use("/api/search", searchRouter);
 
 export default app;
