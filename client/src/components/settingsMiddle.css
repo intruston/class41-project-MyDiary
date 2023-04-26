@@ -1,121 +1,155 @@
 /* ==========================================================================
-                           SettingsMiddle CSS
+                           SettingsMiddle & SettingsChangePP CSS
 ========================================================================== */
 
-.settingsTitle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.settings-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gray);
+  margin-bottom: 25px;
 }
 
-.settingsUpdateTitle {
-  font-size: 30px;
+.settings-update-title {
+  font-size: 1.5rem;
+  font-weight: 500;
   margin-bottom: 20px;
-  color: lightcoral;
 }
 
-.settingsDeleteTitle {
-  color: red;
-  font-size: 12px;
-  cursor: pointer;
+.settings-form-wrapper {
+  display: grid;
+  grid-template-areas:
+    "firstname settings-change-PP"
+    "lastname settings-change-PP"
+    "birthday country"
+    "bio bio"
+    "bio bio"
+    "email password"
+    "change-password-button settings-submit-button";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 20px;
 }
 
-.settingsForm {
+.firstname {
+  grid-area: firstname;
+}
+
+.lastname {
+  grid-area: lastname;
+}
+
+.settings-change-PP {
+  grid-area: settings-change-PP;
+}
+
+.birthday {
+  grid-area: birthday;
+}
+
+.country {
+  grid-area: country;
+}
+
+.bio {
+  grid-area: bio;
+}
+
+.email {
+  grid-area: email;
+}
+
+.password {
+  grid-area: password;
+}
+
+.settings-input-block {
   display: flex;
   flex-direction: column;
 }
 
-.settingsPP {
+.settings-change-PP {
+  position: relative;
   display: flex;
   align-items: center;
-  margin: 10px 0;
 }
 
-.settingsPP > img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+.image-wrapper {
+  margin: auto;
+  width: 8.5vw;
+  height: 8.5vw;
+}
+
+.image-wrapper img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  max-width: 100%;
+  border-radius: 50%;
 }
 
-.setPPButton {
-  width: 110px;
-  border-radius: 10px;
-  background-color: lightcoral;
-  border: none;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  margin-left: 20px;
+.add-photo-icon {
+  position: absolute;
+  left: 30%;
+  top: 55%;
   cursor: pointer;
-  font-size: smaller;
 }
 
-.settingsForm > label {
-  margin-top: 5px;
-}
-
-.settingsForm > input {
+.settings-input-block > input,
+.settings-bio-input {
   font-size: 0.9rem;
-  color: darkslategray;
+  /* text-align: left; */
+  color: var(--gray);
+  font-family: "Fira Sans", sans-serif;
   margin: 10px 0;
   padding: 10px;
-  height: 30px;
+  height: 40px;
   border: none;
+  background-color: var(--background);
   border-bottom: 1px solid lightgray;
+  border-radius: 10px;
 }
 
-.settingsForm > ::placeholder {
-  color: darkslategray;
+.settings-form .settings-input-block > ::placeholder,
+.settings-bio-input::placeholder {
   text-align: left;
 }
 
-.settingsForm > input:focus {
+.settings-form > input:focus,
+.settings-bio-input:focus {
   color: black;
   outline: 1px solid lightgray;
   border-radius: 5px;
 }
 
-.passwordLabel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.changePasswordButton {
-  width: 130px;
-  height: 30px;
-  border-radius: 10px;
-  background-color: lightcoral;
+.settings-submit-button,
+.change-password-button {
+  height: 40px;
   border: none;
+  border-radius: 10px;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: var(--yellow);
+  border-bottom: 1px solid lightgray;
   padding: 10px;
-  margin-left: 10px;
-  cursor: pointer;
-  font-size: smaller;
-}
-
-.settingsSubmit {
-  width: 170px;
-  align-self: center;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  background-color: teal;
-  padding: 15px;
   margin-top: 20px;
   cursor: pointer;
-  font-size: 1.2rem;
 }
 
-.successMessage {
-  color: green;
+.change-password-button {
+  grid-area: change-password-button;
+  background-color: var(--gray);
+}
+
+.settings-submit-button {
+  grid-area: settings-submit-button;
+}
+
+.settings-delete-title {
+  color: var(--softGray);
+  font-size: 0.9rem;
+  cursor: pointer;
   text-align: center;
-  margin-top: 20px;
+}
+
+.settings-bio-input {
+  height: auto;
 }

@@ -10,20 +10,20 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = (user) => {
-    //setUser(user);
+    setUser(user);
     //!!!delete the part below after we finish with the frontend!!!
-    if (!user) {
-      setUser({
-        _id: "643d9697b5f5be3e8607144c",
-        email: "john@doe.com",
-        password: "12345678",
-        firstName: "John",
-        lastName: "Doe",
-        birthday: "2003-04-20T00:00:00.000+00:00",
-        country: "The Netherlands",
-        bio: "Welcome to my diary!",
-      });
-    }
+    // if (!user) {
+    //   setUser({
+    //     _id: "643d9697b5f5be3e8607144c",
+    //     email: "john@doe.com",
+    //     password: "12345678",
+    //     firstName: "John",
+    //     lastName: "Doe",
+    //     birthday: "2003-04-20T00:00:00.000+00:00",
+    //     country: "The Netherlands",
+    //     bio: "Welcome to my diary!",
+    //   });
+    // }
   };
 
   const logout = () => {

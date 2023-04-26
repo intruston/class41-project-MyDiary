@@ -1,5 +1,5 @@
 import React from "react";
-import profileIcon from "../assets/profile-icon.png";
+import noAvatar from "../assets/NoAvatar.png";
 import PropTypes from "prop-types";
 import "./ProfilePicture.css";
 
@@ -10,9 +10,9 @@ const ProfilePicture = ({ profilePicture, size, border }) => {
     <div className={`profile-picture-component ${size}`}>
       <img
         className={border}
-        src={profilePicture ? profilePicture : profileIcon}
+        src={profilePicture ? profilePicture : noAvatar}
         alt="profile picture"
-        onError={(e) => (e.target.src = profileIcon)}
+        onError={(e) => (e.target.src = noAvatar)}
       />
     </div>
   );

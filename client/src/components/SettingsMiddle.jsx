@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
 import { UserContext } from "../hooks/useUserContext";
 import "./settingsMiddle.css";
-import NoAvatar from "../assets/NoAvatar.png";
+import SettingsChangePP from "./SettingsChangePP";
 
 const SettingsMiddle = ({ setActive }) => {
   const { user, setUser } = useContext(UserContext);
-  const [file, setFile] = useState(null);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,7 +14,6 @@ const SettingsMiddle = ({ setActive }) => {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState(false);
 
   const onSuccess = () => {
     setFirstName("");
@@ -25,14 +23,14 @@ const SettingsMiddle = ({ setActive }) => {
     setCountry("");
     setBio("");
     setPassword("");
+    alert("Profile has been updated!");
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/${user?._id}`,
     (response) => {
-      onSuccess;
+      onSuccess();
       setUser(response.result);
-      setSuccess(true);
     }
   );
 
@@ -42,7 +40,6 @@ const SettingsMiddle = ({ setActive }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSuccess(false);
 
     const updatedUser = {
       _id: user._id,
@@ -54,20 +51,6 @@ const SettingsMiddle = ({ setActive }) => {
     if (birthday !== "") updatedUser.birthday = birthday;
     if (country !== "") updatedUser.country = country;
     if (bio !== "") updatedUser.bio = bio;
-
-    if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
-      data.append("file", file);
-      updatedUser.profilePicture = filename;
-      try {
-        // console.log("file here!");
-        //upload the file
-      } catch (error) {
-        //error
-      }
-    }
 
     performFetch({
       method: "PUT",
@@ -81,95 +64,112 @@ const SettingsMiddle = ({ setActive }) => {
   return (
     <div className="middle-section">
       <div className="middle-container">
-        <div className="settingsTitle">
-          <span className="settingsUpdateTitle">Update Your Account</span>
-          <span className="settingsDeleteTitle">Delete Account</span>
+        <div className="settings-title">
+          <span className="settings-update-title">Update Your Account</span>
         </div>
-        <form className="settingsForm" onSubmit={handleSubmit}>
-          <label>Profile Picture</label>
-          <div className="settingsPP">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : user.profilePicture
-                  ? user.profilePicture
-                  : NoAvatar
-              }
-              alt="profile photo"
-              onError={(e) => (e.target.src = NoAvatar)}
-            />
-            <label htmlFor="fileInput">
-              <i className="setPPButton">Change picture</i>
-            </label>
-            <input
-              type="file"
-              id="fileInput"
-              style={{ display: "none" }}
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </div>
-          <label>First name</label>
-          <input
-            type="text"
-            placeholder={user?.firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <label>Last name</label>
-          <input
-            type="text"
-            placeholder={user?.lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder={user?.email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label>Birthday</label>
-          <input
-            type="date"
-            placeholder={user?.birthday}
-            onChange={(e) => setBirthday(e.target.value)}
-          />
-          <label>Country</label>
-          <input
-            type="text"
-            placeholder={user?.country}
-            onChange={(e) => setCountry(e.target.value)}
-          />
-          <label>Bio</label>
-          <input
-            type="text"
-            placeholder={user?.bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-          <div className="passwordLabel">
-            <label>Please enter your password to confirm</label>
+
+        <form className="settings-form" onSubmit={handleSubmit}>
+          <div className="settings-form-wrapper">
+            <SettingsChangePP user={user} />
+            <div className="settings-input-block firstname">
+              <label htmlFor="firstName">First name</label>
+              <input
+                className="settings-short-input"
+                name="firstName"
+                type="text"
+                placeholder={user?.firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+
+            <div className="settings-input-block lastname">
+              <label htmlFor="lastName">Last name</label>
+              <input
+                className="settings-short-input"
+                name="lastName"
+                type="text"
+                placeholder={user?.lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+
+            <div className="settings-input-block birthday">
+              <label htmlFor="birthday">Birthday</label>
+              <input
+                className="settings-short-input"
+                name="birthday"
+                type="date"
+                placeholder={user?.birthday}
+                onChange={(e) => setBirthday(e.target.value)}
+              />
+            </div>
+
+            <div className="settings-input-block country">
+              <label htmlFor="country">Country</label>
+              <input
+                className="settings-short-input"
+                name="country"
+                type="text"
+                placeholder={user?.country}
+                onChange={(e) => setCountry(e.target.value)}
+              />
+            </div>
+
+            <div className="settings-input-block bio">
+              <label htmlFor="bio">Bio</label>
+              <textarea
+                name="bio"
+                className="settings-bio-input"
+                placeholder={user?.bio}
+                rows="7"
+                onChange={(e) => setBio(e.target.value)}
+              ></textarea>
+            </div>
+
+            <div className="settings-input-block email">
+              <label htmlFor="email">Email</label>
+              <input
+                className="settings-short-input"
+                name="email"
+                type="email"
+                placeholder={user?.email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="settings-input-block password">
+              <label htmlFor="password">Password</label>
+              <input
+                className="settings-short-input"
+                name="password"
+                type="password"
+                required
+                minLength="8"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
             <button
-              className="changePasswordButton"
+              className="change-password-button"
               type="button"
               onClick={() => setActive(true)}
             >
               Change Password
             </button>
+
+            <button className="settings-submit-button" type="submit">
+              Update Profile
+            </button>
+
+            {isLoading && <div>Loading...</div>}
+            {error && <div>Something went wrong! Error: {error}</div>}
           </div>
-          <input
-            type="password"
-            required
-            minLength="8"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="settingsSubmit" type="submit">
-            Update Profile
-          </button>
-          {success && (
-            <span className="successMessage">Profile has been updated...</span>
-          )}
-          {isLoading && <div>Loading...</div>}
-          {error && <div>Something went wrong! Error: {error}</div>}
         </form>
+        <div className="settings-delete-title">
+          <span onClick={() => alert("not yet connected")}>
+            Permanently <b>delete your account</b> and all of your content.
+          </span>
+        </div>
       </div>
     </div>
   );
