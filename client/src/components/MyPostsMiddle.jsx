@@ -19,6 +19,7 @@ const MyPostsMiddle = ({ setActive }) => {
       setPosts(response.result);
     }
   );
+
   useEffect(() => {
     performFetch();
     return cancelFetch;
