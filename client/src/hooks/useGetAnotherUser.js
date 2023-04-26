@@ -13,8 +13,13 @@ const useGetAnotherUser = ({ anotherUserId }) => {
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, []);
-  return { isLoading, error, anotherUser };
+  }, [anotherUserId]);
+
+  const reset = () => {
+    setAnotherUser(null);
+  };
+
+  return { isLoading, error, anotherUser, reset };
 };
 
 export default useGetAnotherUser;
