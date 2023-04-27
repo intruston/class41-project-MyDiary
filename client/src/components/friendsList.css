@@ -1,8 +1,12 @@
 /* =============[ Online Friends List ]===================*/
 
-h3 {
+.friend-list-wrapper {
   text-align: center;
+}
+
+.friend-list-header {
   margin-top: 10px;
+  font-size: 1.2rem;
 }
 
 .friend-list {

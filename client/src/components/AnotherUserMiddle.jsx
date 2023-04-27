@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
+
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import ProfilePicture from "./ProfilePicture";
 
@@ -25,6 +26,7 @@ const AnotherUserMiddle = () => {
   );
   useEffect(() => {
     performFetch();
+
     return cancelFetch;
   }, [id]);
 
