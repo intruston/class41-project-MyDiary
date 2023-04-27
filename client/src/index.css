@@ -129,7 +129,7 @@ input {
 }
 
 .top-div {
-  min-height: 150px;
+  min-height: auto;
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
   background-color: white;
