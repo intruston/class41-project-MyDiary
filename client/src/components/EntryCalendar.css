@@ -1,17 +1,20 @@
-.high-light{
+.highlight {
   font-weight: 900;
   background-color: #ff9f23;
   border-radius: 20px;
 }
-.calendar-container{
+
+.calendar-container {
   width: 18rem;
 }
 
 .react-calendar {
-  border:none;
+  border: none;
 }
-
-.react-calendar__tile:enabled:hover,.react-calendar__tile--active,.react-calendar__tile--now,
+/* eslint-disable prettier/prettier */
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile--active,
+.react-calendar__tile--now,
 .react-calendar__tile:enabled:focus {
   border-radius: 20px;
 }
