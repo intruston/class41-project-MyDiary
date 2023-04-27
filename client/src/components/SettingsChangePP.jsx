@@ -20,8 +20,9 @@ const SettingsChangePP = ({ user }) => {
     return cancelFetch;
   }, []);
 
-  const uploadPhotoSubmit = (event) => {
-    event.preventDefault();
+  const uploadPhotoSubmit = async (e) => {
+    // e.preventDefault();
+    setSelectedFile(e.target.files[0]);
 
     if (!selectedFile) {
       return;
@@ -50,30 +51,13 @@ const SettingsChangePP = ({ user }) => {
       ) : (
         <ProfilePicture profilePicture={profilePicture} size={"medium"} />
       )}
-      <form className="settings-PP-form">
-        <label htmlFor="fileInput">
-          <div className="add-photo-icon">
-            <AddAPhotoOutlinedIcon sx={{ fontSize: 50 }} />
-          </div>
-        </label>
-        <input
-          type="file"
-          name="fileInput"
-          id="fileInput"
-          style={{ display: "none" }}
-          onChange={(e) => {
-            setSelectedFile(e.target.files[0]);
-            uploadPhotoSubmit(e);
-          }}
-        />
-        {/* <button
-          type="submit"
-          disabled={!selectedFile}
-          onClick={uploadPhotoSubmit}
-        >
-          upload
-        </button> */}
-      </form>
+
+      <label htmlFor="fileInput">
+        <div className="add-photo-icon">
+          <AddAPhotoOutlinedIcon sx={{ fontSize: 50 }} />
+        </div>
+      </label>
+      <input type="file" id="fileInput" hidden onChange={uploadPhotoSubmit} />
     </div>
   );
 };
