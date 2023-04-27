@@ -8,7 +8,6 @@ import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import ProfilePicture from "./ProfilePicture";
 
 const AnotherUserMiddle = () => {
-
   const { id } = useParams();
   const {
     isLoading: anotherUserLoading,
@@ -26,9 +25,6 @@ const AnotherUserMiddle = () => {
     }
   );
   useEffect(() => {
-
-  
-
     performFetch();
 
     return cancelFetch;
