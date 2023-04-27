@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useRef, useContext } from "react";
 import useFetch from "../hooks/useFetch";
+import { UserContext } from "../hooks/useUserContext";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import ProfilePicture from "./ProfilePicture";
 
-const SettingsChangePP = ({ user }) => {
-  const [profilePicture, setProfilePicture] = useState(user.profilePicture);
+const SettingsChangePP = () => {
+  const { user, setUser } = useContext(UserContext);
   const inputFileRef = useRef(null);
 
   const { error, cancelFetch, performFetch } = useFetch(
     `/user/upload/${user._id}`,
     (response) => {
-      setProfilePicture(response.result);
+      setUser({ ...user, profilePicture: response.result });
       alert("Profile picture uploaded successfully");
     }
   );
@@ -20,7 +20,7 @@ const SettingsChangePP = ({ user }) => {
     return cancelFetch;
   }, []);
 
-  const uploadPhotoSubmit = async (event) => {
+  const uploadPhotoSubmit = (event) => {
     const formData = new FormData();
     const selectedFile = event.target.files[0];
     formData.append("file", selectedFile);
@@ -38,7 +38,7 @@ const SettingsChangePP = ({ user }) => {
 
   return (
     <div className="settings-change-PP">
-      <ProfilePicture profilePicture={profilePicture} size={"medium"} />
+      <ProfilePicture profilePicture={user.profilePicture} size={"medium"} />
 
       <button
         type="button"
@@ -56,12 +56,6 @@ const SettingsChangePP = ({ user }) => {
       />
     </div>
   );
-};
-
-SettingsChangePP.propTypes = {
-  user: PropTypes.object,
-  profilePicture: PropTypes.string,
-  setProfilePicture: PropTypes.func,
 };
 
 export default SettingsChangePP;

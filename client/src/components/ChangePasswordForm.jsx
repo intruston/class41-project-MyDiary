@@ -5,7 +5,7 @@ import { UserContext } from "../hooks/useUserContext";
 import Loading from "./Loading";
 import "./changePasswordForm.css";
 
-const ChangePasswordForm = ({ setActive }) => {
+const ChangePasswordForm = ({ setModalPasswordActive }) => {
   const { user, setUser } = useContext(UserContext);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -18,7 +18,7 @@ const ChangePasswordForm = ({ setActive }) => {
       setPassword("");
       setNewPassword("");
       setNewPasswordCopy("");
-      setActive(false);
+      setModalPasswordActive(false);
       alert("Password changed successfully!");
     }
   );
@@ -80,7 +80,7 @@ const ChangePasswordForm = ({ setActive }) => {
             <button
               className="changePasswordCancel"
               type="button"
-              onClick={() => setActive(false)}
+              onClick={() => setModalPasswordActive(false)}
             >
               Cancel
             </button>
@@ -98,7 +98,7 @@ const ChangePasswordForm = ({ setActive }) => {
 };
 
 ChangePasswordForm.propTypes = {
-  setActive: PropTypes.func.isRequired,
+  setModalPasswordActive: PropTypes.func.isRequired,
 };
 
 export default ChangePasswordForm;

@@ -5,7 +5,7 @@ import { UserContext } from "../hooks/useUserContext";
 import "./settingsMiddle.css";
 import SettingsChangePP from "./SettingsChangePP";
 
-const SettingsMiddle = ({ setActive }) => {
+const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const { user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -75,7 +75,7 @@ const SettingsMiddle = ({ setActive }) => {
 
         <form className="settings-form" onSubmit={handleSubmit}>
           <div className="settings-form-wrapper">
-            <SettingsChangePP user={user} />
+            <SettingsChangePP />
             <div className="settings-input-block firstname">
               <label htmlFor="firstName">First name</label>
               <input
@@ -160,7 +160,7 @@ const SettingsMiddle = ({ setActive }) => {
             <button
               className="change-password-button"
               type="button"
-              onClick={() => setActive(true)}
+              onClick={() => setModalPasswordActive(true)}
             >
               Change Password
             </button>
@@ -170,7 +170,7 @@ const SettingsMiddle = ({ setActive }) => {
             </button>
 
             <div className="settings-delete-title">
-              <span onClick={() => alert("not yet connected")}>
+              <span onClick={() => setModalDeleteActive(true)}>
                 Permanently <b>delete your account</b> and all of your content.
               </span>
             </div>
@@ -185,7 +185,8 @@ const SettingsMiddle = ({ setActive }) => {
 };
 
 SettingsMiddle.propTypes = {
-  setActive: PropTypes.func.isRequired,
+  setModalDeleteActive: PropTypes.func.isRequired,
+  setModalPasswordActive: PropTypes.func.isRequired,
 };
 
 export default SettingsMiddle;

@@ -75,10 +75,8 @@ input {
 .middle-container {
   padding: var(--whiteSpaceLarger);
   width: 100%;
-  height: calc(100vh - (var(--whiteSpaceLarger)) - (var(--whiteSpaceLarger)));
   border-radius: 37px;
   background-color: white;
-  overflow-y: scroll;
 }
 
 /* ==========================================================================
