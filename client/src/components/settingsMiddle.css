@@ -23,10 +23,13 @@
     "birthday country"
     "bio bio"
     "email password"
-    "change-password-button settings-submit-button";
+    "change-password-button settings-submit-button"
+    "settings-delete-title settings-delete-title";
+
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 2fr 1fr 1fr 0.1fr;
   gap: 1px 20px;
+  min-height: 80vh;
 }
 
 .firstname {
@@ -59,6 +62,10 @@
 
 .password {
   grid-area: password;
+}
+
+.settings-delete-title {
+  grid-area: settings-delete-title;
 }
 
 .settings-input-block {

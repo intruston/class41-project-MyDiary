@@ -169,15 +169,16 @@ const SettingsMiddle = ({ setActive }) => {
               Update Profile
             </button>
 
+            <div className="settings-delete-title">
+              <span onClick={() => alert("not yet connected")}>
+                Permanently <b>delete your account</b> and all of your content.
+              </span>
+            </div>
+
             {isLoading && <div>Loading...</div>}
             {error && <div>Something went wrong! Error: {error}</div>}
           </div>
         </form>
-        <div className="settings-delete-title">
-          <span onClick={() => alert("not yet connected")}>
-            Permanently <b>delete your account</b> and all of your content.
-          </span>
-        </div>
       </div>
     </div>
   );
