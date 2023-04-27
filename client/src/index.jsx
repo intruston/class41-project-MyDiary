@@ -4,11 +4,14 @@ import { UserProvider } from "./hooks/useUserContext";
 import AppWrapper from "./AppWrapper";
 import "./index.css";
 import App from "./App";
+import DatesProvider from "./hooks/usePostDatesContext";
 
 ReactDOM.render(
   <AppWrapper>
     <UserProvider>
-      <App />
+      <DatesProvider>
+        <App />
+      </DatesProvider>
     </UserProvider>
   </AppWrapper>,
   document.getElementById("root")

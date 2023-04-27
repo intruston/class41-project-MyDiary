@@ -6,9 +6,10 @@ import Loading from "./Loading";
 import PropTypes from "prop-types";
 
 import { UserContext } from "../hooks/useUserContext";
-
+import { postDatesContext } from "../hooks/usePostDatesContext";
 const MyPostsMiddle = ({ setActive }) => {
   const { user } = useContext(UserContext);
+  const { date } = useContext(postDatesContext);
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("public");
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -28,6 +29,9 @@ const MyPostsMiddle = ({ setActive }) => {
     performFetch();
     setActiveTab(tab);
   };
+  //use date however you want
+  // eslint-disable-next-line no-console
+  console.log("MY post middle " + date);
   return (
     <div className="middle-section">
       <div className="middle-container">

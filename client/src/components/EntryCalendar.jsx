@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./EntryCalendar.css";
+import { postDatesContext } from "../hooks/usePostDatesContext";
+import { useContext } from "react";
 
 const EntryCalendar = () => {
   const [value, onChange] = useState(new Date());
@@ -14,6 +16,12 @@ const EntryCalendar = () => {
     "17.3.2023",
   ];
 
+  const { setDate } = useContext(postDatesContext);
+
+  const handleDateChange = (value) => {
+    onChange(value);
+    setDate(value);
+  };
   const tileClassName = ({ date }) => {
     const realDate = `${date.getDate()}.${
       date.getMonth() + 1
@@ -27,7 +35,7 @@ const EntryCalendar = () => {
     <div className="calendar-container">
       <Calendar
         calendarClassName="my-calendar"
-        onChange={onChange}
+        onChange={handleDateChange}
         value={value}
         tileClassName={tileClassName}
         locale="en"
