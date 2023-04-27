@@ -34,6 +34,8 @@ body {
   font-family: "Fira Sans", sans-serif;
   color: var(--gray);
   background-color: var(--background);
+  max-width: 1440px;
+  margin: auto;
 }
 /* React Links need style one bye one, so we style them all with a */
 a {

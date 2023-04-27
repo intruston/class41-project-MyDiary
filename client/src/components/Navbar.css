@@ -56,7 +56,7 @@
   list-style: none;
 }
 .link-group {
-  width: 10vw;
+  width: 144px;
   display: flex;
   justify-content: space-between;
   font-size: 1.1rem;
@@ -108,6 +108,12 @@
 /* ==========================================================================
                              Responsive Design
   ========================================================================== */
+/* ===========================[ 1440px ]================================== */
+@media screen and (max-width: 1440px) {
+  .link-group {
+    width: 10vw;
+  }
+}
 
 /* ===========================[ 1166px ]================================== */
 @media screen and (max-width: 1166px) {
@@ -189,7 +195,6 @@
 @media screen and (max-width: 480px) {
   .navbar {
     min-width: 80px;
-    padding: 0;
   }
 
   .user-information h3 {

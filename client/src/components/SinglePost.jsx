@@ -1,74 +1,54 @@
-import React, { useContext, useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
+import React from "react";
+import PropTypes from "prop-types";
+import useGetAnotherUser from "../hooks/useGetAnotherUser";
+
+import PostDate from "./PostDate";
+import PostReaction from "./PostReaction";
 import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
-import { icons } from "../assets/svg.js";
 import "./SinglePost.css";
-import { UserContext } from "../hooks/useUserContext";
 
-import PropTypes from "prop-types";
-
+//Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost }) => {
-  const { user } = useContext(UserContext);
-  const date = new Date(mappedPost.createdAt);
-  const options = { month: "long", day: "numeric" };
-  const formattedDate = date.toLocaleDateString("en-US", options);
-  const [likes, setLikes] = useState(mappedPost.likes.length);
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/${mappedPost._id}/like`,
-    (response) => {
-      setLikes(response.result.length);
-    }
-  );
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
-
-  const likePost = () => {
-    performFetch({
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: user._id,
-      }),
-    });
-  };
+  //Taking User information from post
+  const { isLoading, error, anotherUser } = useGetAnotherUser({
+    anotherUserId: mappedPost.userId,
+  });
 
   return (
     <>
-      <div className="post-date">
-        <hr />
-        <h3>{formattedDate}</h3>
-        <hr />
-      </div>
+      {/* Date */}
+      <PostDate date={mappedPost.createdAt} />
+
+      {/* Post */}
       <div className="pos-container">
-        <div className="side-profile">
-          <ProfilePicture profilePicture={user.profilePicture} size={"small"} />
+        <div className="side-profile has-loading">
+          {isLoading && <Loading />}
+          <ProfilePicture
+            profilePicture={anotherUser ? anotherUser.profilePicture : null}
+            size={"small"}
+          />
         </div>
+
         <div className="post-content">
           <div className="post-header">
             <div className="inside-profile">
               <ProfilePicture
-                profilePicture={user.profilePicture}
+                profilePicture={anotherUser ? anotherUser.profilePicture : null}
                 size={"smaller"}
               />
-              <h3>{user.firstName}</h3>
+              <h3>{anotherUser ? anotherUser.firstName : null}</h3>
             </div>
-
             <h2>...</h2>
           </div>
+
           <p>{mappedPost.content}</p>
+          {error && <div className="error">{error.message}</div>}
         </div>
       </div>
-      <div className="post-reaction" onClick={likePost}>
-        <div className="has-loading">
-          {icons.hearth} {isLoading && <Loading />}
-        </div>
-        {likes}
-      </div>
-      {error && <div className="error">{error.message}</div>}
+
+      {/* Post reactions */}
+      <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
     </>
   );
 };
