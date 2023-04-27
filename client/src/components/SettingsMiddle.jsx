@@ -98,8 +98,11 @@ const SettingsMiddle = ({ setActive }) => {
               <input
                 className="settings-short-input"
                 name="birthday"
-                type="date"
-                placeholder={user?.birthday}
+                type="text"
+                onFocus={(e) => {
+                  e.currentTarget.type = "date";
+                }}
+                placeholder={user?.birthday.slice(0, 10)}
                 onChange={(e) => setBirthday(e.target.value)}
               />
             </div>

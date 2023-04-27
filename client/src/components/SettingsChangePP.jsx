@@ -58,6 +58,7 @@ const SettingsChangePP = ({ user }) => {
         </label>
         <input
           type="file"
+          name="fileInput"
           id="fileInput"
           style={{ display: "none" }}
           onChange={(e) => {
