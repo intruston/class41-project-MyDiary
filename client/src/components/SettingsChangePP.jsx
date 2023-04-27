@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
@@ -6,13 +6,13 @@ import ProfilePicture from "./ProfilePicture";
 
 const SettingsChangePP = ({ user }) => {
   const [profilePicture, setProfilePicture] = useState(user.profilePicture);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const inputFileRef = useRef(null);
 
   const { error, cancelFetch, performFetch } = useFetch(
     `/user/upload/${user._id}`,
     (response) => {
       setProfilePicture(response.result);
-      alert("Profile picture updated successfully");
+      alert("Profile picture uploaded successfully");
     }
   );
 
@@ -20,15 +20,9 @@ const SettingsChangePP = ({ user }) => {
     return cancelFetch;
   }, []);
 
-  const uploadPhotoSubmit = async (e) => {
-    // e.preventDefault();
-    setSelectedFile(e.target.files[0]);
-
-    if (!selectedFile) {
-      return;
-    }
-
+  const uploadPhotoSubmit = async (event) => {
     const formData = new FormData();
+    const selectedFile = event.target.files[0];
     formData.append("file", selectedFile);
 
     performFetch({
@@ -44,20 +38,22 @@ const SettingsChangePP = ({ user }) => {
 
   return (
     <div className="settings-change-PP">
-      {selectedFile ? (
-        <div className="image-wrapper">
-          <img src={URL.createObjectURL(selectedFile)} alt="profile photo" />
-        </div>
-      ) : (
-        <ProfilePicture profilePicture={profilePicture} size={"medium"} />
-      )}
+      <ProfilePicture profilePicture={profilePicture} size={"medium"} />
 
-      <label htmlFor="fileInput">
-        <div className="add-photo-icon">
-          <AddAPhotoOutlinedIcon sx={{ fontSize: 50 }} />
-        </div>
-      </label>
-      <input type="file" id="fileInput" hidden onChange={uploadPhotoSubmit} />
+      <button
+        type="button"
+        className="add-photo-button"
+        onClick={() => inputFileRef.current.click()}
+      >
+        <AddAPhotoOutlinedIcon sx={{ fontSize: "60px" }} />
+      </button>
+
+      <input
+        ref={inputFileRef}
+        type="file"
+        onChange={uploadPhotoSubmit}
+        hidden
+      />
     </div>
   );
 };

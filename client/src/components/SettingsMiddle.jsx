@@ -41,6 +41,11 @@ const SettingsMiddle = ({ setActive }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!password) {
+      alert("Please enter your password for submit");
+      return;
+    }
+
     const updatedUser = {
       _id: user._id,
       password,
