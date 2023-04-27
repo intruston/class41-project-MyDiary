@@ -15,7 +15,6 @@ const EntryCalendar = () => {
   //getting post data
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  // const [activeTab, setActiveTab] = useState("public");
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/timeline/${user._id}`,
     (response) => {
@@ -29,8 +28,6 @@ const EntryCalendar = () => {
 
   useEffect(() => {}, [posts]);
 
-  // eslint-disable-next-line no-console
-  console.log(posts);
   const { setDate } = useContext(postDatesContext);
   //set value to selected day
   const handleDateChange = (value) => {
@@ -38,20 +35,24 @@ const EntryCalendar = () => {
     setDate(value);
   };
 
-  //highlight dates of posts
+  //highlight the date of posts
   if (posts) {
-    // const tileClassName = ({ date }) => {
-    //   const realDate = `${date.getDate()}.${
-    //     date.getMonth() + 1
-    //   }.${date.getFullYear()}`;
-    //   const hasPost = posts.some((post) => post.createdAt === realDate);
-    //   return hasPost ? "highlight" : null;
-    // };
     const tileClassName = ({ date }) => {
-      const postDates = posts.map((post) => post.createdAt.substr(0, 10));
+      const postDates = posts.map((post) => {
+        const createdAt = new Date(post.createdAt);
+        createdAt.setDate(createdAt.getDate() - 1); // subtract 1 day
+        return `${createdAt.getFullYear()}-${padZero(
+          createdAt.getMonth() + 1
+        )}-${padZero(createdAt.getDate())}`;
+      });
       const dateString = date.toISOString().substr(0, 10);
       const hasPost = postDates.includes(dateString);
       return hasPost ? "highlight" : null;
+    };
+
+    // Helper function to pad zero to single digit numbers
+    const padZero = (num) => {
+      return num < 10 ? `0${num}` : num;
     };
 
     return (
@@ -63,6 +64,7 @@ const EntryCalendar = () => {
           value={value}
           tileClassName={tileClassName}
           locale="en"
+          maxDate={new Date()} //this line disables selecting future dates
         />
         {error && <div className="error">{error.message}</div>}
       </div>
