@@ -2,33 +2,47 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./EntryCalendar.css";
-import { postDatesContext } from "../hooks/usePostDatesContext";
+import { useDateContext } from "../hooks/useDateContext";
 import { useContext } from "react";
-
-import { UserContext } from "../hooks/useUserContext";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 
 const EntryCalendar = () => {
   const [value, onChange] = useState(new Date());
-
+  const { auth } = useAuthContext();
+  const { getUser } = useUserContext();
+  const id = auth.id;
   //getting post data
-  const { user } = useContext(UserContext);
+
   const [posts, setPosts] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${user._id}`,
+    `/post/timeline/${id}`,
     (response) => {
       setPosts(response.result);
     }
   );
+  // useEffect(() => {
+  //   performFetch();
+  //   return cancelFetch;
+  // }, []);
   useEffect(() => {
-    performFetch();
+    performFetch({
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+      },
+    });
     return cancelFetch;
   }, []);
 
   useEffect(() => {}, [posts]);
 
-  const { setDate } = useContext(postDatesContext);
+  useEffect(() => {
+    getUser(auth.id, auth.token);
+  }, []);
+
+  const { setDate } = useContext(useDateContext);
   //set value to selected day
   const handleDateChange = (value) => {
     onChange(value);
