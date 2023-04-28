@@ -1,20 +1,22 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
-import { UserContext } from "../hooks/useUserContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
 import Loading from "./Loading";
 import "./changePasswordForm.css";
 
 const ChangePasswordForm = ({ setModalPasswordActive }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useUserContext();
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordCopy, setNewPasswordCopy] = useState("");
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/password/${user?._id}`,
-    (response) => {
-      setUser(response.result);
+    () => {
+      // (response) => {
+      // setUser(response.result);
       setPassword("");
       setNewPassword("");
       setNewPasswordCopy("");
