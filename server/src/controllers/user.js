@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import { logError } from "../util/logging.js";
-import { hashPassword } from "../util/password.js";
+import { comparePassword, hashPassword } from "../util/password.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 

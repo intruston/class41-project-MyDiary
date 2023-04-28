@@ -1,17 +1,20 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef } from "react";
 import useFetch from "../hooks/useFetch";
-import { UserContext } from "../hooks/useUserContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
+// import { UserContext } from "../hooks/useUserContext";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import ProfilePicture from "./ProfilePicture";
 
 const SettingsChangePP = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useUserContext();
   const inputFileRef = useRef(null);
 
   const { error, cancelFetch, performFetch } = useFetch(
     `/user/upload/${user._id}`,
-    (response) => {
-      setUser({ ...user, profilePicture: response.result });
+    () => {
+      // (response) => {
+      // setUser({ ...user, profilePicture: response.result });
       alert("Profile picture uploaded successfully");
     }
   );

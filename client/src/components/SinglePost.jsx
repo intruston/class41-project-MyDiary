@@ -7,27 +7,28 @@ import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
 import "./SinglePost.css";
 import { useUserContext } from "../hooks/useUserContext";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
 
 import PropTypes from "prop-types";
+import useFetch from "../hooks/useFetch";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost }) => {
-  const { auth } = useAuthContext();
+  // const { auth } = useAuthContext();
   const { user } = useUserContext();
-  const date = new Date(mappedPost.createdAt);
-  const options = { month: "long", day: "numeric" };
-  const formattedDate = date.toLocaleDateString("en-US", options);
+  // const date = new Date(mappedPost.createdAt);
+  // const options = { month: "long", day: "numeric" };
+  // const formattedDate = date.toLocaleDateString("en-US", options);
   const [likes, setLikes] = useState(mappedPost.likes);
   const isLikedByUser = likes.includes(user._id);
   const {
-    isLoading: anotherUserLoading,
-    error: anotherUserError,
+    // isLoading: anotherUserLoading,
+    // error: anotherUserError,
     anotherUser,
   } = useGetAnotherUser({
     anotherUserId: mappedPost.userId,
   });
-  const { error, performFetch, cancelFetch } = useFetch(
+  const { error, isLoading, cancelFetch } = useFetch(
     `/post/${mappedPost._id}/like`,
     (response) => {
       setLikes(response.result);
@@ -44,18 +45,18 @@ const SinglePost = ({ mappedPost }) => {
 
   const heartIconRef = useRef(null);
 
-  const likePost = () => {
-    performFetch({
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify({
-        userId: user._id,
-      }),
-    });
-  };
+  // const likePost = () => {
+  //   performFetch({
+  //     method: "PUT",
+  //     headers: {
+  //       "content-type": "application/json",
+  //       Authorization: `Bearer ${auth.token}`,
+  //     },
+  //     body: JSON.stringify({
+  //       userId: user._id,
+  //     }),
+  //   });
+  // };
 
   return (
     <>
