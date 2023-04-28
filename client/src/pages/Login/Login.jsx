@@ -1,41 +1,24 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
-import { UserContext } from "../../hooks/useUserContext";
 import Loading from "../../components/Loading";
+import { useLogin } from "../../hooks/useLogin";
 
 function LoginForm() {
-  const [user, setUser] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(UserContext);
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    "/user/login",
-    (response) => {
-      setUser(response.result);
-    }
-  );
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
+  const { loginError, isLoading, login } = useLogin();
 
-  useEffect(() => {
-    login(user);
-  }, [user]);
-
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    performFetch({
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    await login(email, password);
   }
+
+  useEffect(() => {
+    return () => {
+      // Clean up any resources, such as subscriptions
+      // or async tasks
+    };
+  }, []);
 
   return (
     <div className="login-div">
@@ -83,7 +66,7 @@ function LoginForm() {
       </form>
       <br />
       {isLoading && <Loading />}
-      {error && <div className="error">{error}</div>}
+      {loginError && <div className="error">{loginError}</div>}
     </div>
   );
 }

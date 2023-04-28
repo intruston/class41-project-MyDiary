@@ -1,21 +1,24 @@
 import express from "express";
 import {
-  createUser,
   deleteUser,
   followUser,
   unfollowUser,
   getUser,
-  login,
   updateUser,
   updateUserPassword,
   uploadPicture,
   getUserFriends,
 } from "../controllers/user.js";
+import { loginUser, signupUser } from "../controllers/auth.js";
+import requireAuth from "../middleware/requireAuth.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/create", createUser);
-userRouter.post("/login", login);
+userRouter.post("/signup", signupUser);
+userRouter.post("/login", loginUser);
+
+// require authorization for all the protected routes
+userRouter.use(requireAuth);
 userRouter.put("/:id", updateUser);
 userRouter.put("/password/:id", updateUserPassword);
 userRouter.delete("/:id", deleteUser);

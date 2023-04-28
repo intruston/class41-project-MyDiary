@@ -1,24 +1,34 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import postBackground from "../assets/post-background.png";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
-
-import { UserContext } from "../hooks/useUserContext";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
 
 const MyPostsMiddle = ({ setActive }) => {
-  const { user } = useContext(UserContext);
+  const { auth } = useAuthContext();
+  const { user, getUser } = useUserContext();
+
+  useEffect(() => {
+    getUser(auth.id, auth.token);
+  }, []);
+
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("public");
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${user._id}`,
+    `/post/timeline/${auth.id}`,
     (response) => {
       setPosts(response.result);
     }
   );
   useEffect(() => {
-    performFetch();
+    performFetch({
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+      },
+    });
     return cancelFetch;
   }, []);
 
@@ -40,7 +50,7 @@ const MyPostsMiddle = ({ setActive }) => {
             </h4>
           </div>
           <div className="right">
-            <h3>{`"${user.bio}"`}</h3>
+            <h3>{user ? user.bio : ""}</h3>
           </div>
         </div>
 
