@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import React from "react";
 //Creating a date context to hold selected date information
-export const useDateContext = createContext([]);
+export const useDateContext = createContext(null);
 export const DatesProvider = ({ children }) => {
   const [date, setDate] = useState(null);
 

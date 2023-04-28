@@ -14,8 +14,8 @@ const EntryCalendar = () => {
   const { auth } = useAuthContext();
   const { getUser } = useUserContext();
   const id = auth.id;
-  //getting post data
 
+  //getting post data
   const [posts, setPosts] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/timeline/${id}`,
@@ -23,10 +23,6 @@ const EntryCalendar = () => {
       setPosts(response.result);
     }
   );
-  // useEffect(() => {
-  //   performFetch();
-  //   return cancelFetch;
-  // }, []);
   useEffect(() => {
     performFetch({
       headers: {
@@ -45,8 +41,20 @@ const EntryCalendar = () => {
   const { setDate } = useContext(useDateContext);
   //set value to selected day
   const handleDateChange = (value) => {
-    onChange(value);
-    setDate(value);
+    //the value of data that passing into setDate have to be in a format (Does not mater which one!)
+    //this format is YYYY-MM-DD (like in mongo)
+    const formattedDate = value
+      .toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .split("/")
+      .reverse()
+      .join("-");
+
+    onChange(formattedDate);
+    setDate(formattedDate);
   };
 
   //highlight the date of posts
