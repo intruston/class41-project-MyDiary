@@ -6,37 +6,36 @@ import PropTypes from "prop-types";
 
 const SingleFriend = ({ mappedFriend }) => {
   return (
-    <Link
-      key={mappedFriend._id}
-      to={`/user/${mappedFriend._id}`}
-      className="friends-page-item"
-    >
-      <img
-        src={
-          mappedFriend.profilePicture
-            ? mappedFriend.profilePicture
-            : profileIcon
-        }
-        alt="friend avatar"
-        className="friend-avatar"
-      />
-      <div className="friend-details">
-        <div className="upper-row">
+    <div className="friends-page-item-container">
+      <Link
+        key={mappedFriend._id}
+        to={`/user/${mappedFriend._id}`}
+        className="friends-page-item"
+      >
+        <img
+          src={
+            mappedFriend.profilePicture
+              ? mappedFriend.profilePicture
+              : profileIcon
+          }
+          alt="friend avatar"
+          className="friend-avatar"
+        />
+        <div className="friend-details">
           <div className="friend-name">
             <h3>
               {mappedFriend.firstName} {mappedFriend.lastName}
             </h3>
           </div>
-          <div className="dots-container">
-            <span className="dots">•••</span>
+          <div className="friend-bio">
+            <span>{mappedFriend.bio}</span>
           </div>
         </div>
-
-        <div className="friend-bio">
-          <span>{mappedFriend.bio}</span>
-        </div>
+      </Link>
+      <div className="dots-container">
+        <span className="dots">•••</span>
       </div>
-    </Link>
+    </div>
   );
 };
 

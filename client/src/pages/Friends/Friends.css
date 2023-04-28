@@ -15,11 +15,8 @@
 }
 
 .friends-page-item {
-  flex: 0 0 48%;
-  min-width: 300px;
   display: flex;
-  margin-bottom: 20px;
-  margin-right: 10px;
+  flex-direction: row;
   cursor: pointer;
 }
 
@@ -51,19 +48,29 @@
 }
 
 .dots-container {
-  height: 22px;
-  width: 22px;
+  left: 0px;
+  top: 0px;
+  position: relative;
+  height: 20px;
+  width: 20px;
   text-align: center;
-}
-
-.upper-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  cursor: pointer;
 }
 
 .friend-details {
   display: block;
+  width: 100%;
+}
+
+.friends-page-item-container {
+  flex: 0 0 48%;
+  min-width: 300px;
+  display: flex;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   width: 100%;
 }
 
