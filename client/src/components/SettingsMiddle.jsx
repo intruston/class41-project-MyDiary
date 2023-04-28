@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import useFetch from "../hooks/useFetch";
-import { useUserContext } from "../hooks/useUserContext";
 import PropTypes from "prop-types";
-import profileIcon from "../assets/profile-icon.png";
+import useFetch from "../hooks/useFetch";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
+import "./settingsMiddle.css";
+import SettingsChangePP from "./SettingsChangePP";
 
-const SettingsMiddle = ({ setActive }) => {
-  const { user } = useUserContext();
-  const [file, setFile] = useState(null);
+const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
+  const { auth } = useAuthContext();
+  const { user, getUser } = useUserContext();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -14,6 +16,10 @@ const SettingsMiddle = ({ setActive }) => {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    getUser(auth.id, auth.token);
+  }, []);
 
   const onSuccess = () => {
     setFirstName("");
@@ -28,9 +34,10 @@ const SettingsMiddle = ({ setActive }) => {
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/${user?._id}`,
-    (response) => {
+    () => {
+      // (response) => {
       onSuccess();
-      setUser(response.result);
+      // updateUser(response.result);
     }
   );
 
