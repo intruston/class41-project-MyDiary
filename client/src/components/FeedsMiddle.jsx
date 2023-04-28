@@ -1,24 +1,32 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
-import { UserContext } from "../hooks/useUserContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const FeedsMiddle = () => {
-  const { user } = useContext(UserContext);
+  // Getting user information and logout function from context
+  const { auth } = useAuthContext();
   const [posts, setPosts] = useState([]);
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/feed/${user._id}`,
+    `/post/feed/${auth.id}`,
     (response) => {
       setPosts(response.result);
     }
   );
+
   useEffect(() => {
-    performFetch();
+    performFetch({
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+      },
+    });
     return cancelFetch;
   }, []);
 
   useEffect(() => {}, [posts]);
+
   return (
     <div className="middle-section">
       <div className="middle-container">

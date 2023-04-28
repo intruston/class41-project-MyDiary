@@ -1,24 +1,35 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import "./friendsList.css";
 import profileIcon from "../assets/profile-icon.png";
 import Loading from "./Loading";
-import { UserContext } from "../hooks/useUserContext";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
 
 const FriendsList = () => {
+  const { auth } = useAuthContext();
+  const { getUser } = useUserContext();
+
+  useEffect(() => {
+    getUser(auth.id, auth.token);
+  }, []);
+
   const [friendsList, setFriendsList] = useState([]);
-  const { user } = useContext(UserContext);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/user/friends/${user._id}`,
+    `/user/friends/${auth.id}`,
     (response) => {
       setFriendsList(response.result);
     }
   );
 
   useEffect(() => {
-    performFetch();
+    performFetch({
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+      },
+    });
 
     return cancelFetch;
   }, []);

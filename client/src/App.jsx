@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import { UserContext } from "./hooks/useUserContext";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import MyPosts from "./pages/MyPosts/MyPosts";
 import Login from "./pages/Login/Login";
@@ -10,43 +9,45 @@ import Feeds from "./pages/Feeds/Feeds";
 import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
 import AnotherUser from "./pages/AnotherUser/AnotherUser";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 const App = () => {
-  const { user } = useContext(UserContext); // using useContext to get the user value from UserContext, if user is not null: means user logged in
+  const { auth } = useAuthContext();
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* When Login it will automatically navigate to profile page*/}
-        {/* To secure we need to check if there is user to show this page*/}
+        <Route path="/" element={auth ? <Home /> : <Navigate to="/login" />} />
         <Route
           path="/login"
-          element={user ? <Navigate to="/myPosts" /> : <Login />}
+          element={!auth ? <Login /> : <Navigate to="/myPosts" />}
         />
         <Route
-          path="/signUp"
-          element={user ? <Navigate to="/myPosts" /> : <SignUp />}
+          path="/signup"
+          element={!auth ? <SignUp /> : <Navigate to="/myPosts" />}
         />
         <Route
           path="/myPosts"
-          element={user ? <MyPosts /> : <Navigate to="/" />}
+          element={auth ? <MyPosts /> : <Navigate to="/login" />}
         />
         <Route
           path="/friends"
-          element={user ? <Friends /> : <Navigate to="/" />}
+          element={auth ? <Friends /> : <Navigate to="/login" />}
         />
-        <Route path="/feeds" element={user ? <Feeds /> : <Navigate to="/" />} />
+        <Route
+          path="/feeds"
+          element={auth ? <Feeds /> : <Navigate to="/login" />}
+        />
         <Route
           path="/search"
-          element={user ? <Search /> : <Navigate to="/" />}
+          element={auth ? <Search /> : <Navigate to="/login" />}
         />
         <Route
           path="/settings"
-          element={user ? <Settings /> : <Navigate to="/" />}
+          element={auth ? <Settings /> : <Navigate to="/login" />}
         />
         <Route
-          path="/user/:id"
-          element={user ? <AnotherUser /> : <Navigate to="/" />}
+          path="/auth/:id"
+          element={auth ? <AnotherUser /> : <Navigate to="/login" />}
         />
       </Routes>
     </>
