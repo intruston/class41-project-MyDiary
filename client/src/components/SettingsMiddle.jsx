@@ -5,10 +5,11 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import "./settingsMiddle.css";
 import SettingsChangePP from "./SettingsChangePP";
+import Loading from "./Loading";
 
 const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const { auth } = useAuthContext();
-  const { user, getUser } = useUserContext();
+  const { user, dispatch, getUser } = useUserContext();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -16,10 +17,6 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    getUser(auth.id, auth.token);
-  }, []);
 
   const onSuccess = () => {
     setFirstName("");
@@ -34,14 +31,17 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/${user?._id}`,
-    () => {
-      // (response) => {
+    (response) => {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: response.result,
+      });
       onSuccess();
-      // updateUser(response.result);
     }
   );
 
   useEffect(() => {
+    getUser(auth.id, auth.token);
     return cancelFetch;
   }, []);
 
@@ -57,6 +57,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
       _id: user._id,
       password,
     };
+
     if (email !== "") updatedUser.email = email;
     if (firstName !== "") updatedUser.firstName = firstName;
     if (lastName !== "") updatedUser.lastName = lastName;
@@ -68,6 +69,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
       },
       body: JSON.stringify(updatedUser),
     });
@@ -88,6 +90,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               <input
                 className="settings-short-input"
                 name="firstName"
+                value={firstName}
                 type="text"
                 placeholder={user?.firstName}
                 onChange={(e) => setFirstName(e.target.value)}
@@ -99,6 +102,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               <input
                 className="settings-short-input"
                 name="lastName"
+                value={lastName}
                 type="text"
                 placeholder={user?.lastName}
                 onChange={(e) => setLastName(e.target.value)}
@@ -110,6 +114,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               <input
                 className="settings-short-input"
                 name="birthday"
+                value={birthday}
                 type="text"
                 onFocus={(e) => {
                   e.currentTarget.type = "date";
@@ -124,6 +129,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               <input
                 className="settings-short-input"
                 name="country"
+                value={country}
                 type="text"
                 placeholder={user?.country}
                 onChange={(e) => setCountry(e.target.value)}
@@ -134,6 +140,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               <label htmlFor="bio">Bio</label>
               <textarea
                 name="bio"
+                value={bio}
                 className="settings-bio-input"
                 placeholder={user?.bio}
                 rows="7"
@@ -146,6 +153,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               <input
                 className="settings-short-input"
                 name="email"
+                value={email}
                 type="email"
                 placeholder={user?.email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -157,6 +165,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               <input
                 className="settings-short-input"
                 name="password"
+                value={password}
                 type="password"
                 required
                 minLength="8"
@@ -182,7 +191,11 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
               </span>
             </div>
 
-            {isLoading && <div>Loading...</div>}
+            {isLoading && (
+              <div>
+                <Loading />{" "}
+              </div>
+            )}
             {error && <div>Something went wrong! Error: {error}</div>}
           </div>
         </form>
