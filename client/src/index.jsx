@@ -5,12 +5,14 @@ import { UserContextProvider } from "./context/UserContext";
 import AppWrapper from "./AppWrapper";
 import "./index.css";
 import App from "./App";
-
+import DatesProvider from "./hooks/useDateContext";
 ReactDOM.render(
   <AppWrapper>
     <AuthContextProvider>
       <UserContextProvider>
-        <App />
+        <DatesProvider>
+          <App />
+        </DatesProvider>
       </UserContextProvider>
     </AuthContextProvider>
   </AppWrapper>,
