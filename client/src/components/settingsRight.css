@@ -1,0 +1,18 @@
+/* ==========================================================================
+                           SettingsRight CSS
+========================================================================== */
+
+.settings-right-wrapper {
+  overflow-y: scroll;
+}
+
+.settings-right-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.settings-right-contacts {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}

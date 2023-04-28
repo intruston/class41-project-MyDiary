@@ -75,7 +75,6 @@ input {
 .middle-container {
   padding: var(--whiteSpaceLarger);
   width: 100%;
-
   border-radius: 37px;
   background-color: white;
 }

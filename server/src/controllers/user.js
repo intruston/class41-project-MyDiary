@@ -5,15 +5,18 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
 export const updateUser = async (req, res) => {
-  if (req.body._id === req.params.id || req.body.isAdmin) {
-    if (req.body.password) {
-      try {
-        req.body.password = await hashPassword(req.body.password);
-      } catch (err) {
-        return res.status(500).json({ success: false, msg: err });
-      }
-    }
-    try {
+  if (req.body._id !== req.params.id) {
+    return res
+      .status(403)
+      .json({ success: false, msg: "You can update only your account!" });
+  }
+  try {
+    const user = await User.findById(req.params.id);
+    const match = await comparePassword(req.body.password, user.password);
+
+    if (match) {
+      delete req.body.password;
+
       const user = await User.findByIdAndUpdate(
         req.params.id,
         {
@@ -22,13 +25,47 @@ export const updateUser = async (req, res) => {
         { new: true }
       );
       res.status(200).json({ success: true, result: user });
-    } catch (err) {
-      return res.status(500).json({ success: false, msg: err });
+    } else {
+      return res
+        .status(404)
+        .json({ success: false, msg: "User not updated. Wrong password!" });
     }
-  } else {
+  } catch (err) {
+    logError(err);
+    res.status(500).json({ success: false, msg: err });
+  }
+};
+
+export const updateUserPassword = async (req, res) => {
+  if (req.body._id !== req.params.id) {
     return res
       .status(403)
-      .json({ success: false, msg: "You can update only your account!" });
+      .json({ success: false, msg: "You can change only your password!" });
+  }
+  try {
+    const user = await User.findById(req.params.id);
+    const match = await comparePassword(req.body.password, user.password);
+
+    if (match) {
+      req.body.password = await hashPassword(req.body.newPassword);
+      delete req.body.newPassword;
+
+      const user = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      res.status(200).json({ success: true, result: user });
+    } else {
+      return res
+        .status(404)
+        .json({ success: false, msg: "Password not changed. Wrong password!" });
+    }
+  } catch (err) {
+    logError(err);
+    res.status(500).json({ success: false, msg: err });
   }
 };
 
@@ -36,8 +73,17 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   if (req.body._id === req.params.id || req.body.isAdmin) {
     try {
-      await User.findByIdAndDelete(req.params.id);
-      res.status(200).json({ success: true, msg: "Account has been deleted" });
+      const user = await User.findById(req.params.id);
+      if (user) {
+        await User.findByIdAndDelete(req.params.id);
+        res
+          .status(200)
+          .json({ success: true, msg: "Account has been deleted" });
+      } else {
+        return res
+          .status(403)
+          .json({ success: false, msg: "Account not found!" });
+      }
     } catch (err) {
       return res.status(500).json({ success: false, msg: err });
     }

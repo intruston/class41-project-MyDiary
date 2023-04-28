@@ -35,8 +35,8 @@ const FriendsList = () => {
   }, []);
 
   return (
-    <>
-      <h3>Friends</h3>
+    <div className="friend-list-wrapper">
+      <span className="friend-list-header">Friends</span>
       <div className="friend-list">
         {friendsList.map((friend) => {
           return (
@@ -64,7 +64,7 @@ const FriendsList = () => {
       <br />
       {isLoading && <Loading />}
       {error && <div className="error">{error}</div>}
-    </>
+    </div>
   );
 };
 
