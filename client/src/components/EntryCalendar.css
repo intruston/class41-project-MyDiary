@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 .highlight {
   font-weight: 900;
   background-color: #ff9f23;
@@ -11,10 +13,7 @@
 .react-calendar {
   border: none;
 }
-/* eslint-disable prettier/prettier */
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile--active,
-.react-calendar__tile--now,
-.react-calendar__tile:enabled:focus {
+
+.react-calendar button {
   border-radius: 20px;
 }
