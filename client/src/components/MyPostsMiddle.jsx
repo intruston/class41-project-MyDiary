@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import postBackground from "../assets/post-background.png";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
@@ -6,10 +6,12 @@ import Loading from "./Loading";
 import PropTypes from "prop-types";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
+import { useDateContext } from "../hooks/useDateContext";
 
 const MyPostsMiddle = ({ setActive }) => {
   const { auth } = useAuthContext();
   const { user, getUser } = useUserContext();
+  const { date } = useContext(useDateContext);
 
   useEffect(() => {
     getUser(auth.id, auth.token);
@@ -48,6 +50,7 @@ const MyPostsMiddle = ({ setActive }) => {
             <h4>
               <strong>{posts && posts.length}</strong> Post
             </h4>
+            <span>here is selected date: {date}</span>
           </div>
           <div className="right">
             <h3>{user ? user.bio : ""}</h3>
