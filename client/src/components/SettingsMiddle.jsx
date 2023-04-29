@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import "./settingsMiddle.css";
 import SettingsChangePP from "./SettingsChangePP";
 import Loading from "./Loading";
 
 const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
-  const { auth } = useAuthContext();
+  // const { auth } = useAuthContext();
   const { user, dispatch } = useUserContext();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -66,10 +66,10 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
 
     performFetch({
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   Authorization: `Bearer ${auth.token}`,
+      // },
       body: JSON.stringify(updatedUser),
     });
   };
@@ -97,7 +97,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
             </div>
 
             <div className="settings-input-block lastname">
-              <label htmlFor="lastName">Last name</label>
+              <label htmlFor="lastName">Surname</label>
               <input
                 className="settings-short-input"
                 name="lastName"
@@ -189,15 +189,16 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
                 Permanently <b>delete your account</b> and all of your content.
               </span>
             </div>
-
-            {isLoading && (
-              <div>
-                <Loading />{" "}
-              </div>
-            )}
-            {error && <div>Something went wrong! Error: {error}</div>}
           </div>
         </form>
+        {isLoading && (
+          <div>
+            <Loading />{" "}
+          </div>
+        )}
+        {error && (
+          <div className="error">Something went wrong! Error: {error}</div>
+        )}
       </div>
     </div>
   );
