@@ -97,7 +97,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
             </div>
 
             <div className="settings-input-block lastname">
-              <label htmlFor="lastName">Last name</label>
+              <label htmlFor="lastName">Surname</label>
               <input
                 className="settings-short-input"
                 name="lastName"
