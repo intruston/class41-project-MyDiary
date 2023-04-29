@@ -30,6 +30,7 @@
   grid-template-rows: 1fr 1fr 1fr 2fr 1fr 1fr 0.1fr;
   gap: 1px 20px;
   min-height: 80vh;
+  margin-bottom: 10px;
 }
 
 .firstname {
