@@ -24,7 +24,7 @@ export const searchTags = async (req, res) => {
         },
       },
       {
-        $sort: { score: -1 },
+        $sort: { score: -1, createdAt: -1 },
       },
     ]);
 
