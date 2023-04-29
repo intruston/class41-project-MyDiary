@@ -15,6 +15,8 @@ const EntryCalendar = () => {
   const { getUser } = useUserContext();
   const id = auth.id;
 
+  const { setIsSelected, setShowCalendar } = useContext(useDateContext);
+
   //getting post data
   const [posts, setPosts] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -55,6 +57,8 @@ const EntryCalendar = () => {
 
     onChange(formattedDate);
     setDate(formattedDate);
+    setIsSelected(true);
+    setShowCalendar(false);
   };
 
   //highlight the date of posts

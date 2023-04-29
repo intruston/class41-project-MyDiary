@@ -5,11 +5,16 @@ import React from "react";
 export const useDateContext = createContext(null);
 export const DatesProvider = ({ children }) => {
   const [date, setDate] = useState(null);
-
+  const [isSelected, setIsSelected] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
   // This will be provided
   const contextValue = {
     date,
     setDate,
+    isSelected,
+    setIsSelected,
+    showCalendar,
+    setShowCalendar,
   };
 
   // We will provide from Index.jsx, otherwise can't call date in MyPostsMiddle.jsx
