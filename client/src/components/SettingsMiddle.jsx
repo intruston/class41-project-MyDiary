@@ -9,7 +9,7 @@ import Loading from "./Loading";
 
 const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const { auth } = useAuthContext();
-  const { user, dispatch, getUser } = useUserContext();
+  const { user, dispatch } = useUserContext();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -41,7 +41,6 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   );
 
   useEffect(() => {
-    getUser(auth.id, auth.token);
     return cancelFetch;
   }, []);
 

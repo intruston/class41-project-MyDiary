@@ -10,7 +10,7 @@ import Loading from "./Loading";
 const DeleteProfileForm = ({ setModalDeleteActive }) => {
   const { auth } = useAuthContext();
   const { user, dispatch } = useUserContext();
-  const [password, setPassword] = useState("");
+  const [deleteWord, setDeleteWord] = useState("");
   const logout = useLogout();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -31,7 +31,7 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
   );
 
   const clearModal = () => {
-    setPassword("");
+    setDeleteWord("");
     setModalDeleteActive(false);
   };
 
@@ -41,15 +41,18 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
 
   const deleteProfile = (e) => {
     e.preventDefault();
+    if (deleteWord !== "delete") {
+      alert(
+        "If you want to delete your profile permanently enter 'delete' in the field below"
+      );
+      return;
+    }
     if (confirm("Are you sure you want to DELETE your account and all data?")) {
-      // user.password = password;
-
       performFetch({
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
-        // body: JSON.stringify(user),
       });
     }
   };
@@ -62,14 +65,16 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
           ATTENTION!!! This action is irreversible!
         </div>
         <form className="deleteProfileForm" onSubmit={deleteProfile}>
-          <label>Enter your password for confirm:</label>
+          <label>
+            Enter &quot;<b>delete</b>&quot; for confirm:
+          </label>
           <input
-            name="password"
-            value={password}
-            type="password"
+            name="deleteWord"
+            value={deleteWord}
+            type="text"
             required
-            minLength="8"
-            onChange={(e) => setPassword(e.target.value)}
+            minLength={6}
+            onChange={(e) => setDeleteWord(e.target.value)}
           />
 
           <div className="buttonsWrapper">
