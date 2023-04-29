@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Post from "../models/Post.js";
 import { logError } from "../util/logging.js";
 import { comparePassword, hashPassword } from "../util/password.js";
 import { v2 as cloudinary } from "cloudinary";
@@ -76,15 +77,18 @@ export const deleteUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
     }
-    // const match = await comparePassword(req.body.password, user.password);
-    const match = true;
 
-    if (match) {
-      // await User.findByIdAndDelete();
-      res.status(200).json({ success: true, msg: "User deleted" });
-    } else {
-      return res.status(404).json({ success: false, msg: "Wrong password!" });
+    const { deletedCount } = await Post.deleteMany({ userId: user._id });
+
+    if (deletedCount < 0) {
+      return res.status(404).json({
+        success: false,
+        msg: "Cannot delete, ERROR to delete user posts!",
+      });
     }
+    // TODO: to let user delete profile uncomment
+    // await User.findByIdAndDelete(user._id);
+    res.status(200).json({ success: true, msg: "User deleted" });
   } catch (err) {
     logError(err);
     res.status(500).json({ success: false, msg: err });
