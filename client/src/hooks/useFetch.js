@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useAuthContext } from "./useAuthContext";
 /**
  * Our useFetch hook should be used for all communication with the server.
  *
@@ -14,6 +14,7 @@ import { useState } from "react";
  * cancelFetch - this function will cancel the fetch, call it when your component is unmounted
  */
 const useFetch = (route, onReceived) => {
+  const { auth } = useAuthContext();
   /**
    * We use the AbortController which is supported by all modern browsers to handle cancellations
    * For more info: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
@@ -46,6 +47,7 @@ const useFetch = (route, onReceived) => {
       method: "GET",
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
       },
     };
 

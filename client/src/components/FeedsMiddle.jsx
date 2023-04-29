@@ -17,11 +17,7 @@ const FeedsMiddle = () => {
   );
 
   useEffect(() => {
-    performFetch({
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-      },
-    });
+    performFetch();
     return cancelFetch;
   }, []);
 

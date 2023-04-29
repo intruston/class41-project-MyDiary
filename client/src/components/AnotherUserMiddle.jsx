@@ -3,13 +3,11 @@ import { useParams } from "react-router-dom";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
-import { useAuthContext } from "../hooks/useAuthContext";
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
 
 import ProfilePicture from "./ProfilePicture";
 
 const AnotherUserMiddle = () => {
-  const { auth } = useAuthContext();
   const { id } = useParams();
   const {
     isLoading: anotherUserLoading,
@@ -27,11 +25,7 @@ const AnotherUserMiddle = () => {
     }
   );
   useEffect(() => {
-    performFetch({
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-      },
-    });
+    performFetch();
     return cancelFetch;
   }, [id]);
 
