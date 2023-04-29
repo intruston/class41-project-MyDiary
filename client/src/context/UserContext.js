@@ -12,10 +12,15 @@ export const userReducer = (state, action) => {
         ...state,
         user: action.payload,
       };
-    case "REMOVE_USER":
+    case "UPDATE_USER":
       return {
         ...state,
-        user: null,
+        user: action.payload,
+      };
+    case "DELETE_USER":
+      return {
+        ...state,
+        user: action.payload,
       };
     case "USER_ERROR":
       return {
@@ -48,6 +53,7 @@ export const UserContextProvider = ({ children }) => {
       }
 
       const json = await response.json();
+
       dispatch({
         type: "GET_USER",
         payload: json.result,
@@ -61,7 +67,7 @@ export const UserContextProvider = ({ children }) => {
   }
 
   return (
-    <UserContext.Provider value={{ ...state, getUser }}>
+    <UserContext.Provider value={{ ...state, dispatch, getUser }}>
       {children}
     </UserContext.Provider>
   );

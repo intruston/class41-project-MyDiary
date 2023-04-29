@@ -1,20 +1,22 @@
 import React, { useEffect, useRef } from "react";
 import useFetch from "../hooks/useFetch";
-// import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
-// import { UserContext } from "../hooks/useUserContext";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import ProfilePicture from "./ProfilePicture";
 
 const SettingsChangePP = () => {
-  const { user } = useUserContext();
+  const { auth } = useAuthContext();
+  const { user, dispatch } = useUserContext();
   const inputFileRef = useRef(null);
 
   const { error, cancelFetch, performFetch } = useFetch(
-    `/user/upload/${user._id}`,
-    () => {
-      // (response) => {
-      // setUser({ ...user, profilePicture: response.result });
+    `/user/upload/${user?._id}`,
+    (response) => {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: { ...user, profilePicture: response.result },
+      });
       alert("Profile picture uploaded successfully");
     }
   );
@@ -30,7 +32,9 @@ const SettingsChangePP = () => {
 
     performFetch({
       method: "POST",
-      headers: {},
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+      },
       body: formData,
     });
   };
@@ -41,7 +45,7 @@ const SettingsChangePP = () => {
 
   return (
     <div className="settings-change-PP">
-      <ProfilePicture profilePicture={user.profilePicture} size={"medium"} />
+      <ProfilePicture profilePicture={user?.profilePicture} size={"medium"} />
 
       <button
         type="button"

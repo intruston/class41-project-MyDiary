@@ -71,26 +71,23 @@ export const updateUserPassword = async (req, res) => {
 
 //maybe this option only for admins and for users only isActive or not
 export const deleteUser = async (req, res) => {
-  if (req.body._id === req.params.id || req.body.isAdmin) {
-    try {
-      const user = await User.findById(req.params.id);
-      if (user) {
-        await User.findByIdAndDelete(req.params.id);
-        res
-          .status(200)
-          .json({ success: true, msg: "Account has been deleted" });
-      } else {
-        return res
-          .status(403)
-          .json({ success: false, msg: "Account not found!" });
-      }
-    } catch (err) {
-      return res.status(500).json({ success: false, msg: err });
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ success: false, msg: "User not found" });
     }
-  } else {
-    return res
-      .status(403)
-      .json({ success: false, msg: "You can delete only your account!" });
+    // const match = await comparePassword(req.body.password, user.password);
+    const match = true;
+
+    if (match) {
+      // await User.findByIdAndDelete();
+      res.status(200).json({ success: true, msg: "User deleted" });
+    } else {
+      return res.status(404).json({ success: false, msg: "Wrong password!" });
+    }
+  } catch (err) {
+    logError(err);
+    res.status(500).json({ success: false, msg: err });
   }
 };
 
@@ -148,10 +145,19 @@ export const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
-    const { _id, firstName, lastName, profilePicture, birthday, country, bio } =
-      user;
+    const {
+      _id,
+      email,
+      firstName,
+      lastName,
+      profilePicture,
+      birthday,
+      country,
+      bio,
+    } = user;
     const userInfo = {
       _id,
+      email,
       firstName,
       lastName,
       profilePicture,
