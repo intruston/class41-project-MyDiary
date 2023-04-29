@@ -128,7 +128,7 @@ input {
 }
 
 .top-div {
-  min-height: 150px;
+  height: fit-content;
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
   background-color: white;
