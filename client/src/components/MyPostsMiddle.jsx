@@ -16,7 +16,6 @@ const MyPostsMiddle = ({ setActive }) => {
   useEffect(() => {
     getUser(auth.id, auth.token);
   }, []);
-
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("public");
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -26,11 +25,7 @@ const MyPostsMiddle = ({ setActive }) => {
     }
   );
   useEffect(() => {
-    performFetch({
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-      },
-    });
+    performFetch();
     return cancelFetch;
   }, []);
 

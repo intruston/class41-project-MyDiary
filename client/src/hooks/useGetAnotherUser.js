@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import useFetch from "./useFetch";
-import { useAuthContext } from "./useAuthContext";
 
 const useGetAnotherUser = ({ anotherUserId }) => {
-  const { auth } = useAuthContext();
-
   const [anotherUser, setAnotherUser] = useState(null);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/${anotherUserId}`,
@@ -14,11 +11,7 @@ const useGetAnotherUser = ({ anotherUserId }) => {
   );
 
   useEffect(() => {
-    performFetch({
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-      },
-    });
+    performFetch({});
     return cancelFetch;
   }, [anotherUserId]);
 

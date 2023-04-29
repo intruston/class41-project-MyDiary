@@ -33,9 +33,6 @@ const PostReaction = ({ id, totalLikes }) => {
   const likePost = () => {
     performFetch({
       method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
       body: JSON.stringify({
         userId: user._id,
       }),
