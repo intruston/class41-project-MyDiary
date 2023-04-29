@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
-import { useAuthContext } from "../hooks/useAuthContext";
+// import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import Loading from "./Loading";
 import "./changePasswordForm.css";
 
 const ChangePasswordForm = ({ setModalPasswordActive }) => {
-  const { auth } = useAuthContext();
+  // const { auth } = useAuthContext();
   const { user, dispatch } = useUserContext();
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -48,10 +48,10 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
 
       performFetch({
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   Authorization: `Bearer ${auth.token}`,
+        // },
         body: JSON.stringify(updatedUserPassword),
       });
     } else {
