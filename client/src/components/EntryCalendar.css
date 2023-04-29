@@ -5,7 +5,8 @@
 }
 
 .calendar-container {
-  width: 18rem;
+  width: 20vw;
+  min-width: 14rem;
 }
 
 .react-calendar {
