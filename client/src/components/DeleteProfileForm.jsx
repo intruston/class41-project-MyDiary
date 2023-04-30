@@ -7,7 +7,7 @@ import useLogout from "../hooks/useLogout";
 import Loading from "./Loading";
 
 const DeleteProfileForm = ({ setModalDeleteActive }) => {
-  const { user, dispatch } = useUserContext();
+  const { user } = useUserContext();
   const [deleteWord, setDeleteWord] = useState("");
   const logout = useLogout();
 
@@ -18,9 +18,6 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
         clearModal();
         alert("Profile and all data DELETED successfully!");
         logout();
-        dispatch({
-          type: "REMOVE_USER",
-        });
       } else {
         alert("Profile and all data DELETED successfully!");
       }
