@@ -1,18 +1,21 @@
 import { useEffect } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useUserContext } from "./useUserContext";
+import { useNavigate } from "react-router-dom";
 import useFetch from "./useFetch";
 
 export const useLogin = () => {
   const { dispatch: userDispatch } = useUserContext();
   const { dispatch, auth } = useAuthContext();
+  const navigate = useNavigate();
 
   // Fetch for getting user info from database
   const { performFetch: performFetchUser } = useFetch(
-    `/user/${auth.id}`,
+    `/user/${auth?.id}`,
     (response) => {
       // Setting UserContext with fetched User.
       userDispatch({ type: "SET_USER", payload: response.result });
+      navigate("/myPosts");
     }
   );
 
@@ -20,7 +23,6 @@ export const useLogin = () => {
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/user/login",
     (response) => {
-      performFetchUser();
       // Setting Token info into Local storage.
       localStorage.setItem("auth", JSON.stringify(response.result));
       // Setting AuthContext
@@ -29,8 +31,11 @@ export const useLogin = () => {
   );
 
   useEffect(() => {
+    if (auth) {
+      performFetchUser();
+    }
     return cancelFetch;
-  }, []);
+  }, [auth]);
 
   const login = async (email, password) => {
     performFetch({

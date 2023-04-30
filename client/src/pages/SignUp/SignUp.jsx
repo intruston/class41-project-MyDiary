@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 import { useSignup } from "../../hooks/useSignup";
 
@@ -13,7 +13,6 @@ function RegisterForm() {
   const [bio, setBio] = useState("");
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
 
-  const navigate = useNavigate();
   const { signupError, isLoading, signup } = useSignup();
 
   async function handleSubmit(event) {
@@ -28,8 +27,6 @@ function RegisterForm() {
       country,
       bio
     ); // signup the user
-    alert("User created successfully");
-    navigate("/login");
   }
 
   return (

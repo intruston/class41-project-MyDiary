@@ -16,15 +16,9 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={auth ? <Home /> : <Navigate to="/login" />} />
-        <Route
-          path="/login"
-          element={!auth ? <Login /> : <Navigate to="/myPosts" />}
-        />
-        <Route
-          path="/signup"
-          element={!auth ? <SignUp /> : <Navigate to="/myPosts" />}
-        />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route
           path="/myPosts"
           element={auth ? <MyPosts /> : <Navigate to="/login" />}
