@@ -24,7 +24,9 @@ const MyPostsMiddle = ({ setActive }) => {
     return cancelFetch;
   }, []);
 
-  useEffect(() => {}, [posts]);
+  useEffect(() => {
+    return cancelFetch;
+  }, [posts]);
 
   const handleTabClick = (tab) => {
     performFetch();
