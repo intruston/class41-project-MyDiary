@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
 
 const FeedsMiddle = () => {
   // Getting user information and logout function from context
-  const { auth } = useAuthContext();
+  const { user } = useUserContext();
   const [posts, setPosts] = useState([]);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/feed/${auth.id}`,
+    `/post/feed/${user._id}`,
     (response) => {
       setPosts(response.result);
     }

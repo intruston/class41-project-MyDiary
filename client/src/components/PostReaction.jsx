@@ -1,19 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useUserContext } from "../hooks/useUserContext";
-import { useAuthContext } from "../hooks/useAuthContext";
 import useFetch from "../hooks/useFetch";
 import PropTypes from "prop-types";
 
 const PostReaction = ({ id, totalLikes }) => {
   //Checking for likes
-  const { user, getUser } = useUserContext();
-  const { auth } = useAuthContext();
+  const { user } = useUserContext();
   const [likes, setLikes] = useState(totalLikes);
   const isLikedByUser = likes.includes(user._id);
   const heartIconRef = useRef(null);
-  useEffect(() => {
-    getUser(auth.id, auth.token);
-  }, []);
+
   //Fetch for likes
   const { error, performFetch, cancelFetch } = useFetch(
     `/post/${id}/like`,

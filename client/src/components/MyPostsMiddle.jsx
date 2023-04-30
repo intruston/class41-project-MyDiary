@@ -4,22 +4,17 @@ import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import { useDateContext } from "../hooks/useDateContext";
 
 const MyPostsMiddle = ({ setActive }) => {
-  const { auth } = useAuthContext();
-  const { user, getUser } = useUserContext();
+  const { user } = useUserContext();
   const { date } = useContext(useDateContext);
 
-  useEffect(() => {
-    getUser(auth.id, auth.token);
-  }, []);
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("public");
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${auth.id}`,
+    `/post/timeline/${user._id}`,
     (response) => {
       setPosts(response.result);
     }

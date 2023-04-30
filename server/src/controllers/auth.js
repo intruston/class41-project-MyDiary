@@ -25,8 +25,12 @@ export const loginUser = async (req, res) => {
     // create token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, id: user._id, token });
+    const result = { email, id: user._id, token };
+    res.status(200).json({ success: true, result: result });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({
+      success: false,
+      msg: "Unable login: " + error,
+    });
   }
 };

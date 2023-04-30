@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import "./settingsMiddle.css";
 import SettingsChangePP from "./SettingsChangePP";
 import Loading from "./Loading";
 
 const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
-  const { auth } = useAuthContext();
   const { user, dispatch } = useUserContext();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -33,7 +31,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
     `/user/${user?._id}`,
     (response) => {
       dispatch({
-        type: "UPDATE_USER",
+        type: "SET_USER",
         payload: response.result,
       });
       onSuccess();
@@ -66,10 +64,6 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
 
     performFetch({
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
       body: JSON.stringify(updatedUser),
     });
   };

@@ -39,16 +39,20 @@ const useFetch = (route, onReceived) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Add any args given to the function to the fetch function
-  const performFetch = (options) => {
+  const performFetch = (options, file = false) => {
     setError(null);
     setIsLoading(true);
 
+    const headers = {
+      Authorization: auth?.token ? `Bearer ${auth.token}` : "",
+    };
+
+    // Sending file (Picture change) with default content-type won't work. That is why we are checking for file
+    if (!file) headers["content-type"] = "application/json";
+
     const baseOptions = {
       method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
+      headers,
     };
 
     const fetchData = async () => {
