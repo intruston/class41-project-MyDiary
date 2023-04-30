@@ -88,7 +88,8 @@ export const validateUser = (userObject) => {
     "bio",
     "active",
     "onlineStatus",
-    "role",
+    "isAdmin",
+    "isModerator",
     "followers",
     "following",
   ];

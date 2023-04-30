@@ -30,6 +30,9 @@ const Navbar = ({ active }) => {
           <div className="user-information">
             <h3>{user ? user.firstName : ""}</h3>
           </div>
+          <span className="moderator">
+            {user?.isModerator ? "(moderator)" : ""}
+          </span>
         </div>
         <ProfilePicture profilePicture={user ? user.profilePicture : ""} />
       </div>

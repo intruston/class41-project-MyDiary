@@ -41,6 +41,12 @@
   text-transform: capitalize;
 }
 
+.moderator {
+  font-size: smaller;
+  color: var(--softGray);
+  margin-left: 5px;
+}
+
 /* =============[ Nav Links ]===================*/
 .nav-links {
   /* Position */

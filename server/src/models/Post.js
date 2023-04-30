@@ -23,6 +23,7 @@ export const validatePost = (postObject) => {
     "content",
     "image",
     "isPrivate",
+    "isBanned",
     "tags",
     "likes",
     "userId",

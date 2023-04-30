@@ -166,6 +166,7 @@ export const getUser = async (req, res) => {
       birthday,
       country,
       bio,
+      isModerator,
     } = user;
     const userInfo = {
       _id,
@@ -176,6 +177,7 @@ export const getUser = async (req, res) => {
       birthday,
       country,
       bio,
+      isModerator,
     };
 
     res.status(200).json({ success: true, result: userInfo });
