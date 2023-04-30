@@ -91,7 +91,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
             </div>
 
             <div className="settings-input-block lastname">
-              <label htmlFor="lastName">Last name</label>
+              <label htmlFor="lastName">Surname</label>
               <input
                 className="settings-short-input"
                 name="lastName"
@@ -183,15 +183,16 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
                 Permanently <b>delete your account</b> and all of your content.
               </span>
             </div>
-
-            {isLoading && (
-              <div>
-                <Loading />{" "}
-              </div>
-            )}
-            {error && <div>Something went wrong! Error: {error}</div>}
           </div>
         </form>
+        {isLoading && (
+          <div>
+            <Loading />{" "}
+          </div>
+        )}
+        {error && (
+          <div className="error">Something went wrong! Error: {error}</div>
+        )}
       </div>
     </div>
   );
