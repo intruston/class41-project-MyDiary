@@ -8,6 +8,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
+import EventBusyIcon from "@mui/icons-material/EventBusy";
 
 const EntryCalendar = () => {
   const [value, onChange] = useState(new Date());
@@ -38,7 +39,7 @@ const EntryCalendar = () => {
     getUser(auth.id, auth.token);
   }, []);
 
-  const { setDate } = useContext(useDateContext);
+  const { date, setDate } = useContext(useDateContext);
   //set value to selected day
   const handleDateChange = (value) => {
     //the value of data that passing into setDate have to be in a format (Does not mater which one!)
@@ -55,6 +56,13 @@ const EntryCalendar = () => {
 
     onChange(formattedDate);
     setDate(formattedDate);
+  };
+
+  const today = new Date();
+  const options = { day: "numeric", month: "long", year: "numeric" };
+  const dateString = today.toLocaleDateString("en-US", options);
+  const handleCalendar = () => {
+    setDate(null);
   };
 
   //highlight the date of posts
@@ -78,17 +86,24 @@ const EntryCalendar = () => {
     };
 
     return (
-      <div className="calendar-container">
-        {isLoading && <Loading />}
-        <Calendar
-          calendarClassName="my-calendar"
-          onChange={handleDateChange}
-          value={value}
-          tileClassName={tileClassName}
-          locale="en"
-          maxDate={new Date()} //this line disables selecting future dates
-        />
-        {error && <div className="error">{error.message}</div>}
+      <div>
+        <div className="icon-container">
+          <h2>{dateString}</h2>
+          {date && <EventBusyIcon onClick={handleCalendar} fontSize="large" />}
+        </div>
+
+        <div className="calendar-container">
+          {isLoading && <Loading />}
+          <Calendar
+            calendarClassName="my-calendar"
+            onChange={handleDateChange}
+            value={value}
+            tileClassName={tileClassName}
+            locale="en"
+            maxDate={new Date()} //this line disables selecting future dates
+          />
+          {error && <div className="error">{error.message}</div>}
+        </div>
       </div>
     );
   }

@@ -5,7 +5,8 @@
 }
 
 .calendar-container {
-  width: 18rem;
+  width: 20vw;
+  min-width: 14rem;
 }
 
 .react-calendar {
@@ -14,4 +15,10 @@
 
 .react-calendar button {
   border-radius: 20px;
+}
+.icon-container {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }
