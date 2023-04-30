@@ -6,29 +6,31 @@ import useFetch from "./useFetch";
 export const useLogin = () => {
   const { dispatch: userDispatch } = useUserContext();
   const { dispatch, auth } = useAuthContext();
-  const [userId, setUserId] = useState("");
+
+  // Fetch for getting user info from database
   const { performFetch: performFetchUser } = useFetch(
-    `/user/${userId}`,
+    `/user/${auth.id}`,
     (response) => {
-      setUserId(null);
+      // Setting UserContext with fetched User.
       userDispatch({ type: "SET_USER", payload: response.result });
     }
   );
+
+  // Fetch for login
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/user/login",
     (response) => {
-      setUserId(response.result.id);
+      performFetchUser();
+      // Setting Token info into Local storage.
       localStorage.setItem("auth", JSON.stringify(response.result));
+      // Setting AuthContext
       dispatch({ type: "LOGIN", payload: response.result });
     }
   );
 
   useEffect(() => {
-    if (userId && auth) {
-      performFetchUser();
-    }
     return cancelFetch;
-  }, [userId, auth]);
+  }, []);
 
   const login = async (email, password) => {
     performFetch({

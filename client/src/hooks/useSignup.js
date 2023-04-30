@@ -1,10 +1,17 @@
-import { useState } from "react";
-//import { useAuthContext } from "./useAuthContext";
-
+import { useEffect } from "react";
+import useFetch from "./useFetch";
 export const useSignup = () => {
-  const [signupError, setSignupError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  //  const { dispatch } = useAuthContext();
+  const {
+    isLoading,
+    error: signupError,
+    performFetch,
+    cancelFetch,
+  } = useFetch("/user/create", (response) => {
+    localStorage.setItem("auth", JSON.stringify(response.result));
+  });
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
 
   const signup = async (
     email,
@@ -15,39 +22,15 @@ export const useSignup = () => {
     country,
     bio
   ) => {
-    setIsLoading(true);
-    setSignupError(null);
-
-    const url = `${process.env.BASE_SERVER_URL}/api/user/create`;
-
-    const response = await fetch(url, {
+    performFetch({
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+      },
       body: JSON.stringify({
-        email,
-        password,
-        firstName,
-        lastName,
-        birthday,
-        country,
-        bio,
+        user: { email, password, firstName, lastName, birthday, country, bio },
       }),
     });
-
-    const json = await response.json();
-
-    if (!response.ok) {
-      setIsLoading(false);
-      setSignupError(json.error);
-    } else {
-      // save the user to local storage
-      localStorage.setItem("auth", JSON.stringify(json));
-
-      // update the auth context
-      //dispatch({ type: "LOGIN", payload: json });
-
-      setIsLoading(false);
-    }
   };
 
   return { signupError, isLoading, signup };

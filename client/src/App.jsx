@@ -10,18 +10,16 @@ import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
 import AnotherUser from "./pages/AnotherUser/AnotherUser";
 import { useAuthContext } from "./hooks/useAuthContext";
-import { useUserContext } from "./hooks/useUserContext";
 
 const App = () => {
   const { auth } = useAuthContext();
-  const { user } = useUserContext();
   return (
     <>
       <Routes>
         <Route path="/" element={auth ? <Home /> : <Navigate to="/login" />} />
         <Route
           path="/login"
-          element={!(user && auth) ? <Login /> : <Navigate to="/myPosts" />}
+          element={!auth ? <Login /> : <Navigate to="/myPosts" />}
         />
         <Route
           path="/signup"
