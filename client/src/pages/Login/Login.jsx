@@ -6,7 +6,7 @@ import { useLogin } from "../../hooks/useLogin";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginError, isLoading, login } = useLogin();
+  const { error, isLoading, login } = useLogin();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -66,7 +66,7 @@ function LoginForm() {
       </form>
       <br />
       {isLoading && <Loading />}
-      {loginError && <div className="error">{loginError}</div>}
+      {error && <div className="error">{error}</div>}
     </div>
   );
 }
