@@ -23,6 +23,10 @@ const FeedsMiddle = () => {
 
   useEffect(() => {}, [posts]);
 
+  const feedPosts = posts.filter((post) => {
+    return !post.isPrivate && !post.isBanned;
+  });
+
   return (
     <div className="middle-section">
       <div className="middle-container">
@@ -40,16 +44,12 @@ const FeedsMiddle = () => {
         {/* Posts */}
         <div>
           {posts &&
-            posts
-              .filter((mappedPost) => {
-                return !mappedPost.isPrivate;
-              })
-              .map((mappedPost) => (
-                <div className="single-post has-loading" key={mappedPost._id}>
-                  {isLoading && <Loading />}
-                  <SinglePost mappedPost={mappedPost} />
-                </div>
-              ))}
+            feedPosts.map((mappedPost) => (
+              <div className="single-post has-loading" key={mappedPost._id}>
+                {isLoading && <Loading />}
+                <SinglePost mappedPost={mappedPost} />
+              </div>
+            ))}
         </div>
       </div>
     </div>
