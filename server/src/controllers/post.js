@@ -22,12 +22,18 @@ export const getFeed = async (req, res) => {
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendsPosts = await Promise.all(
       currentUser.following.map((friendId) => {
-        return Post.find({ userId: friendId, isPrivate: false });
+        return Post.find({
+          userId: friendId,
+          isPrivate: false,
+          isBanned: false,
+        });
       })
     );
+
     const feedPosts = userPosts.concat(...friendsPosts).sort((post1, post2) => {
       return new Date(post2.createdAt) - new Date(post1.createdAt);
     });
+
     res.status(200).json({ success: true, result: feedPosts });
   } catch (error) {
     logError(error);
