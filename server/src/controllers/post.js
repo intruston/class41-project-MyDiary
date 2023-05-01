@@ -1,11 +1,31 @@
+import jwt from "jsonwebtoken";
 import Post, { validatePost } from "../models/Post.js";
 import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
 
 export const getTimeline = async (req, res) => {
+  let timelinePosts = [];
   try {
-    const timelinePosts = await Post.find({ userId: req.params.id });
+    // Decode the token
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+    // Access the user ID from the decoded payload
+    const { _id } = jwt.verify(token, process.env.SECRET);
+    if (req.params.id === _id) {
+      timelinePosts = await Post.find({ userId: req.params.id });
+    } else {
+      timelinePosts = await Post.find({
+        userId: req.params.id,
+        isPrivate: false,
+        isBanned: false,
+      });
+    }
+
+    timelinePosts.sort((post1, post2) => {
+      return new Date(post2.createdAt) - new Date(post1.createdAt);
+    });
+
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
@@ -22,13 +42,57 @@ export const getFeed = async (req, res) => {
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendsPosts = await Promise.all(
       currentUser.following.map((friendId) => {
-        return Post.find({ userId: friendId, isPrivate: false });
+        return Post.find({
+          userId: friendId,
+          isPrivate: false,
+          isBanned: false,
+        });
       })
     );
+
     const feedPosts = userPosts.concat(...friendsPosts).sort((post1, post2) => {
       return new Date(post2.createdAt) - new Date(post1.createdAt);
     });
+
     res.status(200).json({ success: true, result: feedPosts });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get feed posts, error: ${error}`,
+    });
+  }
+};
+
+export const getBannedPosts = async (req, res) => {
+  try {
+    // Decode the token
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+
+    // Access the user ID from the decoded payload
+    const { _id } = jwt.verify(token, process.env.SECRET);
+
+    // find a user by requested id
+    const currentUser = await User.findById(req.params.id);
+    const userId = currentUser._id.toString();
+
+    // Compare that user is real and moderator rights
+    if (userId === _id && currentUser.isModerator) {
+      const bannedPosts = await Post.find({
+        isBanned: true,
+      });
+      bannedPosts.sort((post1, post2) => {
+        return new Date(post2.createdAt) - new Date(post1.createdAt);
+      });
+
+      res.status(200).json({ success: true, result: bannedPosts });
+    } else {
+      return res.status(403).json({
+        success: false,
+        msg: "You do not have moderation permission!",
+      });
+    }
   } catch (error) {
     logError(error);
     res.status(500).json({
@@ -111,9 +175,17 @@ export const updatePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
+    // Decode the token
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+
+    // Access the user ID from the decoded payload
+    const { _id } = jwt.verify(token, process.env.SECRET);
+
+    // Compare that user deleted only his post
     const post = await Post.findById(req.params.id);
 
-    if (post.userId === req.body.userId) {
+    if (post.userId === _id) {
       await post.deleteOne();
       res.status(200).json({
         success: true,

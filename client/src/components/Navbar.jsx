@@ -33,7 +33,7 @@ const Navbar = ({ active }) => {
 
       <ul className="nav-links">
         <NavbarLinks
-          link={"/myPosts"}
+          link={"/my-posts"}
           text={"My Diary"}
           svg={icons.home}
           active={active}
@@ -62,6 +62,14 @@ const Navbar = ({ active }) => {
           svg={icons.settings}
           active={active}
         />
+        {user?.isModerator && (
+          <NavbarLinks
+            link={"/moderation"}
+            text={"Moderation"}
+            svg={icons.moderator}
+            active={active}
+          />
+        )}
       </ul>
       <div>
         <hr />
