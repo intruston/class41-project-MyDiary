@@ -5,9 +5,7 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 
 export const getTimeline = async (req, res) => {
   try {
-    const timelinePosts = await Post.find({ userId: req.params.id }).sort({
-      createdAt: -1,
-    });
+    const timelinePosts = await Post.find({ userId: req.params.id });
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
