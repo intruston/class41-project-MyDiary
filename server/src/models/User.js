@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
     active: { type: Boolean, default: true },
     onlineStatus: { type: Boolean, default: false },
     isAdmin: { type: Boolean, default: false },
+    isModerator: { type: Boolean, default: false },
     followers: { type: Array, default: [] },
     following: { type: Array, default: [] },
   },
@@ -87,7 +88,8 @@ export const validateUser = (userObject) => {
     "bio",
     "active",
     "onlineStatus",
-    "role",
+    "isAdmin",
+    "isModerator",
     "followers",
     "following",
   ];

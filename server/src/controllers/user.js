@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import User, { validateUser } from "../models/User.js";
 import Post from "../models/Post.js";
 import { logError } from "../util/logging.js";
@@ -70,13 +71,26 @@ export const updateUserPassword = async (req, res) => {
   }
 };
 
-//maybe this option only for admins and for users only isActive or not
 export const deleteUser = async (req, res) => {
   try {
+    // Decode the token
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+    // Access the user ID from the decoded payload
+    const { _id } = jwt.verify(token, process.env.SECRET);
+
+    if (_id !== req.params.id) {
+      return res
+        .status(403)
+        .json({ success: false, msg: "You can delete only your own profile!" });
+    }
+
+    // checks if the user exists in the database
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
     }
+
     await Post.deleteMany({ userId: user._id });
 
     // TODO: to let user delete profile uncomment
@@ -152,6 +166,7 @@ export const getUser = async (req, res) => {
       birthday,
       country,
       bio,
+      isModerator,
     } = user;
     const userInfo = {
       _id,
@@ -162,6 +177,7 @@ export const getUser = async (req, res) => {
       birthday,
       country,
       bio,
+      isModerator,
     };
 
     res.status(200).json({ success: true, result: userInfo });
