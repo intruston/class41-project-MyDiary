@@ -19,7 +19,7 @@ const Home = () => {
     (response) => {
       // Setting UserContext with fetched User.
       dispatch({ type: "SET_USER", payload: response.result });
-      navigate("/myPosts");
+      navigate("/my-posts");
     }
   );
 

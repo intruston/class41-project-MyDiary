@@ -10,7 +10,7 @@ const MyPosts = () => {
   return (
     <div className="page-container">
       {/* active must be same with navbar name of the page */}
-      <Navbar active={"My diary"} />
+      <Navbar active={"My Diary"} />
       <MyPostsMiddle setActive={setModalActive} />
       <MyPostsRight />
       <Modal active={modalActive} setActive={setModalActive}>

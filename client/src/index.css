@@ -20,6 +20,7 @@
   --success: #1aac83;
   --error: #dd2e44;
   --background: #f5f5f5;
+  --invisible: #ffffff00;
   /* This paddings look good almost every size more info: https://matthewjamestaylor.com/responsive-padding*/
   --whiteSpaceLarger: calc(10px + 1.7vw);
   --whiteSpaceLarge: calc(8px + 1.5625vw);
@@ -96,7 +97,7 @@ input {
 .triple-container {
   /* Position */
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr 1fr;
   row-gap: var(--whiteSpaceMedium);
 
   /* Size */
@@ -129,18 +130,29 @@ input {
 }
 
 .top-div {
-  height: fit-content;
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
   background-color: white;
 }
 .middle-div {
   padding: var(--whiteSpaceMedium);
+  overflow-y: scroll;
   border-radius: 37px;
   background-color: white;
 }
+/* Post Content Scrollbar */
+.middle-div::-webkit-scrollbar {
+  width: 0.5em;
+}
+.middle-div::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--yellow);
+}
+.middle-div::-webkit-scrollbar-button:start:decrement,
+.middle-div::-webkit-scrollbar-button:end:increment {
+  height: 30px; /* Set the height of the scrollbar buttons */
+}
 .bottom-div {
-  min-height: 150px;
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
   background-color: white;
@@ -367,6 +379,15 @@ input {
 /* ==========================================================================
                            Responsive Design
 ========================================================================== */
+/* ===========================[ 800px !HEIGHT ]================================== */
+@media screen and (max-height: 800px) {
+  .triple-container {
+    grid-template-rows: auto 1fr;
+  }
+  .triple-container .bottom-div {
+    display: none;
+  }
+}
 
 /* ===========================[ 1166px ]================================== */
 @media screen and (max-width: 1166px) {
@@ -374,16 +395,16 @@ input {
 
 /* ===========================[ 1024px ]================================== */
 @media screen and (max-width: 1024px) {
-}
-
-/* ===========================[ 768px ]================================== */
-@media screen and (max-width: 768px) {
   .middle-section {
     width: 82%;
   }
   .right-section {
     display: none;
   }
+}
+
+/* ===========================[ 768px ]================================== */
+@media screen and (max-width: 768px) {
 }
 
 /* ===========================[ 480px ]================================== */
