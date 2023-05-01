@@ -1,4 +1,3 @@
-
 .icon-container h2 {
   font-weight: 300;
   color: var(--gray);
@@ -8,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+}
 .calendar-container {
   margin: auto;
   /* This is for 20.5vw after 1440px */
