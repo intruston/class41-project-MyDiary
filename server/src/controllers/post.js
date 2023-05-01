@@ -64,6 +64,44 @@ export const getFeed = async (req, res) => {
   }
 };
 
+export const getBannedPosts = async (req, res) => {
+  try {
+    // Decode the token
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+
+    // Access the user ID from the decoded payload
+    const { _id } = jwt.verify(token, process.env.SECRET);
+
+    // find a user by requested id
+    const currentUser = await User.findById(req.params.id);
+    const userId = currentUser._id.toString();
+
+    // Compare that user is real and moderator rights
+    if (userId === _id && currentUser.isModerator) {
+      const bannedPosts = await Post.find({
+        isBanned: true,
+      });
+      bannedPosts.sort((post1, post2) => {
+        return new Date(post2.createdAt) - new Date(post1.createdAt);
+      });
+
+      res.status(200).json({ success: true, result: bannedPosts });
+    } else {
+      return res.status(403).json({
+        success: false,
+        msg: "You do not have moderation permission!",
+      });
+    }
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get feed posts, error: ${error}`,
+    });
+  }
+};
+
 export const getPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);

@@ -1,0 +1,41 @@
+/* ==========================================================================
+                           Moderation CSS
+========================================================================== */
+.moderation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--whiteSpaceLarge);
+  cursor: default;
+}
+
+.moderation-header .left {
+  width: 20%;
+}
+
+.moderation-header .right {
+  width: 80%;
+}
+.moderation-header .right h3 {
+  text-align: right;
+}
+
+/* ==========================================================================
+                             Responsive Design
+  ========================================================================== */
+
+/* ===========================[ 1166px ]================================== */
+@media screen and (max-width: 1166px) {
+}
+
+/* ===========================[ 1024px ]================================== */
+@media screen and (max-width: 1024px) {
+}
+
+/* ===========================[ 768px ]================================== */
+@media screen and (max-width: 768px) {
+}
+
+/* ===========================[ 480px ]================================== */
+@media screen and (max-width: 480px) {
+}

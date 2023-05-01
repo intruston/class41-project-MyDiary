@@ -8,6 +8,7 @@ import Friends from "./pages/Friends/Friends";
 import Feeds from "./pages/Feeds/Feeds";
 import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
+import Moderation from "./pages/Moderation/Moderation";
 import AnotherUser from "./pages/AnotherUser/AnotherUser";
 import { useAuthContext } from "./hooks/useAuthContext";
 
@@ -38,6 +39,10 @@ const App = () => {
         <Route
           path="/settings"
           element={auth ? <Settings /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/moderation"
+          element={auth ? <Moderation /> : <Navigate to="/login" />}
         />
         <Route
           path="/user/:id"
