@@ -33,7 +33,7 @@ const Navbar = ({ active }) => {
 
       <ul className="nav-links">
         <NavbarLinks
-          link={"/myPosts"}
+          link={"/my-posts"}
           text={"My Diary"}
           svg={icons.home}
           active={active}

@@ -15,7 +15,7 @@ export const useLogin = () => {
     (response) => {
       // Setting UserContext with fetched User.
       userDispatch({ type: "SET_USER", payload: response.result });
-      navigate("/myPosts");
+      navigate("/my-posts");
     }
   );
 
