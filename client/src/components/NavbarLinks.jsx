@@ -6,7 +6,7 @@ const NavbarLinks = ({ link, svg, text, active }) => {
   return (
     <li className={active === text ? "active" : ""}>
       <Link className="link-group" to={link}>
-        <div className="group-svg">{svg}</div>
+        <div className="link-svg">{svg}</div>
         <div className="link-text">{text}</div>
       </Link>
     </li>
