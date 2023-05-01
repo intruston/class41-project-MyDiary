@@ -1,11 +1,26 @@
+import jwt from "jsonwebtoken";
 import Post, { validatePost } from "../models/Post.js";
 import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
 
 export const getTimeline = async (req, res) => {
+  let timelinePosts = [];
   try {
-    const timelinePosts = await Post.find({ userId: req.params.id });
+    // Decode the token
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+    // Access the user ID from the decoded payload
+    const { _id } = jwt.verify(token, process.env.SECRET);
+    if (req.params.id === _id) {
+      timelinePosts = await Post.find({ userId: req.params.id });
+    } else {
+      timelinePosts = await Post.find({
+        userId: req.params.id,
+        isPrivate: false,
+        isBanned: false,
+      });
+    }
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
