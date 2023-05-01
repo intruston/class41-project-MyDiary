@@ -57,6 +57,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
     "i": "^0.3.7",
+    "moment": "^2.29.4",
     "npm": "^9.6.5",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import { useDateContext } from "../hooks/useDateContext";
-
+import moment from "moment";
 const MyPostsMiddle = ({ setActive }) => {
   const { auth } = useAuthContext();
   const { user, getUser } = useUserContext();
@@ -85,6 +85,10 @@ const MyPostsMiddle = ({ setActive }) => {
                 } else {
                   return !mappedPost.isPrivate;
                 }
+              })
+              .filter((post) => {
+                const postDate = moment(post.createdAt).format("YYYY-MM-DD");
+                return date ? postDate === date : post;
               })
               .map((mappedPost) => (
                 <div className="single-post has-loading" key={mappedPost._id}>
