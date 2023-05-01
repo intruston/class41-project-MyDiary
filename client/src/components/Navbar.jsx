@@ -1,21 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import NavbarLinks from "./NavbarLinks";
 import "./Navbar.css";
 import PropTypes from "prop-types";
 import { icons } from "../assets/svg.js";
 import ProfilePicture from "./ProfilePicture";
 import useLogout from "../hooks/useLogout";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 
 const Navbar = ({ active }) => {
   // Getting user information and logout function from context
-  const { auth } = useAuthContext();
-  const { user, getUser } = useUserContext();
-
-  useEffect(() => {
-    getUser(auth.id, auth.token);
-  }, [auth]);
+  const { user } = useUserContext();
 
   const logout = useLogout();
   const logoutUser = () => {

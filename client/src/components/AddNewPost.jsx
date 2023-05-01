@@ -53,7 +53,7 @@ const AddNewPost = ({ setActive }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="new-post">
+      <div className="new-post has-loading">
         <div className="new-post-top">
           <h3>- {formattedDate} -</h3>
           <button
@@ -93,7 +93,7 @@ const AddNewPost = ({ setActive }) => {
             placeholder="#School #Spring"
           />
         </div>
-        <div className="new-post-bottom has-loading">
+        <div className="new-post-bottom">
           <div className="new-post-bottom-left">
             <h3
               className={isPrivate ? "" : "active-posts"}
@@ -116,9 +116,9 @@ const AddNewPost = ({ setActive }) => {
               Publish
             </button>
           </div>
-          {isLoading && <Loading />}
         </div>
         {error && <div className="error">{error}</div>}
+        {isLoading && <Loading />}
       </div>
     </form>
   );

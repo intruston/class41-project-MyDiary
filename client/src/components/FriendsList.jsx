@@ -4,32 +4,22 @@ import useFetch from "../hooks/useFetch";
 import "./friendsList.css";
 import profileIcon from "../assets/profile-icon.png";
 import Loading from "./Loading";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 
 const FriendsList = () => {
-  const { auth } = useAuthContext();
-  const { getUser } = useUserContext();
-
-  useEffect(() => {
-    getUser(auth.id, auth.token);
-  }, []);
+  const { user } = useUserContext();
 
   const [friendsList, setFriendsList] = useState([]);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/user/friends/${auth.id}`,
+    `/user/friends/${user._id}`,
     (response) => {
       setFriendsList(response.result);
     }
   );
 
   useEffect(() => {
-    performFetch({
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-      },
-    });
+    performFetch();
 
     return cancelFetch;
   }, []);

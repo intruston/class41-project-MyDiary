@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import useFetch from "../hooks/useFetch";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import ProfilePicture from "./ProfilePicture";
 
 const SettingsChangePP = () => {
-  const { auth } = useAuthContext();
   const { user, dispatch } = useUserContext();
   const inputFileRef = useRef(null);
 
@@ -14,7 +12,7 @@ const SettingsChangePP = () => {
     `/user/upload/${user?._id}`,
     (response) => {
       dispatch({
-        type: "UPDATE_USER",
+        type: "SET_USER",
         payload: { ...user, profilePicture: response.result },
       });
       alert("Profile picture uploaded successfully");
@@ -30,13 +28,13 @@ const SettingsChangePP = () => {
     const selectedFile = event.target.files[0];
     formData.append("file", selectedFile);
 
-    performFetch({
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
+    performFetch(
+      {
+        method: "POST",
+        body: formData,
       },
-      body: formData,
-    });
+      true
+    );
   };
 
   if (error) {

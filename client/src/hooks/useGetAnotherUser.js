@@ -11,7 +11,7 @@ const useGetAnotherUser = ({ anotherUserId }) => {
   );
 
   useEffect(() => {
-    performFetch({});
+    performFetch();
     return cancelFetch;
   }, [anotherUserId]);
 

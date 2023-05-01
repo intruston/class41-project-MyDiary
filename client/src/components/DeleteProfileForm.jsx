@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./deleteProfileForm.css";
-// import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 import useLogout from "../hooks/useLogout";
 import Loading from "./Loading";
 
 const DeleteProfileForm = ({ setModalDeleteActive }) => {
-  // const { auth } = useAuthContext();
-  const { user, dispatch } = useUserContext();
+  const { user } = useUserContext();
   const [deleteWord, setDeleteWord] = useState("");
   const logout = useLogout();
 
@@ -20,10 +18,6 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
         clearModal();
         alert("Profile and all data DELETED successfully!");
         logout();
-        dispatch({
-          type: "DELETE_USER",
-          payload: null,
-        });
       } else {
         alert("Profile and all data DELETED successfully!");
       }
@@ -50,9 +44,6 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
     if (confirm("Are you sure you want to DELETE your account and all data?")) {
       performFetch({
         method: "DELETE",
-        // headers: {
-        //   Authorization: `Bearer ${auth.token}`,
-        // },
       });
     }
   };

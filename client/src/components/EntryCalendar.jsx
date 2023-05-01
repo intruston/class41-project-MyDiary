@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./EntryCalendar.css";
 import { useDateContext } from "../hooks/useDateContext";
-import { useContext } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
@@ -12,32 +10,22 @@ import EventBusyIcon from "@mui/icons-material/EventBusy";
 
 const EntryCalendar = () => {
   const [value, onChange] = useState(new Date());
-  const { auth } = useAuthContext();
-  const { getUser } = useUserContext();
-  const id = auth.id;
+  const { user } = useUserContext();
 
   //getting post data
   const [posts, setPosts] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${id}`,
+    `/post/timeline/${user._id}`,
     (response) => {
       setPosts(response.result);
     }
   );
   useEffect(() => {
-    performFetch({
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-      },
-    });
+    performFetch();
     return cancelFetch;
   }, []);
 
   useEffect(() => {}, [posts]);
-
-  useEffect(() => {
-    getUser(auth.id, auth.token);
-  }, []);
 
   const { date, setDate } = useContext(useDateContext);
   //set value to selected day
