@@ -2,6 +2,7 @@ import express from "express";
 import {
   createPost,
   deletePost,
+  getBannedPosts,
   getFeed,
   getPost,
   getTimeline,
@@ -22,5 +23,6 @@ postRouter.post("/create", createPost); // create a new post
 postRouter.put("/:id", updatePost); // update a post
 postRouter.delete("/:id", deletePost); //delete a post
 postRouter.put("/:id/like", likePost); //like/dislike a post
+postRouter.get("/moderation/:id", getBannedPosts); // banned posts for moderator page
 
 export default postRouter;

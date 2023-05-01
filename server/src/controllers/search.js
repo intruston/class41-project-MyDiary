@@ -12,6 +12,7 @@ export const searchTags = async (req, res) => {
         $match: {
           tags: { $in: terms },
           isPrivate: false, // filter out private posts
+          isBanned: false, // filter out banned posts
         },
       },
       {
