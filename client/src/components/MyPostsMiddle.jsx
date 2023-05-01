@@ -80,15 +80,22 @@ const MyPostsMiddle = ({ setActive }) => {
           {posts &&
             posts
               .filter((mappedPost) => {
-                if (activeTab === "private") {
-                  return mappedPost.isPrivate;
+                const postDate = moment(mappedPost.createdAt).format(
+                  "YYYY-MM-DD"
+                );
+                if (date) {
+                  if (activeTab === "private") {
+                    return mappedPost.isPrivate && postDate === date;
+                  } else {
+                    return !mappedPost.isPrivate && postDate === date;
+                  }
                 } else {
-                  return !mappedPost.isPrivate;
+                  if (activeTab === "private") {
+                    return mappedPost.isPrivate;
+                  } else {
+                    return !mappedPost.isPrivate;
+                  }
                 }
-              })
-              .filter((post) => {
-                const postDate = moment(post.createdAt).format("YYYY-MM-DD");
-                return date ? postDate === date : post;
               })
               .map((mappedPost) => (
                 <div className="single-post has-loading" key={mappedPost._id}>
