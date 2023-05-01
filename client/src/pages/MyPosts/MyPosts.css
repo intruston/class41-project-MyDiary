@@ -11,7 +11,7 @@
 }
 
 .page-header .left {
-  width: 20%;
+  width: 50%;
 }
 .page-header h4 {
   padding-top: var(--whiteSpaceSmaller);
@@ -21,7 +21,7 @@
 }
 
 .page-header .right {
-  width: 80%;
+  width: 50%;
 }
 .page-header .right h3 {
   margin-top: 0;
