@@ -104,7 +104,7 @@ const MyPostsMiddle = ({ setActive }) => {
             className={activeTab === "private" ? "active-posts" : ""}
             onClick={() => handleTabClick("private")}
           >
-            {privateCount > 1 ? "Public posts " : "Public post "}
+            {privateCount > 1 ? "Private posts " : "Private post "}
             {privateCount}
           </h4>
         </div>
