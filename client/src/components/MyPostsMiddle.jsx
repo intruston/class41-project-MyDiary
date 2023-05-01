@@ -35,6 +35,35 @@ const MyPostsMiddle = ({ setActive }) => {
     performFetch();
     setActiveTab(tab);
   };
+
+  let publicCount = 0;
+  let privateCount = 0;
+  const filteredPosts =
+    posts &&
+    posts.filter((mappedPost) => {
+      const postDate = moment(mappedPost.createdAt).format("YYYY-MM-DD");
+      if (date) {
+        if (mappedPost.isPrivate && postDate === date) {
+          privateCount++;
+          return true;
+        }
+        if (!mappedPost.isPrivate && postDate === date) {
+          publicCount++;
+          return true;
+        }
+      } else {
+        if (mappedPost.isPrivate) {
+          privateCount++;
+          return true;
+        } else {
+          if (!mappedPost.isPrivate) {
+            publicCount++;
+            return true;
+          }
+        }
+      }
+      return false;
+    });
   return (
     <div className="middle-section">
       <div className="middle-container">
@@ -43,9 +72,13 @@ const MyPostsMiddle = ({ setActive }) => {
           <div className="left">
             <h2>My Diary</h2>
             <h4>
-              <strong>{posts && posts.length}</strong> Post
+              You have{" "}
+              <strong>
+                {(publicCount || privateCount) && publicCount + privateCount}
+              </strong>{" "}
+              {publicCount + privateCount > 1 ? "posts" : "post"}
+              {date && " at " + date}
             </h4>
-            <span>here is selected date: {date}</span>
           </div>
           <div className="right">
             <h3>{user ? user.bio : ""}</h3>
@@ -67,42 +100,36 @@ const MyPostsMiddle = ({ setActive }) => {
             className={activeTab === "public" ? "active-posts" : ""}
             onClick={() => handleTabClick("public")}
           >
-            Public Posts
+            {publicCount > 1 ? "Public posts " : "Public post "}
+            {publicCount}
           </h4>
           <h4
             className={activeTab === "private" ? "active-posts" : ""}
             onClick={() => handleTabClick("private")}
           >
-            Private Posts
+            {privateCount > 1 ? "Public posts " : "Public post "}
+            {privateCount}
           </h4>
         </div>
         <div>
-          {posts &&
-            posts
-              .filter((mappedPost) => {
-                const postDate = moment(mappedPost.createdAt).format(
-                  "YYYY-MM-DD"
-                );
-                if (date) {
+          {filteredPosts && (
+            <>
+              {filteredPosts
+                .filter((myPost) => {
                   if (activeTab === "private") {
-                    return mappedPost.isPrivate && postDate === date;
+                    return myPost.isPrivate;
                   } else {
-                    return !mappedPost.isPrivate && postDate === date;
+                    return !myPost.isPrivate;
                   }
-                } else {
-                  if (activeTab === "private") {
-                    return mappedPost.isPrivate;
-                  } else {
-                    return !mappedPost.isPrivate;
-                  }
-                }
-              })
-              .map((mappedPost) => (
-                <div className="single-post has-loading" key={mappedPost._id}>
-                  {isLoading && <Loading />}
-                  <SinglePost mappedPost={mappedPost} />
-                </div>
-              ))}
+                })
+                .map((mappedPost) => (
+                  <div className="single-post has-loading" key={mappedPost._id}>
+                    {isLoading && <Loading />}
+                    <SinglePost mappedPost={mappedPost} />
+                  </div>
+                ))}
+            </>
+          )}
         </div>
       </div>
     </div>
