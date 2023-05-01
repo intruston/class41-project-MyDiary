@@ -6,7 +6,7 @@ import { useDateContext } from "../hooks/useDateContext";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
-import EventBusyIcon from "@mui/icons-material/EventBusy";
+import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 
 const EntryCalendar = () => {
   const [value, onChange] = useState(new Date());
@@ -77,7 +77,13 @@ const EntryCalendar = () => {
       <div>
         <div className="icon-container">
           <h2>{dateString}</h2>
-          {date && <EventBusyIcon onClick={handleCalendar} fontSize="large" />}
+          {date && (
+            <EventRepeatIcon
+              titleAccess="clear date"
+              onClick={handleCalendar}
+              fontSize="large"
+            />
+          )}
         </div>
 
         <div className="calendar-container">
