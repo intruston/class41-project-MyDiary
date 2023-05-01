@@ -21,6 +21,11 @@ export const getTimeline = async (req, res) => {
         isBanned: false,
       });
     }
+
+    timelinePosts.sort((post1, post2) => {
+      return new Date(post2.createdAt) - new Date(post1.createdAt);
+    });
+
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
