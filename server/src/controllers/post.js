@@ -175,9 +175,17 @@ export const updatePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
+    // Decode the token
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+
+    // Access the user ID from the decoded payload
+    const { _id } = jwt.verify(token, process.env.SECRET);
+
+    // Compare that user deleted only his post
     const post = await Post.findById(req.params.id);
 
-    if (post.userId === req.body.userId) {
+    if (post.userId === _id) {
       await post.deleteOne();
       res.status(200).json({
         success: true,
