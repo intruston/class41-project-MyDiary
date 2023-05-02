@@ -2,6 +2,142 @@
                            Friends CSS
 ========================================================================== */
 
+.friends-page-header {
+  border-bottom: 2px solid var(--gray);
+  margin-bottom: var(--whiteSpaceMedium);
+}
+
+.friends-page {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.friends-page-item {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.friend-avatar {
+  border-radius: 50%;
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
+  min-height: 80px;
+  object-fit: cover;
+}
+
+.friend-name,
+.friend-bio {
+  display: flex;
+  align-content: center;
+  margin-left: 20px;
+  color: darkslategray;
+}
+
+.friend-name h3 {
+  margin-top: 0px;
+  text-align: left;
+}
+
+.friend-bio {
+  margin-top: 6px;
+  font-size: smaller;
+}
+
+.dots-container {
+  left: 0px;
+  top: 0px;
+  position: relative;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.friend-details {
+  display: block;
+  width: 100%;
+}
+
+.friends-page-item-container {
+  flex: 0 0 48%;
+  min-width: 300px;
+  display: flex;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Search form */
+
+.search-form {
+  background-color: #e8e8e8;
+  padding: 8px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 7px;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.search-form input[type="text"] {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  flex: 1;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.search-form button[type="submit"] {
+  background-color: transparent;
+  color: black;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin: 0 0 0 10px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: var(--whiteSpaceMedium) 0;
+  width: 100%;
+  text-align: left;
+}
+
+.search-button {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.search-button button {
+  cursor: pointer;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  background-color: var(--yellow);
+  font-size: 0.8rem;
+  height: 36px;
+  width: 100%;
+}
+
+.input-container {
+  margin: 20px 0;
+}
+
 /* ==========================================================================
                              Responsive Design
   ========================================================================== */
