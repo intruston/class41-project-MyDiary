@@ -1,20 +1,37 @@
 /* ==========================================================================
                            Single Post
 ========================================================================== */
-
-.post-date {
+.single-post-component {
+  border-radius: 37px;
+  background-color: white;
+  padding: var(--whiteSpaceLarge) var(--whiteSpaceLarge) var(--whiteSpaceSmall)
+    0;
+  margin-top: var(--whiteSpaceMedium);
+}
+.post-header {
+  text-transform: capitalize;
+  font-weight: 800;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  padding-bottom: var(--whiteSpaceSmall);
 }
-.post-date hr {
-  border-top: 2px solid var(--softGray);
-  width: 40%;
+
+.post-header h3 {
+  cursor: pointer;
 }
+
 .post-date h3 {
   margin-top: 0;
   font-size: 0.9rem;
   font-weight: 400;
+}
+.post-header h2 {
+  position: absolute;
+  margin-right: var(--whiteSpaceLarge);
+  right: 0;
+  text-align: right;
+  cursor: pointer;
 }
 
 .pos-container {
@@ -22,56 +39,52 @@
   align-items: flex-start;
   justify-content: space-between;
 }
-.pos-container .profile-picture-component {
-  margin-top: var(--whiteSpaceMedium);
-}
+
 .post-content {
   width: 80%;
 }
+.post-context-text {
+  padding-right: var(--whiteSpaceLarge);
+}
 
-.post-header {
-  text-transform: capitalize;
-  font-weight: 800;
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  padding-top: var(--whiteSpaceSmaller);
-  padding-bottom: var(--whiteSpaceMedium);
-}
-.inside-profile .profile-picture-component {
-  display: none;
-}
 .side-profile {
-  margin: auto;
-}
-.post-header h2 {
-  cursor: pointer;
-}
-.post-header h3 {
-  cursor: pointer;
+  margin: 0 auto auto auto;
 }
 
+.post-bottom {
+  padding-left: 20%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.post-bottom-tags {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--softGray);
+}
 .post-reaction {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: var(--whiteSpaceLarger);
 }
 .heart-icon {
   cursor: pointer;
   height: 50px;
   width: 50px;
-  margin-right: var(--whiteSpaceSmall);
+  margin-left: var(--whiteSpaceSmall);
   background-position: left;
   background-repeat: no-repeat;
   background-size: 2900%;
 }
 
 .likes {
+  cursor: pointer;
+  padding-left: 3px;
+  z-index: 10;
   position: absolute;
   font-size: 1rem;
-  padding-right: var(--whiteSpaceSmall);
 }
 
 .heart-icon:hover,
@@ -113,28 +126,13 @@
 
 /* ===========================[ 768px ]================================== */
 @media screen and (max-width: 768px) {
-  .inside-profile .profile-picture-component {
-    display: block;
-  }
-  .inside-profile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--whiteSpaceSmaller);
-  }
   .inside-profile h3 {
     font-size: 0.8rem;
-  }
-  .side-profile {
-    display: none;
   }
 }
 
 /* ===========================[ 480px ]================================== */
 @media screen and (max-width: 480px) {
-  .post-date hr {
-    width: 30%;
-  }
   .post-date h3 {
     font-size: 0.6rem;
   }
