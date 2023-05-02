@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
-
+import { Link } from "react-router-dom";
 import PostDate from "./PostDate";
 import PostReaction from "./PostReaction";
 import ProfilePicture from "./ProfilePicture";
@@ -41,45 +41,85 @@ const SinglePost = ({ mappedPost }) => {
 
   const heartIconRef = useRef(null);
 
-  return (
-    <>
-      {/* Date */}
-      <PostDate date={mappedPost.createdAt} />
+  //Limit text inside result in 140 symbols. Otherwise ...Show more
+  const MAX_CONTENT_LENGTH = 140;
+  const [showMore, setShowMore] = useState(false);
+  const content = showMore
+    ? mappedPost.content
+    : mappedPost.content.slice(0, MAX_CONTENT_LENGTH);
 
+  const handleShowMore = (event) => {
+    event.preventDefault(); // Prevent the default scroll behavior
+    setShowMore(true);
+  };
+  return (
+    <div className="single-post-component">
       {/* Post */}
       <div className="pos-container">
         <div className="side-profile has-loading">
-          {anotherUserLoading && <Loading />}
-          <ProfilePicture
-            profilePicture={anotherUser ? anotherUser.profilePicture : null}
-            size={"small"}
-          />
+          <Link
+            to={
+              anotherUser?._id === user._id
+                ? "/my-posts"
+                : `/user/${anotherUser?._id}`
+            }
+          >
+            {anotherUserLoading && <Loading />}
+            <ProfilePicture
+              profilePicture={anotherUser ? anotherUser.profilePicture : null}
+              size={"small"}
+            />
+          </Link>
         </div>
 
         <div className="post-content">
           <div className="post-header">
-            <div className="inside-profile">
-              <ProfilePicture
-                profilePicture={anotherUser ? anotherUser.profilePicture : null}
-                size={"smaller"}
-              />
+            <Link
+              to={
+                anotherUser?._id === user._id
+                  ? "/my-posts"
+                  : `/user/${anotherUser?._id}`
+              }
+            >
               <h3>{anotherUser ? anotherUser.firstName : null}</h3>
+            </Link>
+            <div className="post-right-side">
+              {/* Date */}
+              <PostDate date={mappedPost.createdAt} />
+              <h2>...</h2>
             </div>
-            <h2>...</h2>
           </div>
 
-          <p>{mappedPost.content}</p>
+          <p className="post-context-text">
+            {content}
+            {mappedPost.content.length > MAX_CONTENT_LENGTH && !showMore && (
+              <span>
+                ...{" "}
+                <a href="#" className="show-link" onClick={handleShowMore}>
+                  Show more
+                </a>
+              </span>
+            )}
+          </p>
         </div>
       </div>
 
-      {/* Post reactions */}
-      <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+      {/* Post Bottom */}
+      <div className="post-bottom">
+        <p className="post-bottom-tags">
+          {mappedPost.tags.map((tag) => (
+            <span key={tag}>#{tag.toUpperCase()} </span>
+          ))}
+        </p>
+        <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+      </div>
+
       {(error || anotherUserError) && (
         <div className="error">
           {error?.message} {anotherUserError?.message}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

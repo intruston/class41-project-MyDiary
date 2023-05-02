@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SearchSinglePost from "./SearchSinglePost";
+import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import "./searchMiddle.css";
@@ -56,9 +56,7 @@ const SearchMiddle = () => {
             .map((mappedPost) => (
               <div className="single-post has-loading" key={mappedPost._id}>
                 {isLoading && <Loading />}
-                <div className="post-inside">
-                  <SearchSinglePost mappedPost={mappedPost} />
-                </div>
+                <SinglePost mappedPost={mappedPost} />
               </div>
             ))}
       </div>

@@ -40,17 +40,19 @@ const FeedsMiddle = () => {
           </div>
         </div>
         {error && <div className="error">{error.message}</div>}
-
-        {/* Posts */}
-        <div>
-          {posts &&
-            feedPosts.map((mappedPost) => (
-              <div className="single-post has-loading" key={mappedPost._id}>
-                {isLoading && <Loading />}
-                <SinglePost mappedPost={mappedPost} />
-              </div>
-            ))}
-        </div>
+      </div>
+      {/* Posts */}
+      <div>
+        {feedPosts.length > 0 ? (
+          feedPosts.map((mappedPost) => (
+            <div className="single-post has-loading" key={mappedPost._id}>
+              {isLoading && <Loading />}
+              <SinglePost mappedPost={mappedPost} />
+            </div>
+          ))
+        ) : (
+          <div className="no-post">No post to show in your feed</div>
+        )}
       </div>
     </div>
   );

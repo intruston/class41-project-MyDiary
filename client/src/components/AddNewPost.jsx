@@ -99,13 +99,13 @@ const AddNewPost = ({ setActive }) => {
               className={isPrivate ? "" : "active-posts"}
               onClick={() => handleTabClick(false)}
             >
-              Public Post
+              Public
             </h3>
             <h3
               className={isPrivate ? "active-posts" : ""}
               onClick={() => handleTabClick(true)}
             >
-              Private Post
+              Private
             </h3>
           </div>
           <div className="new-post-bottom-right ">
