@@ -14,7 +14,6 @@ import PropTypes from "prop-types";
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost }) => {
   const { user } = useUserContext();
-
   const { isLoading, error, anotherUser } = useGetAnotherUser({
     anotherUserId: mappedPost.userId,
   });
@@ -27,21 +26,17 @@ const SinglePost = ({ mappedPost }) => {
     : mappedPost.content.slice(0, MAX_CONTENT_LENGTH);
 
   const handleShowMore = (event) => {
-    event.preventDefault(); // Prevent the default scroll behavior
+    event.preventDefault();
     setShowMore(true);
   };
+  const profileLink =
+    anotherUser?._id === user._id ? "/my-posts" : `/user/${anotherUser?._id}`;
   return (
     <div className="single-post-component">
       {/* Post */}
       <div className="pos-container">
         <div className="side-profile has-loading">
-          <Link
-            to={
-              anotherUser?._id === user._id
-                ? "/my-posts"
-                : `/user/${anotherUser?._id}`
-            }
-          >
+          <Link to={profileLink}>
             {isLoading && <Loading />}
             <ProfilePicture
               profilePicture={anotherUser ? anotherUser.profilePicture : null}
@@ -52,13 +47,7 @@ const SinglePost = ({ mappedPost }) => {
 
         <div className="post-content">
           <div className="post-header">
-            <Link
-              to={
-                anotherUser?._id === user._id
-                  ? "/my-posts"
-                  : `/user/${anotherUser?._id}`
-              }
-            >
+            <Link to={profileLink}>
               <h3>{anotherUser ? anotherUser.firstName : null}</h3>
             </Link>
             <div className="post-right-side">
@@ -86,7 +75,7 @@ const SinglePost = ({ mappedPost }) => {
       <div className="post-bottom">
         <p className="post-bottom-tags">
           {mappedPost.tags.map((tag) => (
-            <span key={tag}>#{tag.toUpperCase()} </span>
+            <span key={tag}>#{tag.toUpperCase()}&nbsp;</span>
           ))}
         </p>
         <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
