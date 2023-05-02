@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import { Link } from "react-router-dom";
 import PostDate from "./PostDate";
@@ -10,36 +10,14 @@ import { useUserContext } from "../hooks/useUserContext";
 // import { useAuthContext } from "../hooks/useAuthContext";
 
 import PropTypes from "prop-types";
-import useFetch from "../hooks/useFetch";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost }) => {
   const { user } = useUserContext();
-  const [likes, setLikes] = useState(mappedPost.likes);
-  const isLikedByUser = likes.includes(user._id);
-  const {
-    isLoading: anotherUserLoading,
-    error: anotherUserError,
-    anotherUser,
-  } = useGetAnotherUser({
+
+  const { isLoading, error, anotherUser } = useGetAnotherUser({
     anotherUserId: mappedPost.userId,
   });
-  const { error, cancelFetch } = useFetch(
-    `/post/${mappedPost._id}/like`,
-    (response) => {
-      setLikes(response.result);
-      if (heartIconRef.current) {
-        isLikedByUser
-          ? heartIconRef.current.classList.remove("is-animating")
-          : heartIconRef.current.classList.add("is-animating");
-      }
-    }
-  );
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
-
-  const heartIconRef = useRef(null);
 
   //Limit text inside result in 140 symbols. Otherwise ...Show more
   const MAX_CONTENT_LENGTH = 140;
@@ -64,7 +42,7 @@ const SinglePost = ({ mappedPost }) => {
                 : `/user/${anotherUser?._id}`
             }
           >
-            {anotherUserLoading && <Loading />}
+            {isLoading && <Loading />}
             <ProfilePicture
               profilePicture={anotherUser ? anotherUser.profilePicture : null}
               size={"small"}
@@ -114,11 +92,7 @@ const SinglePost = ({ mappedPost }) => {
         <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
       </div>
 
-      {(error || anotherUserError) && (
-        <div className="error">
-          {error?.message} {anotherUserError?.message}
-        </div>
-      )}
+      {error && <div className="error">{error?.message}</div>}
     </div>
   );
 };
