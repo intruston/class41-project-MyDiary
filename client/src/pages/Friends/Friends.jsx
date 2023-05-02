@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import FriendsMiddle from "../../components/FriendsMiddle";
-import FriendsRight from "../../components/FriendsRight";
+import FriendsMiddle from "./FriendsMiddle";
+import FriendsRight from "./FriendsRight";
 import "./Friends.css";
 const Friends = () => {
   return (

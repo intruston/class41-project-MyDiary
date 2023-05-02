@@ -237,8 +237,8 @@ export const getUserFriends = async (req, res) => {
     );
 
     const userFriends = friends.map((friend) => {
-      const { _id, firstName, lastName, profilePicture } = friend;
-      return { _id, firstName, lastName, profilePicture };
+      const { _id, firstName, lastName, profilePicture, bio } = friend;
+      return { _id, firstName, lastName, profilePicture, bio };
     });
 
     res.status(200).json({ success: true, result: userFriends });
