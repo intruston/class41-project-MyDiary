@@ -63,21 +63,23 @@ const AnotherUserMiddle = () => {
             {error.message}||{anotherUserError.message}
           </div>
         )}
-
-        {/* Posts */}
-        <div>
-          {posts &&
-            posts
-              .filter((mappedPost) => {
-                return !mappedPost.isPrivate;
-              })
-              .map((mappedPost) => (
-                <div className="single-post has-loading" key={mappedPost._id}>
-                  {isLoading && <Loading />}
-                  <SinglePost mappedPost={mappedPost} />
-                </div>
-              ))}
-        </div>
+      </div>
+      {/* Posts */}
+      <div>
+        {posts.length > 0 ? (
+          posts
+            .filter((mappedPost) => {
+              return !mappedPost.isPrivate;
+            })
+            .map((mappedPost) => (
+              <div className="single-post has-loading" key={mappedPost._id}>
+                {isLoading && <Loading />}
+                <SinglePost mappedPost={mappedPost} />
+              </div>
+            ))
+        ) : (
+          <div className="no-post">This user not yet post anything</div>
+        )}
       </div>
     </div>
   );

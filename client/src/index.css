@@ -72,7 +72,7 @@ input {
   padding: var(--whiteSpaceLarger) var(--whiteSpaceMedium);
   width: 56%;
   min-height: 100vh;
-  min-width: 200px;
+  min-width: 290px;
 }
 .middle-container {
   padding: var(--whiteSpaceLarger);
@@ -405,6 +405,9 @@ input {
 
 /* ===========================[ 768px ]================================== */
 @media screen and (max-width: 768px) {
+  .middle-section {
+    width: 82%;
+  }
 }
 
 /* ===========================[ 480px ]================================== */

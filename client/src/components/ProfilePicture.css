@@ -5,8 +5,8 @@
   margin: auto;
   width: 187px;
   height: 187px;
-  min-width: 3.5vw;
-  min-height: 3.5vw;
+  min-width: 40px;
+  min-height: 40px;
 }
 .profile-picture-component img {
   display: block;

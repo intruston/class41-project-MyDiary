@@ -10,9 +10,7 @@ const PostDate = ({ date }) => {
 
   return (
     <div className="post-date">
-      <hr />
       <h3>{formattedDate}</h3>
-      <hr />
     </div>
   );
 };

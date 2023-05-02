@@ -18,20 +18,20 @@ const Navbar = ({ active }) => {
 
   return (
     <nav className="navbar">
-      <div>
+      <div className="nav-top">
         <div className="user-status">
           <div className="user-online">{icons.online}</div>
           <div className="user-information">
             <h3>{user ? user.firstName : ""}</h3>
+            <span className="moderator">
+              {user?.isModerator ? "(moderator)" : ""}
+            </span>
           </div>
-          <span className="moderator">
-            {user?.isModerator ? "(moderator)" : ""}
-          </span>
         </div>
         <ProfilePicture profilePicture={user ? user.profilePicture : ""} />
       </div>
 
-      <ul className="nav-links">
+      <ul className="nav-links nav-middle">
         <NavbarLinks
           link={"/my-posts"}
           text={"My Diary"}
@@ -71,9 +71,9 @@ const Navbar = ({ active }) => {
           />
         )}
       </ul>
-      <div>
+      <div className="nav-bottom">
         <hr />
-        <div className="logout" onClick={logoutUser}>
+        <div className="logout " onClick={logoutUser}>
           <NavbarLinks link={""} text={"Logout"} svg={icons.logout} />
         </div>
       </div>

@@ -12,9 +12,7 @@
 .another-profile {
   padding-right: var(--whiteSpaceSmaller);
 }
-.page-header .left {
-  width: 20%;
-}
+
 .page-header h4 {
   padding-top: var(--whiteSpaceSmaller);
   text-align: left;

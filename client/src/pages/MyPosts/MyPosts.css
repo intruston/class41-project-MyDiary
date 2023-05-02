@@ -71,13 +71,19 @@
 }
 .public-private h4 {
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--softGray);
 }
+.public-private span {
+  font-weight: 400;
+}
 .public-private h4:hover {
-  letter-spacing: 0.03rem;
+  text-decoration: underline;
 }
 .public-private .active-posts {
+  color: var(--gray);
+}
+.active-posts {
   color: var(--gray);
 }
 
@@ -184,8 +190,7 @@
 .new-post-bottom-private {
   padding-left: var(--whiteSpaceMedium);
 }
-.new-post-bottom-left h3:hover,
-.active-posts {
+.new-post-bottom-left h3:hover {
   color: var(--gray);
   text-decoration: underline;
   font-weight: 400;
@@ -228,6 +233,17 @@
 }
 .post-publish-button:hover {
   background-color: var(--orangeYellow);
+}
+
+.no-post {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 37px;
+  padding: var(--whiteSpaceLarger);
+  margin-top: var(--whiteSpaceLarger);
+  width: 100%;
 }
 /* ==========================================================================
                              Responsive Design

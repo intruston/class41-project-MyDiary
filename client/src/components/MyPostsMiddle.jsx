@@ -69,7 +69,6 @@ const MyPostsMiddle = ({ setActive }) => {
           <div className="left">
             <h2>My Diary</h2>
             <h4>
-              You have{" "}
               <strong>
                 {(publicCount || privateCount) && publicCount + privateCount}
               </strong>{" "}
@@ -97,37 +96,37 @@ const MyPostsMiddle = ({ setActive }) => {
             className={activeTab === "public" ? "active-posts" : ""}
             onClick={() => handleTabClick("public")}
           >
-            {publicCount > 1 ? "Public posts " : "Public post "}
-            {publicCount}
+            Public: <span>{publicCount}</span>
           </h4>
           <h4
             className={activeTab === "private" ? "active-posts" : ""}
             onClick={() => handleTabClick("private")}
           >
-            {privateCount > 1 ? "Private posts " : "Private post "}
-            {privateCount}
+            Private: <span>{privateCount}</span>
           </h4>
         </div>
-        <div>
-          {filteredPosts && (
-            <>
-              {filteredPosts
-                .filter((myPost) => {
-                  if (activeTab === "private") {
-                    return myPost.isPrivate;
-                  } else {
-                    return !myPost.isPrivate;
-                  }
-                })
-                .map((mappedPost) => (
-                  <div className="single-post has-loading" key={mappedPost._id}>
-                    {isLoading && <Loading />}
-                    <SinglePost mappedPost={mappedPost} />
-                  </div>
-                ))}
-            </>
-          )}
-        </div>
+      </div>
+      <div>
+        {filteredPosts.length > 0 ? (
+          <>
+            {filteredPosts
+              .filter((myPost) => {
+                if (activeTab === "private") {
+                  return myPost.isPrivate;
+                } else {
+                  return !myPost.isPrivate;
+                }
+              })
+              .map((mappedPost) => (
+                <div className="single-post has-loading" key={mappedPost._id}>
+                  {isLoading && <Loading />}
+                  <SinglePost mappedPost={mappedPost} />
+                </div>
+              ))}
+          </>
+        ) : (
+          <div className="no-post">Lets start writing</div>
+        )}
       </div>
     </div>
   );
