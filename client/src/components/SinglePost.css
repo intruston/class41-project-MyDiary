@@ -46,6 +46,9 @@
 .post-context-text {
   padding-right: var(--whiteSpaceLarge);
 }
+.show-link {
+  color: #b2b1b0;
+}
 
 .side-profile {
   margin: 0 auto auto auto;

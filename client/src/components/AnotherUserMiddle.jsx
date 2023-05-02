@@ -30,10 +30,12 @@ const AnotherUserMiddle = () => {
   }, [id]);
 
   useEffect(() => {
+    return cancelFetch;
+  }, []);
+
+  useEffect(() => {
     resetAnotherUser(); // call reset function here
   }, [id]);
-
-  useEffect(() => {}, [posts]);
 
   return (
     <div className="middle-section">

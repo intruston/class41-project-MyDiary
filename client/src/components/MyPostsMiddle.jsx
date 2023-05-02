@@ -24,43 +24,32 @@ const MyPostsMiddle = ({ setActive }) => {
     return cancelFetch;
   }, []);
 
-  useEffect(() => {
-    return cancelFetch;
-  }, [posts]);
-
   const handleTabClick = (tab) => {
-    performFetch();
     setActiveTab(tab);
   };
 
+  //Public-Private Counts
   let publicCount = 0;
   let privateCount = 0;
   const filteredPosts =
     posts &&
     posts.filter((mappedPost) => {
       const postDate = moment(mappedPost.createdAt).format("YYYY-MM-DD");
-      if (date) {
-        if (mappedPost.isPrivate && postDate === date) {
+      const isPostOnDate = !date || postDate === date;
+      const isPrivate = mappedPost.isPrivate;
+
+      if (isPostOnDate) {
+        if (isPrivate) {
           privateCount++;
-          return true;
-        }
-        if (!mappedPost.isPrivate && postDate === date) {
-          publicCount++;
-          return true;
-        }
-      } else {
-        if (mappedPost.isPrivate) {
-          privateCount++;
-          return true;
         } else {
-          if (!mappedPost.isPrivate) {
-            publicCount++;
-            return true;
-          }
+          publicCount++;
         }
+        return true;
       }
+
       return false;
     });
+
   return (
     <div className="middle-section">
       <div className="middle-container">
@@ -82,15 +71,16 @@ const MyPostsMiddle = ({ setActive }) => {
         </div>
 
         {/* Add New Post */}
-        <div className="add-new-post">
+        <div className="add-new-post has-loading">
           <img src={postBackground} alt="user background" />
           <div className="post-button">
             <button onClick={() => setActive(true)}>+ Add Post</button>
           </div>
+          {isLoading && <Loading />}
         </div>
         {error && <div className="error">{error.message}</div>}
 
-        {/* Posts */}
+        {/* Public - Private */}
         <div className="public-private">
           <h4
             className={activeTab === "public" ? "active-posts" : ""}
@@ -106,6 +96,8 @@ const MyPostsMiddle = ({ setActive }) => {
           </h4>
         </div>
       </div>
+
+      {/* POSTS */}
       <div>
         {filteredPosts.length > 0 ? (
           <>
@@ -119,7 +111,6 @@ const MyPostsMiddle = ({ setActive }) => {
               })
               .map((mappedPost) => (
                 <div className="single-post has-loading" key={mappedPost._id}>
-                  {isLoading && <Loading />}
                   <SinglePost mappedPost={mappedPost} />
                 </div>
               ))}

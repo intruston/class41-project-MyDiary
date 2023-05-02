@@ -20,7 +20,10 @@ const FriendsList = () => {
 
   useEffect(() => {
     performFetch();
+    return cancelFetch;
+  }, []);
 
+  useEffect(() => {
     return cancelFetch;
   }, []);
 

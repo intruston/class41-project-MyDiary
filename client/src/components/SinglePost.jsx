@@ -7,7 +7,6 @@ import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
 import "./SinglePost.css";
 import { useUserContext } from "../hooks/useUserContext";
-// import { useAuthContext } from "../hooks/useAuthContext";
 
 import PropTypes from "prop-types";
 
@@ -33,8 +32,8 @@ const SinglePost = ({ mappedPost }) => {
     anotherUser?._id === user._id ? "/my-posts" : `/user/${anotherUser?._id}`;
   return (
     <div className="single-post-component">
-      {/* Post */}
       <div className="pos-container">
+        {/* Profile Picture */}
         <div className="side-profile has-loading">
           <Link to={profileLink}>
             {isLoading && <Loading />}
@@ -45,6 +44,7 @@ const SinglePost = ({ mappedPost }) => {
           </Link>
         </div>
 
+        {/* Post */}
         <div className="post-content">
           <div className="post-header">
             <Link to={profileLink}>
@@ -57,6 +57,7 @@ const SinglePost = ({ mappedPost }) => {
             </div>
           </div>
 
+          {/* Post Content */}
           <p className="post-context-text">
             {content}
             {mappedPost.content.length > MAX_CONTENT_LENGTH && !showMore && (

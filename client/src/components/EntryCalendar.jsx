@@ -24,8 +24,9 @@ const EntryCalendar = () => {
     performFetch();
     return cancelFetch;
   }, []);
-
-  useEffect(() => {}, [posts]);
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
 
   const { date, setDate } = useContext(useDateContext);
   //set value to selected day
