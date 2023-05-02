@@ -51,7 +51,7 @@ const SearchMiddle = () => {
         {searchResult &&
           searchResult
             .filter((mappedPost) => {
-              return !mappedPost.isPrivate;
+              return !mappedPost.isPrivate && !mappedPost.isBanned;
             })
             .map((mappedPost) => (
               <div className="single-post has-loading" key={mappedPost._id}>
