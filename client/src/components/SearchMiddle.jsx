@@ -40,7 +40,7 @@ const SearchMiddle = () => {
               {searchResult.length === 1 ? "result" : "results"}
             </p>
           )}
-          <button type="submit">
+          <button type="submit" className="search-button">
             <img src={loop} alt="Search" />
           </button>
         </form>

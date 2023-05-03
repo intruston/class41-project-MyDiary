@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import useFetch from "../../hooks/useFetch";
+import Loading from "../../components/Loading";
 
 const FriendsRight = () => {
   return (
@@ -13,105 +15,117 @@ const FriendsRight = () => {
 };
 
 function FriendsToFollow() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    dob: "",
-    country: "",
-    city: "",
-    email: "",
-  });
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [country, setCountry] = useState("");
+  const [email, setEmail] = useState("");
+
+  const query = `/search/users?firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&country=${country}&email=${email}`;
+  const { isLoading, error, performFetch, cancelFetch } = useFetch(
+    query
+    // (data) => {
+    //         console.log(data.result);
+    // }
+  );
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
+    if (firstName || lastName || birthday || country || email) {
+      //      console.log(query);
+      performFetch();
+    }
   };
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
 
   return (
     <div className="form-container">
       <h3>+ Friends to follow</h3>
       <form onSubmit={handleSubmitSearch}>
         <div className="input-container">
-          <label htmlFor="firstName">First name:</label>
+          <label htmlFor="firstName">First name</label>
           <input
             type="text"
-            className="search-form"
+            className="friends-input"
             id="firstName"
             name="firstName"
-            value={formData.firstName}
-            onChange={handleInputChange}
-            placeholder="Good"
+            value={firstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+            placeholder="John"
           />
         </div>
         <div className="input-container">
-          <label htmlFor="lastName">Last name:</label>
+          <label htmlFor="lastName">Surname</label>
           <input
             type="text"
-            className="search-form"
+            className="friends-input"
             id="lastName"
             name="lastName"
-            value={formData.lastName}
-            onChange={handleInputChange}
-            placeholder="Cat"
+            value={lastName}
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+            placeholder="Doe"
           />
         </div>
         <div className="input-container">
-          <label htmlFor="dob">Date of birth:</label>
+          <label htmlFor="birthday">Date of birth</label>
           <input
             type="date"
-            className="search-form"
-            id="dob"
-            name="dob"
-            value={formData.dob}
-            onChange={handleInputChange}
+            className="friends-input"
+            id="birthday"
+            name="birthday"
+            value={birthday}
+            onChange={(e) => {
+              const value = e.target.value;
+              setBirthday(
+                value ? new Date(value).toISOString().slice(0, 10) : ""
+              );
+            }}
           />
         </div>
         <div className="input-container">
-          <label htmlFor="country">Country:</label>
+          <label htmlFor="country">Country</label>
           <input
             type="text"
-            className="search-form"
+            className="friends-input"
             id="country"
             name="country"
-            value={formData.country}
-            onChange={handleInputChange}
+            value={country}
+            onChange={(e) => {
+              setCountry(e.target.value);
+            }}
             placeholder="Netherlands"
           />
         </div>
         <div className="input-container">
-          <label htmlFor="city">City:</label>
-          <input
-            type="text"
-            className="search-form"
-            id="city"
-            name="city"
-            value={formData.city}
-            onChange={handleInputChange}
-            placeholder="Amsterdam"
-          />
-        </div>
-        <div className="input-container">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
-            className="search-form"
+            className="friends-input"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleInputChange}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             placeholder="example@mail.com"
           />
         </div>
-        <div className="search-button">
-          <button type="submit">Search</button>
+        <div className="friends-right-b">
+          <button type="submit" className="friends-button">
+            Search
+          </button>
         </div>
       </form>
+      <br />
+      {isLoading && <Loading />}
+      {error && <div className="error">Something went wrong.</div>}
     </div>
   );
 }
