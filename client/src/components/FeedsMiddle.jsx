@@ -31,7 +31,7 @@ const FeedsMiddle = () => {
 
   return (
     <div className="middle-section">
-      <div className="middle-container">
+      <div className="middle-container has-loading">
         {/* Page Header */}
         <div className="feed-header">
           <div className="left">
@@ -41,6 +41,7 @@ const FeedsMiddle = () => {
             <h3>Search</h3>
           </div>
         </div>
+        {isLoading && <Loading />}
         {error && <div className="error">{error.message}</div>}
       </div>
       {/* Posts */}
@@ -52,9 +53,7 @@ const FeedsMiddle = () => {
             </div>
           ))
         ) : (
-          <div className="no-post has-loading">
-            {isLoading && <Loading />}No post to show in your feed
-          </div>
+          <div className="no-post">No post to show in your feed</div>
         )}
       </div>
     </div>
