@@ -55,7 +55,7 @@ abbr[title] {
 .react-calendar__tile.highlight {
   font-weight: 900;
   border-radius: 6px;
-  border: 2px solid var(--yellow) !important;
+  border: 2px dotted var(--midYellow) !important;
 }
 
 .react-calendar__tile:disabled {
