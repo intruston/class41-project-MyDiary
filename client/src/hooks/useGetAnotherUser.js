@@ -12,8 +12,11 @@ const useGetAnotherUser = ({ anotherUserId }) => {
 
   useEffect(() => {
     performFetch();
-    return cancelFetch;
   }, [anotherUserId]);
+
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
 
   const reset = () => {
     setAnotherUser(null);

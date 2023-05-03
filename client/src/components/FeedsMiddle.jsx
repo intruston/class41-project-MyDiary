@@ -21,7 +21,9 @@ const FeedsMiddle = () => {
     return cancelFetch;
   }, []);
 
-  useEffect(() => {}, [posts]);
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
 
   const feedPosts = posts.filter((post) => {
     return !post.isPrivate && !post.isBanned;
@@ -29,7 +31,7 @@ const FeedsMiddle = () => {
 
   return (
     <div className="middle-section">
-      <div className="middle-container">
+      <div className="middle-container ">
         {/* Page Header */}
         <div className="feed-header">
           <div className="left">
@@ -42,17 +44,22 @@ const FeedsMiddle = () => {
         {error && <div className="error">{error.message}</div>}
       </div>
       {/* Posts */}
+      {isLoading && (
+        <div className="load-container">
+          .
+          <Loading />
+        </div>
+      )}
       <div>
-        {feedPosts.length > 0 ? (
-          feedPosts.map((mappedPost) => (
-            <div className="single-post has-loading" key={mappedPost._id}>
-              {isLoading && <Loading />}
-              <SinglePost mappedPost={mappedPost} />
-            </div>
-          ))
-        ) : (
-          <div className="no-post">No post to show in your feed</div>
-        )}
+        {feedPosts.length > 0
+          ? feedPosts.map((mappedPost) => (
+              <div className="single-post has-loading" key={mappedPost._id}>
+                <SinglePost mappedPost={mappedPost} />
+              </div>
+            ))
+          : !isLoading && (
+              <div className="no-post">No post to show in your feed</div>
+            )}
       </div>
     </div>
   );
