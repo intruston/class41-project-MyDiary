@@ -5,6 +5,7 @@ import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
 import AddNewPostImage from "./AddNewPostImage.jsx";
+
 const AddNewPost = ({ setActive }) => {
   const { auth } = useAuthContext();
   // Todays date
@@ -16,6 +17,7 @@ const AddNewPost = ({ setActive }) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
 
   //Text are to expand
   function expandTextarea() {
@@ -109,7 +111,11 @@ const AddNewPost = ({ setActive }) => {
               Private
             </h3>
           </div>
-          <AddNewPostImage />
+          <AddNewPostImage
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            userId={userId}
+          />
           <div className="new-post-bottom-right">
             <button type="submit" className="post-publish-button">
               Publish

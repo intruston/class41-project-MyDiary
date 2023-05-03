@@ -206,16 +206,6 @@ export const likePost = async (req, res) => {
 
 export const uploadPostPicture = async (req, res) => {
   try {
-    // const post = await Post.findById(req.params.id);
-    // checks will be done later if needed
-    // const authUserId = authCheckId(req);
-    // if (req.body.userId !== authUserId) {
-    // return res.status(403).json({
-    //   success: false,
-    //   msg: "You can upload picture only in your post!",
-    // });
-    // }
-
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
