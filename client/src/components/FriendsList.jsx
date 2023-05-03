@@ -24,7 +24,7 @@ const FriendsList = () => {
   }, []);
 
   return (
-    <div className="friend-list-wrapper">
+    <div className="friend-list-wrapper has-loading">
       <span className="friend-list-header">Friends</span>
       <div className="friend-list">
         {friendsList.map((friend) => {

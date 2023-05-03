@@ -87,7 +87,7 @@ const EntryCalendar = () => {
           )}
         </div>
 
-        <div className="calendar-container">
+        <div className="calendar-container has-loading">
           {isLoading && <Loading />}
           <Calendar
             calendarClassName="my-calendar"

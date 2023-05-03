@@ -76,7 +76,6 @@ const MyPostsMiddle = ({ setActive }) => {
           <div className="post-button">
             <button onClick={() => setActive(true)}>+ Add Post</button>
           </div>
-          {isLoading && <Loading />}
         </div>
         {error && <div className="error">{error.message}</div>}
 
@@ -98,6 +97,12 @@ const MyPostsMiddle = ({ setActive }) => {
       </div>
 
       {/* POSTS */}
+      {isLoading && (
+        <div className="load-container">
+          .
+          <Loading />
+        </div>
+      )}
       <div>
         {filteredPosts.length > 0 ? (
           <>
@@ -116,7 +121,9 @@ const MyPostsMiddle = ({ setActive }) => {
               ))}
           </>
         ) : (
-          <div className="no-post">Lets start writing</div>
+          !isLoading && (
+            <div className="no-post has-loading">Lets start writing</div>
+          )
         )}
       </div>
     </div>

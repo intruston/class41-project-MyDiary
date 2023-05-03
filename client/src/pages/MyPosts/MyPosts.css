@@ -244,6 +244,7 @@
   padding: var(--whiteSpaceLarger);
   margin-top: var(--whiteSpaceLarger);
   width: 100%;
+  min-height: 80px;
 }
 /* ==========================================================================
                              Responsive Design

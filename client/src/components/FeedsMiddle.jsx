@@ -31,7 +31,7 @@ const FeedsMiddle = () => {
 
   return (
     <div className="middle-section">
-      <div className="middle-container has-loading">
+      <div className="middle-container ">
         {/* Page Header */}
         <div className="feed-header">
           <div className="left">
@@ -41,20 +41,25 @@ const FeedsMiddle = () => {
             <h3>Search</h3>
           </div>
         </div>
-        {isLoading && <Loading />}
         {error && <div className="error">{error.message}</div>}
       </div>
       {/* Posts */}
+      {isLoading && (
+        <div className="load-container">
+          .
+          <Loading />
+        </div>
+      )}
       <div>
-        {feedPosts.length > 0 ? (
-          feedPosts.map((mappedPost) => (
-            <div className="single-post has-loading" key={mappedPost._id}>
-              <SinglePost mappedPost={mappedPost} />
-            </div>
-          ))
-        ) : (
-          <div className="no-post">No post to show in your feed</div>
-        )}
+        {feedPosts.length > 0
+          ? feedPosts.map((mappedPost) => (
+              <div className="single-post has-loading" key={mappedPost._id}>
+                <SinglePost mappedPost={mappedPost} />
+              </div>
+            ))
+          : !isLoading && (
+              <div className="no-post">No post to show in your feed</div>
+            )}
       </div>
     </div>
   );

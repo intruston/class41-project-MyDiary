@@ -12,6 +12,7 @@
   margin: auto;
   /* This is for 20.5vw after 1440px */
   width: 295px;
+  min-height: 100px;
 }
 
 .react-calendar {

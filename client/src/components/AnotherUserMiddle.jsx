@@ -67,21 +67,26 @@ const AnotherUserMiddle = () => {
         )}
       </div>
       {/* Posts */}
+      {isLoading && (
+        <div className="load-container">
+          .
+          <Loading />
+        </div>
+      )}
       <div>
-        {posts.length > 0 ? (
-          posts
-            .filter((mappedPost) => {
-              return !mappedPost.isPrivate;
-            })
-            .map((mappedPost) => (
-              <div className="single-post has-loading" key={mappedPost._id}>
-                {isLoading && <Loading />}
-                <SinglePost mappedPost={mappedPost} />
-              </div>
-            ))
-        ) : (
-          <div className="no-post">This user not yet post anything</div>
-        )}
+        {posts.length > 0
+          ? posts
+              .filter((mappedPost) => {
+                return !mappedPost.isPrivate;
+              })
+              .map((mappedPost) => (
+                <div className="single-post has-loading" key={mappedPost._id}>
+                  <SinglePost mappedPost={mappedPost} />
+                </div>
+              ))
+          : !isLoading && (
+              <div className="no-post">This user not yet post anything</div>
+            )}
       </div>
     </div>
   );
