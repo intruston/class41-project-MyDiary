@@ -216,7 +216,7 @@ export const uploadPostPicture = async (req, res) => {
     // });
     // }
 
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
     }
@@ -251,9 +251,12 @@ export const uploadPostPicture = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const authUserId = authCheckId(req);
 
-    if (post.userId === req.body.userId) {
+    const post = await Post.findById(req.params.id);
+    const user = await User.findById(authUserId);
+
+    if (post.userId === authUserId || user.isModerator) {
       await post.updateOne({ $set: req.body });
       res.status(200).json({
         success: true,
