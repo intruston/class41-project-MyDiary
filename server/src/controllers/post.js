@@ -1,18 +1,16 @@
-import jwt from "jsonwebtoken";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 import Post, { validatePost } from "../models/Post.js";
 import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
+import { authCheckId } from "./auth.js";
 
 export const getTimeline = async (req, res) => {
   let timelinePosts = [];
   try {
-    // Decode the token
-    const { authorization } = req.headers;
-    const token = authorization.split(" ")[1];
-    // Access the user ID from the decoded payload
-    const { _id } = jwt.verify(token, process.env.SECRET);
-    if (req.params.id === _id) {
+    const authUserId = authCheckId(req);
+    if (authUserId === req.params.id) {
       timelinePosts = await Post.find({ userId: req.params.id });
     } else {
       timelinePosts = await Post.find({
@@ -38,6 +36,14 @@ export const getTimeline = async (req, res) => {
 
 export const getFeed = async (req, res) => {
   try {
+    const authUserId = authCheckId(req);
+
+    if (authUserId !== req.params.id) {
+      return res.status(404).json({
+        success: false,
+        msg: "User feed not found",
+      });
+    }
     const currentUser = await User.findById(req.params.id);
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendsPosts = await Promise.all(
@@ -66,19 +72,13 @@ export const getFeed = async (req, res) => {
 
 export const getBannedPosts = async (req, res) => {
   try {
-    // Decode the token
-    const { authorization } = req.headers;
-    const token = authorization.split(" ")[1];
+    const authUserId = authCheckId(req);
 
-    // Access the user ID from the decoded payload
-    const { _id } = jwt.verify(token, process.env.SECRET);
-
-    // find a user by requested id
     const currentUser = await User.findById(req.params.id);
     const userId = currentUser._id.toString();
 
     // Compare that user is real and moderator rights
-    if (userId === _id && currentUser.isModerator) {
+    if (userId === authUserId && currentUser.isModerator) {
       const bannedPosts = await Post.find({
         isBanned: true,
       });
@@ -149,43 +149,14 @@ export const createPost = async (req, res) => {
   }
 };
 
-export const updatePost = async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-
-    if (post.userId === req.body.userId) {
-      await post.updateOne({ $set: req.body });
-      res.status(200).json({
-        success: true,
-        msg: "The post has been updated",
-      });
-    } else {
-      res
-        .status(403)
-        .json({ success: false, msg: "You can update only your post" });
-    }
-  } catch (error) {
-    logError(error);
-    res.status(500).json({
-      success: false,
-      msg: "Unable to update post. Error: " + error,
-    });
-  }
-};
-
 export const deletePost = async (req, res) => {
   try {
-    // Decode the token
-    const { authorization } = req.headers;
-    const token = authorization.split(" ")[1];
-
-    // Access the user ID from the decoded payload
-    const { _id } = jwt.verify(token, process.env.SECRET);
+    const authUserId = authCheckId(req);
 
     // Compare that user deleted only his post
     const post = await Post.findById(req.params.id);
 
-    if (post.userId === _id) {
+    if (post.userId === authUserId) {
       await post.deleteOne();
       res.status(200).json({
         success: true,
@@ -229,6 +200,75 @@ export const likePost = async (req, res) => {
     res.status(500).json({
       success: false,
       msg: "Unable to like/dislike post. Error: " + error,
+    });
+  }
+};
+
+export const uploadPostPicture = async (req, res) => {
+  try {
+    // const post = await Post.findById(req.params.id);
+    // checks will be done later if needed
+    // const authUserId = authCheckId(req);
+    // if (req.body.userId !== authUserId) {
+    // return res.status(403).json({
+    //   success: false,
+    //   msg: "You can upload picture only in your post!",
+    // });
+    // }
+
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ success: false, msg: "User not found" });
+    }
+
+    // Upload image to Cloudinary
+    if (req.files) {
+      cloudinary.config({
+        cloud_name: process.env.CLOUD_NAME,
+        api_key: process.env.API_KEY,
+        api_secret: process.env.API_SECRET,
+      });
+      const result = await cloudinary.uploader.upload(
+        req.files.file.tempFilePath,
+        {
+          use_filename: true,
+          folder: `Diary/post_images/${req.params.userId}`,
+        }
+      );
+      //delete file from temp
+      fs.unlinkSync(req.files.file.tempFilePath);
+
+      const imageUrl = result.secure_url;
+      res.status(200).json({ success: true, result: imageUrl });
+    } else {
+      res.status(404).json({ success: false, msg: "Image not found" });
+    }
+  } catch (err) {
+    logError(err);
+    res.status(500).json({ success: false, msg: err });
+  }
+};
+
+export const updatePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (post.userId === req.body.userId) {
+      await post.updateOne({ $set: req.body });
+      res.status(200).json({
+        success: true,
+        msg: "The post has been updated",
+      });
+    } else {
+      res
+        .status(403)
+        .json({ success: false, msg: "You can update only your post" });
+    }
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: "Unable to update post. Error: " + error,
     });
   }
 };

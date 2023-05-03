@@ -34,3 +34,13 @@ export const loginUser = async (req, res) => {
     });
   }
 };
+
+// Authorization checks
+export const authCheckId = (req) => {
+  // Decode the token
+  const { authorization } = req.headers;
+  const token = authorization.split(" ")[1];
+  // Access the user ID from the decoded payload
+  const { _id } = jwt.verify(token, process.env.SECRET);
+  return _id;
+};
