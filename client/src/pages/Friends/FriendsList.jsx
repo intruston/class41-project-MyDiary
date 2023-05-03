@@ -1,5 +1,5 @@
 import React from "react";
-import profileIcon from "../../assets/profile-icon.png";
+import noAvatar from "../../assets/NoAvatar.png";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -14,9 +14,7 @@ const SingleFriend = ({ mappedFriend }) => {
       >
         <img
           src={
-            mappedFriend.profilePicture
-              ? mappedFriend.profilePicture
-              : profileIcon
+            mappedFriend.profilePicture ? mappedFriend.profilePicture : noAvatar
           }
           alt="friend avatar"
           className="friend-avatar"

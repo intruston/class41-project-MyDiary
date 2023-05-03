@@ -12,11 +12,11 @@ const FriendsPageHeader = ({ friendCount }) => {
         </h4>
       </div>
       <div>
-        <form className="search-form">
+        <form className="search-form no-wrap">
+          <input type="text" placeholder="Find my friend" />
           <button type="submit">
             <i className="fa fa-search"></i>
           </button>
-          <input type="text" placeholder="Find my friend" />
         </form>
       </div>
     </div>

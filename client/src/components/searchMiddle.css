@@ -9,7 +9,11 @@
   margin: -2% 0;
   padding: 0 2%;
 }
-
+.no-wrap {
+  flex-wrap: nowrap;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
 .search-input {
   width: 70%;
   border: transparent;
