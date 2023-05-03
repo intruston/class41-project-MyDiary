@@ -15,7 +15,7 @@
     "setup:client": "cd client && npm run setup && cd ..",
     "setup:server": "cd server && npm run setup && cd ..",
     "setup:project": "npm install",
-    "heroku-postbuild": "npm run setup && npm run build:client",
+    "heroku-postbuild": "npm install && npm run setup && npm run build:client",
     "test": "npm run test:client && npm run test:server",
     "test:client": "cd client && npm run test && cd ..",
     "test:server": "cd server && npm run test && cd ..",
