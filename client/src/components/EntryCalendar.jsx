@@ -24,8 +24,9 @@ const EntryCalendar = () => {
     performFetch();
     return cancelFetch;
   }, []);
-
-  useEffect(() => {}, [posts]);
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
 
   const { date, setDate } = useContext(useDateContext);
   //set value to selected day
@@ -86,7 +87,7 @@ const EntryCalendar = () => {
           )}
         </div>
 
-        <div className="calendar-container">
+        <div className="calendar-container has-loading">
           {isLoading && <Loading />}
           <Calendar
             calendarClassName="my-calendar"

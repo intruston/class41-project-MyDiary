@@ -1,0 +1,20 @@
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex-direction: row;
+  gap: 1rem;
+  margin: 1rem;
+}
+.tags {
+  background-color: #e4e4e4c6;
+}
+
+.tags p {
+  color: gray;
+  border-radius: 10%;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--softGray);
+}

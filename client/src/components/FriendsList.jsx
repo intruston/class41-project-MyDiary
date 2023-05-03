@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import "./friendsList.css";
-import profileIcon from "../assets/profile-icon.png";
+import noAvatar from "../assets/NoAvatar.png";
 import Loading from "./Loading";
 import { useUserContext } from "../hooks/useUserContext";
 
@@ -20,12 +20,11 @@ const FriendsList = () => {
 
   useEffect(() => {
     performFetch();
-
     return cancelFetch;
   }, []);
 
   return (
-    <div className="friend-list-wrapper">
+    <div className="friend-list-wrapper has-loading">
       <span className="friend-list-header">Friends</span>
       <div className="friend-list">
         {friendsList.map((friend) => {
@@ -35,9 +34,7 @@ const FriendsList = () => {
                 <div className="friend-list-item">
                   <img
                     src={
-                      friend.profilePicture
-                        ? friend.profilePicture
-                        : profileIcon
+                      friend.profilePicture ? friend.profilePicture : noAvatar
                     }
                     alt="friend avatar"
                     className="friend-list-avatar"

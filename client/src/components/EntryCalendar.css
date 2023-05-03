@@ -12,6 +12,7 @@
   margin: auto;
   /* This is for 20.5vw after 1440px */
   width: 295px;
+  min-height: 100px;
 }
 
 .react-calendar {
@@ -54,7 +55,7 @@ abbr[title] {
 .react-calendar__tile.highlight {
   font-weight: 900;
   border-radius: 6px;
-  border: 2px solid var(--yellow) !important;
+  border: 2px dotted var(--midYellow) !important;
 }
 
 .react-calendar__tile:disabled {

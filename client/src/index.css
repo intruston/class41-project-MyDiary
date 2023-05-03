@@ -16,6 +16,7 @@
   --softGray: #b2b1b0;
   --orangeYellow: #ff8623;
   --yellow: #ff9f23;
+  --midYellow: #ffa023c1;
   --softYellow: #ffecd3;
   --success: #1aac83;
   --error: #dd2e44;
@@ -322,7 +323,13 @@ input {
 .has-loading {
   position: relative;
 }
-
+.load-container {
+  margin: auto;
+  margin-top: var(--whiteSpaceLarger);
+  position: relative;
+  width: 50%;
+  height: 100px;
+}
 .loadingSpinnerContainer {
   position: absolute;
   display: flex;
@@ -330,10 +337,10 @@ input {
   align-items: center;
   flex-direction: column;
   /* this will contain all space in parent */
-  top: 2%;
-  right: 2%;
-  bottom: 2%;
-  left: 2%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
 
   border-radius: 37px;
   backdrop-filter: blur(0.2rem);
