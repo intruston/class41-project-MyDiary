@@ -174,12 +174,12 @@
   justify-content: space-between;
 }
 .new-post-bottom-left {
-  width: 50%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .new-post-bottom-left h3 {
+  padding-right: var(--whiteSpaceMedium);
   cursor: pointer;
   margin-top: 0;
   display: flex;
@@ -205,9 +205,13 @@
   align-items: center;
   justify-content: space-between;
 }
-
+.new-post-bottom-right .post-image {
+  display: flex;
+  align-items: center;
+  margin-right: var(--whiteSpaceSmall);
+  justify-content: space-between;
+}
 .new-post svg {
-  margin-left: 5px;
   cursor: pointer;
   padding: 15%;
 }
