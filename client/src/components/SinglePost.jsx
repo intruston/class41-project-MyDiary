@@ -49,7 +49,9 @@ const SinglePost = ({ mappedPost }) => {
         <div className="post-content">
           <div className="post-header">
             <Link to={profileLink}>
-              <h3>{anotherUser ? anotherUser.firstName : null}</h3>
+              <h3 className="profile-name">
+                {anotherUser ? anotherUser.firstName : null}
+              </h3>
             </Link>
             <div className="post-right-side">
               {/* Date */}
@@ -69,7 +71,7 @@ const SinglePost = ({ mappedPost }) => {
           </div>
 
           {/* Post Content */}
-          <p className="post-context-text">
+          <div className="post-context-text">
             {mappedPost.image && (
               <div className="post-image">
                 <img
@@ -88,7 +90,7 @@ const SinglePost = ({ mappedPost }) => {
                 </a>
               </span>
             )}
-          </p>
+          </div>
         </div>
       </div>
 

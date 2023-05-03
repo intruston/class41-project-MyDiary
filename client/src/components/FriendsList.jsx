@@ -23,10 +23,6 @@ const FriendsList = () => {
     return cancelFetch;
   }, []);
 
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
-
   return (
     <div className="friend-list-wrapper">
       <span className="friend-list-header">Friends</span>
