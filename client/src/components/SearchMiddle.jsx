@@ -8,38 +8,35 @@ import loop from "../assets/search.png";
 import { useParams } from "react-router-dom";
 
 const SearchMiddle = () => {
-  const { most } = useParams();
-
-  // eslint-disable-next-line no-console
-  console.log("first-->" + most);
-  const [searchQuery, setSearchQuery] = useState(most ? most : "");
+  const { most } = useParams(); //comes from tags
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags?q=${searchQuery}`,
     (data) => {
       setSearchResult(data.result);
-      console.log("here 4--->" + most);
-      console.log("here 4 Q--->" + searchQuery);
-      console.table(searchResult);
     }
   );
+
   useEffect(() => {
     if (most) {
-      console.log("here 3--->" + most);
-      console.log("here 3 Q--->" + searchQuery);
-      //setSearchQuery(most);
+      setSearchQuery((prevSearchQuery) => {
+        // Update the searchQuery based on the previous state
+        if (most !== prevSearchQuery) {
+          return most;
+        }
+        return prevSearchQuery;
+      });
+    }
+  }, [most]);
+
+  useEffect(() => {
+    if (most === searchQuery) {
       performFetch();
     }
 
     return cancelFetch;
-  }, [most]);
-  useEffect(() => {
-    if (most) {
-      console.log("here 2 --->" + most);
-      setSearchQuery(most);
-      console.log("here 2 Q--->" + searchQuery);
-    }
-  }, [most]);
+  }, [most, searchQuery]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
