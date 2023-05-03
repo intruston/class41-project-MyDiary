@@ -70,6 +70,15 @@ const SinglePost = ({ mappedPost }) => {
 
           {/* Post Content */}
           <p className="post-context-text">
+            {mappedPost.image && (
+              <div className="post-image">
+                <img
+                  src={mappedPost.image}
+                  alt="post image"
+                  onError={(e) => (e.target.src = "")}
+                ></img>
+              </div>
+            )}
             {content}
             {mappedPost.content.length > MAX_CONTENT_LENGTH && !showMore && (
               <span>
