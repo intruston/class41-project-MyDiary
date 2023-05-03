@@ -222,7 +222,7 @@ export const uploadPostPicture = async (req, res) => {
         req.files.file.tempFilePath,
         {
           use_filename: true,
-          folder: `Diary/post_images/${req.params.userId}`,
+          folder: `Diary/post_images/${req.params.id}`,
         }
       );
       //delete file from temp
