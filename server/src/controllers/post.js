@@ -257,10 +257,16 @@ export const updatePost = async (req, res) => {
     const user = await User.findById(authUserId);
 
     if (post.userId === authUserId || user.isModerator) {
-      await post.updateOne({ $set: req.body });
+      const post = await Post.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
       res.status(200).json({
         success: true,
-        msg: "The post has been updated",
+        result: post,
       });
     } else {
       res

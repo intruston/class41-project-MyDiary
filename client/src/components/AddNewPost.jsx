@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { icons } from "../assets/svg.js";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch.js";
 import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
+import AddNewPostImage from "./AddNewPostImage.jsx";
 const AddNewPost = ({ setActive }) => {
   const { auth } = useAuthContext();
   // Todays date
@@ -109,20 +109,8 @@ const AddNewPost = ({ setActive }) => {
               Private
             </h3>
           </div>
-          <div className="new-post-bottom-middle">
-            {/* {fethed.image && ( */}
-            <div className="add-post-image">
-              <img
-                src="https://cdn.pixabay.com/photo/2022/03/09/14/11/cat-7057971_960_720.png"
-                alt="post image"
-                onError={(e) => (e.target.src = "")}
-              ></img>
-            </div>
-            {/* )} */}
-          </div>
+          <AddNewPostImage />
           <div className="new-post-bottom-right">
-            <div className="new-post attach"> {icons.attach}</div>
-
             <button type="submit" className="post-publish-button">
               Publish
             </button>

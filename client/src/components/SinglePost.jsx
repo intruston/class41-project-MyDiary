@@ -10,6 +10,7 @@ import { useUserContext } from "../hooks/useUserContext";
 import DropdownMenu from "./DropdownMenu";
 import PropTypes from "prop-types";
 import BanPost from "./BanPost";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost }) => {
@@ -63,7 +64,10 @@ const SinglePost = ({ mappedPost }) => {
                 <ul>
                   <li>Delete</li>
                   <li>
-                    <BanPost postId={mappedPost._id} />
+                    <BanPost
+                      postId={mappedPost._id}
+                      ban={mappedPost.isBanned}
+                    />
                   </li>
                 </ul>
               </DropdownMenu>
@@ -101,7 +105,11 @@ const SinglePost = ({ mappedPost }) => {
             <span key={tag}>#{tag.toUpperCase()}&nbsp;</span>
           ))}
         </p>
-        <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+        {mappedPost.isBanned ? (
+          <RemoveCircleIcon sx={{ color: "red" }} />
+        ) : (
+          <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+        )}
       </div>
 
       {error && <div className="error">{error?.message}</div>}
