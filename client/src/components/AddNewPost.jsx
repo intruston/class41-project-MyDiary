@@ -15,7 +15,7 @@ const AddNewPost = ({ setActive }) => {
   const userId = auth.id;
   // Inputs
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState();
   const [isPrivate, setIsPrivate] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -30,23 +30,39 @@ const AddNewPost = ({ setActive }) => {
     setContent("");
     setTags("");
     setIsPrivate(false);
-    alert("Post created successfully");
+    setImageUrl(null);
     setActive(false);
   };
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/post/create",
-    onSuccess
+    (response) => {
+      if (response.success) {
+        alert("Post created successfully");
+        onSuccess();
+      } else {
+        alert(`Post NOT created, Error: ${error}`);
+      }
+    }
   );
+
   useEffect(() => {
     return cancelFetch;
   }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const post = {
+      content,
+      image: imageUrl,
+      isPrivate,
+      tags,
+      userId,
+    };
+
     performFetch({
       method: "POST",
-      body: JSON.stringify({
-        post: { content, tags, isPrivate, userId },
-      }),
+      body: JSON.stringify({ post }),
     });
   };
 

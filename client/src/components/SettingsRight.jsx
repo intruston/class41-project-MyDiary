@@ -30,7 +30,7 @@ const SettingsRight = () => {
           <ContactsBlock
             icon={<LanguageOutlinedIcon fontSize="large" />}
             text={
-              "This project was made by HuckYourFuture students. You can find more information about the organization here:"
+              "This project was made by HackYourFuture students. You can find more information about the organization here:"
             }
             link={"hackyourfuture.net"}
           />
