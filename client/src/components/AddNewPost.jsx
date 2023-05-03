@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch.js";
 import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
+import "./AddNewPost.css";
 const AddNewPost = ({ setActive }) => {
   const { auth } = useAuthContext();
   // Todays date
@@ -102,7 +103,7 @@ const AddNewPost = ({ setActive }) => {
               Public
             </h3>
             <h3
-              className={isPrivate ? "active-posts" : ""}
+              className={isPrivate ? "active-posts private" : "private"}
               onClick={() => handleTabClick(true)}
             >
               Private
@@ -110,7 +111,7 @@ const AddNewPost = ({ setActive }) => {
           </div>
           <div className="new-post-bottom-middle">
             {/* {fethed.image && ( */}
-            <div className="post-image">
+            <div className="add-post-image">
               <img
                 src="https://cdn.pixabay.com/photo/2022/03/09/14/11/cat-7057971_960_720.png"
                 alt="post image"
