@@ -55,15 +55,15 @@ const SinglePost = ({ mappedPost }) => {
               {/* Date */}
               <PostDate date={mappedPost.createdAt} />
               <DropdownMenu>
-                <li>
-                  <a>Edit Post</a>
-                </li>
-                <li>
-                  <a>Delete Post</a>
-                </li>
-                <li>
-                  <BanPost postId={mappedPost._id} />
-                </li>
+                <summary role="button">
+                  <a className="dropdonwButton">...</a>
+                </summary>
+                <ul>
+                  <li>Delete</li>
+                  <li>
+                    <BanPost postId={mappedPost._id} />
+                  </li>
+                </ul>
               </DropdownMenu>
             </div>
           </div>

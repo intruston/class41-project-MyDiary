@@ -4,69 +4,36 @@
 
 /* Button styles */
 a.dropdonwButton {
-  /* Frame */
+  letter-spacing: 0.1rem;
+  user-select: none;
   display: inline-block;
-
-  /* Style */
   cursor: pointer;
-}
-
-a.dropdonwButton:active {
-  filter: brightness(75%);
 }
 
 /* Dropdown styles */
 .dropdown {
   position: relative;
-  padding: 0;
-  margin-right: 1em;
-  border: none;
-}
-
-.dropdown summary {
-  list-style: none;
-  list-style-type: none;
-}
-
-.dropdown > summary::-webkit-details-marker {
-  display: none;
-}
-
-.dropdown summary:focus {
-  outline: none;
-}
-
-.dropdown summary:focus a.dropdonwButton {
-  /* text-decoration: underline; */
-}
-
-.dropdown summary:focus {
-  outline: none;
 }
 
 .dropdown ul {
   position: absolute;
-  margin: 20px 0 0 0;
-  padding: 20px 0;
+  margin: 0px 0px 0 0;
+  padding: var(--whiteSpaceSmaller) 0;
   width: var(--dropdown-width);
   left: 50%;
-  margin-left: calc((var(--dropdown-width) / 2) * -1);
+  margin-left: calc((var(--dropdown-width) * -1));
   box-sizing: border-box;
   z-index: 12;
 
   background: white;
   border-radius: 6px;
   list-style: none;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .dropdown ul li {
   padding: 0;
   margin: 0;
-}
-
-.dropdown ul li a,
-.dropdown ul li a:visited {
   text-align: center;
   padding: var(--whiteSpaceSmaller);
   display: inline-block;
@@ -75,26 +42,19 @@ a.dropdonwButton:active {
 
   color: var(--grey);
   text-decoration: none;
+  font-size: 1rem;
+  font-weight: 300;
 }
 
-.dropdown ul li a:hover {
+.dropdown ul li:hover {
   text-decoration: underline;
 }
 
 /* Dropdown triangle */
-.dropdown ul::before {
-  content: " ";
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: -10px;
-  left: 50%;
-  margin-left: -10px;
-  border-style: solid;
-  border-width: 0 10px 10px 10px;
-  border-color: transparent transparent white transparent;
+.dropdown summary {
+  list-style: none;
+  list-style-type: none;
 }
-
 /* Close the dropdown with outside clicks */
 .dropdown > summary::before {
   display: none;

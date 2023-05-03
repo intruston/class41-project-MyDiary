@@ -3,14 +3,7 @@ import PropTypes from "prop-types";
 import "./DropdownMenu.css";
 
 const DropdownMenu = ({ children }) => {
-  return (
-    <details className="dropdown">
-      <summary role="button">
-        <a className="dropdonwButton">...</a>
-      </summary>
-      <ul>{children}</ul>
-    </details>
-  );
+  return <details className="dropdown">{children}</details>;
 };
 
 DropdownMenu.propTypes = {
