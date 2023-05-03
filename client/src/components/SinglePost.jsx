@@ -7,8 +7,9 @@ import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
 import "./SinglePost.css";
 import { useUserContext } from "../hooks/useUserContext";
-
+import DropdownMenu from "./DropdownMenu";
 import PropTypes from "prop-types";
+import BanPost from "./BanPost";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost }) => {
@@ -53,7 +54,17 @@ const SinglePost = ({ mappedPost }) => {
             <div className="post-right-side">
               {/* Date */}
               <PostDate date={mappedPost.createdAt} />
-              <h2>...</h2>
+              <DropdownMenu>
+                <li>
+                  <a>Edit Post</a>
+                </li>
+                <li>
+                  <a>Delete Post</a>
+                </li>
+                <li>
+                  <BanPost postId={mappedPost._id} />
+                </li>
+              </DropdownMenu>
             </div>
           </div>
 

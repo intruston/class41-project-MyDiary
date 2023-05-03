@@ -1,0 +1,112 @@
+:root {
+  --dropdown-width: 120px;
+}
+
+/* Button styles */
+a.dropdonwButton {
+  /* Frame */
+  display: inline-block;
+
+  /* Style */
+  cursor: pointer;
+}
+
+a.dropdonwButton:active {
+  filter: brightness(75%);
+}
+
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+  padding: 0;
+  margin-right: 1em;
+  border: none;
+}
+
+.dropdown summary {
+  list-style: none;
+  list-style-type: none;
+}
+
+.dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown summary:focus {
+  outline: none;
+}
+
+.dropdown summary:focus a.dropdonwButton {
+  /* text-decoration: underline; */
+}
+
+.dropdown summary:focus {
+  outline: none;
+}
+
+.dropdown ul {
+  position: absolute;
+  margin: 20px 0 0 0;
+  padding: 20px 0;
+  width: var(--dropdown-width);
+  left: 50%;
+  margin-left: calc((var(--dropdown-width) / 2) * -1);
+  box-sizing: border-box;
+  z-index: 12;
+
+  background: white;
+  border-radius: 6px;
+  list-style: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.dropdown ul li {
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown ul li a,
+.dropdown ul li a:visited {
+  text-align: center;
+  padding: var(--whiteSpaceSmaller);
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+
+  color: var(--grey);
+  text-decoration: none;
+}
+
+.dropdown ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Dropdown triangle */
+.dropdown ul::before {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: -10px;
+  left: 50%;
+  margin-left: -10px;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent white transparent;
+}
+
+/* Close the dropdown with outside clicks */
+.dropdown > summary::before {
+  display: none;
+}
+
+.dropdown[open] > summary::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
