@@ -8,6 +8,7 @@ import {
   getTimeline,
   likePost,
   updatePost,
+  uploadPostPicture,
 } from "../controllers/post.js";
 
 const postRouter = express.Router();
@@ -20,6 +21,7 @@ postRouter.get("/feed/:id", getFeed); // get friends feed and my posts sorted by
 postRouter.get("/timeline/:id", getTimeline); // get all my posts
 postRouter.get("/:id", getPost); //get a post
 postRouter.post("/create", createPost); // create a new post
+postRouter.post("/upload/:id", uploadPostPicture); // add a post picture to cloudinary
 postRouter.put("/:id", updatePost); // update a post
 postRouter.delete("/:id", deletePost); //delete a post
 postRouter.put("/:id/like", likePost); //like/dislike a post
