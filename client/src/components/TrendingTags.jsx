@@ -25,7 +25,7 @@ const TrendingTags = () => {
         return (
           <div key={popularTag} className="tags">
             {isLoading && <Loading />}
-            <Link to={`/search/tags?q=${popularTag}`}>
+            <Link to={`/search/tags/${popularTag}`}>
               <p>{popularTag}</p>
             </Link>
           </div>
