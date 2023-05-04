@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import Loading from "../../components/Loading";
+import PropTypes from "prop-types";
 
-const FriendsRight = () => {
+const FriendsRight = ({ onSearchDataChange }) => {
   return (
     <div className="right-section">
       <div className="single-container">
         <div>
-          <FriendsToFollow />
+          <FriendsToFollow onSearchDataChange={onSearchDataChange} />
         </div>
       </div>
     </div>
   );
 };
 
-function FriendsToFollow() {
+FriendsRight.propTypes = {
+  onSearchDataChange: PropTypes.array.isRequired,
+};
+
+function FriendsToFollow({ onSearchDataChange }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -23,16 +28,15 @@ function FriendsToFollow() {
 
   const query = `/search/users?firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&country=${country}&email=${email}`;
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    query
-    // (data) => {
-    //         console.log(data.result);
-    // }
+    query,
+    (data) => {
+      onSearchDataChange(data.result);
+    }
   );
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
     if (firstName || lastName || birthday || country || email) {
-      //      console.log(query);
       performFetch();
     }
   };
@@ -129,5 +133,9 @@ function FriendsToFollow() {
     </div>
   );
 }
+
+FriendsToFollow.propTypes = {
+  onSearchDataChange: PropTypes.array.isRequired,
+};
 
 export default FriendsRight;

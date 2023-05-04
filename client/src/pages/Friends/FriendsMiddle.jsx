@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Loading from "../../components/Loading";
 import useFetch from "../../hooks/useFetch";
 import FriendsPageHeader from "./FriendsPageHeader";
 import FriendsList from "./FriendsList";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useUserContext } from "../../hooks/useUserContext";
+import PropTypes from "prop-types";
 
-const FriendsMiddle = () => {
+const FriendsMiddle = ({ searchData }) => {
   const [friendsList, setFriendsList] = useState([]);
   const { auth } = useAuthContext();
   const { user } = useUserContext();
@@ -27,6 +28,12 @@ const FriendsMiddle = () => {
     return cancelFetch;
   }, []);
 
+  //check if searchData has some users to show
+  const hasSearchData = useMemo(
+    () => searchData[0] && searchData[0]._id,
+    [searchData]
+  );
+
   return (
     <div className="middle-section">
       <div className="middle-container">
@@ -40,8 +47,30 @@ const FriendsMiddle = () => {
           </div>
         )}
       </div>
+      <div className="middle-container friends-second">
+        <div className="page-header friends-page-header">
+          <div>
+            <h3>+ Friends to follow</h3>
+            {searchData.length > 0 ? (
+              <h4>
+                <strong>{searchData.length}</strong> Found
+              </h4>
+            ) : (
+              <h4>
+                You can find friends by filling the search form
+                <strong> →</strong>
+              </h4>
+            )}
+          </div>
+        </div>
+        {hasSearchData && <FriendsList friends={searchData} />}
+      </div>
     </div>
   );
+};
+
+FriendsMiddle.propTypes = {
+  searchData: PropTypes.array.isRequired,
 };
 
 export default FriendsMiddle;

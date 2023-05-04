@@ -123,6 +123,8 @@ export const searchUsers = async (req, res) => {
           birthday: 1,
           country: 1,
           email: 1,
+          profilePicture: 1,
+          bio: 1,
         },
       },
     ]);
