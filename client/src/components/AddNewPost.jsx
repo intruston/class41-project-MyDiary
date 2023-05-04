@@ -5,7 +5,7 @@ import useFetch from "../hooks/useFetch.js";
 import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
-const AddNewPost = ({ setActive }) => {
+const AddNewPost = ({ setActive, refreshUsers }) => {
   const { auth } = useAuthContext();
   // Todays date
   const newDate = new Date();
@@ -16,7 +16,11 @@ const AddNewPost = ({ setActive }) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
-
+  const sanitizeTags = (value) => {
+    let sanitizedValue = value.trim(); // Remove leading and trailing spaces
+    sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
+    return sanitizedValue;
+  };
   //Text are to expand
   function expandTextarea() {
     const textarea = document.getElementById("new-post-content");
@@ -28,8 +32,8 @@ const AddNewPost = ({ setActive }) => {
     setContent("");
     setTags("");
     setIsPrivate(false);
-    alert("Post created successfully");
     setActive(false);
+    refreshUsers();
   };
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/post/create",
@@ -40,10 +44,12 @@ const AddNewPost = ({ setActive }) => {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
+    const sanitizedTags = sanitizeTags(tags); // Remove '#' symbol from tags
+
     performFetch({
       method: "POST",
       body: JSON.stringify({
-        post: { content, tags, isPrivate, userId },
+        post: { content, tags: sanitizedTags, isPrivate, userId },
       }),
     });
   };
@@ -62,7 +68,7 @@ const AddNewPost = ({ setActive }) => {
             className="post-exit"
             onClick={() => setActive(false)}
           >
-            ×
+            ✖
           </button>
         </div>
 
@@ -137,6 +143,7 @@ const AddNewPost = ({ setActive }) => {
 
 AddNewPost.propTypes = {
   setActive: PropTypes.func.isRequired,
+  refreshUsers: PropTypes.func.isRequired,
 };
 
 export default AddNewPost;
