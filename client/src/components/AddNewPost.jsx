@@ -5,7 +5,7 @@ import useFetch from "../hooks/useFetch.js";
 import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
-const AddNewPost = ({ setActive }) => {
+const AddNewPost = ({ setActive, refreshUsers }) => {
   const { auth } = useAuthContext();
   // Todays date
   const newDate = new Date();
@@ -28,8 +28,8 @@ const AddNewPost = ({ setActive }) => {
     setContent("");
     setTags("");
     setIsPrivate(false);
-    alert("Post created successfully");
     setActive(false);
+    refreshUsers();
   };
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/post/create",
@@ -62,7 +62,7 @@ const AddNewPost = ({ setActive }) => {
             className="post-exit"
             onClick={() => setActive(false)}
           >
-            ×
+            ✖
           </button>
         </div>
 
@@ -137,6 +137,7 @@ const AddNewPost = ({ setActive }) => {
 
 AddNewPost.propTypes = {
   setActive: PropTypes.func.isRequired,
+  refreshUsers: PropTypes.func.isRequired,
 };
 
 export default AddNewPost;
