@@ -64,10 +64,7 @@ const SinglePost = ({ mappedPost }) => {
                 <ul>
                   <li>Delete</li>
                   <li>
-                    <BanPost
-                      postId={mappedPost._id}
-                      ban={mappedPost.isBanned}
-                    />
+                    <BanPost post={mappedPost} />
                   </li>
                 </ul>
               </DropdownMenu>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch.js";
 import Loading from "./Loading.jsx";
@@ -9,7 +8,6 @@ import AddNewPostImage from "./AddNewPostImage.jsx";
 
 const AddNewPost = ({ setActive }) => {
   const { auth } = useAuthContext();
-  const navigate = useNavigate();
 
   // Todays date
   const newDate = new Date();
@@ -42,7 +40,6 @@ const AddNewPost = ({ setActive }) => {
       if (response.success) {
         alert("Post created successfully");
         onSuccess();
-        navigate("/");
       } else {
         alert(`Post NOT created, Error: ${error}`);
       }
@@ -91,7 +88,7 @@ const AddNewPost = ({ setActive }) => {
             setContent(e.target.value);
           }}
           required
-          minLength="10"
+          minLength="3"
           className="new-post-content"
           id="new-post-content"
           placeholder="My Dear Diary,"

@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 
-const BanPost = ({ postId, ban }) => {
+const BanPost = ({ post }) => {
   const { user } = useUserContext();
-  const [banState, setBanState] = useState(ban);
+  const [banState, setBanState] = useState(post.isBanned);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/${postId}`,
+    `/post/${post._id}`,
     (response) => {
       if (response.success) {
         setBanState(response.isBanned);
@@ -26,7 +26,7 @@ const BanPost = ({ postId, ban }) => {
     event.preventDefault();
 
     const updatedPost = {
-      _id: postId,
+      ...post,
       isBanned: banState ? false : true,
     };
 
@@ -36,7 +36,7 @@ const BanPost = ({ postId, ban }) => {
     });
   };
 
-  if (isLoading || !user.isModerator) return null;
+  if (isLoading || !user.isModerator || user._id === post.userId) return null;
 
   if (error) {
     alert(error);
@@ -48,8 +48,7 @@ const BanPost = ({ postId, ban }) => {
 };
 
 BanPost.propTypes = {
-  postId: PropTypes.string,
-  ban: PropTypes.bool,
+  post: PropTypes.object,
 };
 
 export default BanPost;
