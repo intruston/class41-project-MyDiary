@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import useFetch from "../hooks/useFetch.js";
 import PropTypes from "prop-types";
 import { icons } from "../assets/svg.js";
-import NoPicture from "../assets/NoPicture.png";
 
 const AddNewPostImage = ({ imageUrl, setImageUrl, userId, setImgLoading }) => {
   const inputFileRef = useRef(null);
@@ -45,15 +44,6 @@ const AddNewPostImage = ({ imageUrl, setImageUrl, userId, setImgLoading }) => {
 
   return (
     <>
-      <div className="new-post-bottom-middle">
-        <div className="add-post-image">
-          <img
-            src={imageUrl ? imageUrl : NoPicture}
-            alt="post image"
-            onError={(e) => (e.target.src = "")}
-          ></img>
-        </div>
-      </div>
       <button
         type="button"
         className="new-post attach"
@@ -74,7 +64,7 @@ const AddNewPostImage = ({ imageUrl, setImageUrl, userId, setImgLoading }) => {
 AddNewPostImage.propTypes = {
   imageUrl: PropTypes.string,
   setImageUrl: PropTypes.func.isRequired,
-  setImgLoading: PropTypes.bool,
+  setImgLoading: PropTypes.func,
   userId: PropTypes.string,
 };
 
