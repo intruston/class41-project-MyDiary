@@ -54,7 +54,10 @@ const FeedsMiddle = () => {
         {feedPosts.length > 0
           ? feedPosts.map((mappedPost) => (
               <div className="single-post has-loading" key={mappedPost._id}>
-                <SinglePost mappedPost={mappedPost} />
+                <SinglePost
+                  mappedPost={mappedPost}
+                  refreshUsers={performFetch}
+                />
               </div>
             ))
           : !isLoading && (

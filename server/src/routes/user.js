@@ -6,7 +6,7 @@ import {
   getUser,
   updateUser,
   updateUserPassword,
-  uploadPicture,
+  uploadProfilePicture,
   getUserFriends,
   createUser,
 } from "../controllers/user.js";
@@ -28,7 +28,7 @@ userRouter.delete("/:id", deleteUser);
 userRouter.get("/:id", getUser);
 userRouter.put("/:id/follow", followUser);
 userRouter.put("/:id/unfollow", unfollowUser);
-userRouter.post("/upload/:id", uploadPicture);
+userRouter.post("/upload/:id", uploadProfilePicture);
 userRouter.get("/friends/:userId", getUserFriends);
 
 export default userRouter;

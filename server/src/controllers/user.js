@@ -1,10 +1,9 @@
-import jwt from "jsonwebtoken";
-import User, { validateUser } from "../models/User.js";
-import Post from "../models/Post.js";
-import { logError } from "../util/logging.js";
-import { comparePassword, hashPassword } from "../util/password.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import User, { validateUser } from "../models/User.js";
+import { logError } from "../util/logging.js";
+import { comparePassword, hashPassword } from "../util/password.js";
+import { authCheckId } from "./auth.js";
 
 export const updateUser = async (req, res) => {
   if (req.body._id !== req.params.id) {
@@ -73,13 +72,8 @@ export const updateUserPassword = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    // Decode the token
-    const { authorization } = req.headers;
-    const token = authorization.split(" ")[1];
-    // Access the user ID from the decoded payload
-    const { _id } = jwt.verify(token, process.env.SECRET);
-
-    if (_id !== req.params.id) {
+    const authUserId = authCheckId(req);
+    if (authUserId !== req.params.id) {
       return res
         .status(403)
         .json({ success: false, msg: "You can delete only your own profile!" });
@@ -91,12 +85,13 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ success: false, msg: "User not found" });
     }
 
-    await Post.deleteMany({ userId: user._id });
-
     // TODO: to let user delete profile uncomment
+    // await Post.deleteMany({ userId: user._id });
     // await User.findByIdAndDelete(user._id);
 
-    res.status(200).json({ success: true, msg: "User deleted" });
+    res
+      .status(200)
+      .json({ success: true, msg: "User deleted PLEASE CHECK TODO" });
   } catch (err) {
     logError(err);
     res.status(500).json({ success: false, msg: err });
@@ -186,8 +181,16 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const uploadPicture = async (req, res) => {
+export const uploadProfilePicture = async (req, res) => {
   try {
+    const authUserId = authCheckId(req);
+    if (authUserId !== req.params.id) {
+      return res.status(403).json({
+        success: false,
+        msg: "You can upload only your own profile picture!",
+      });
+    }
+
     const user = await User.findById(req.params.id);
 
     if (!user) {

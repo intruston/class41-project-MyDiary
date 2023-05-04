@@ -49,9 +49,8 @@
   width: 50px;
   height: 50px;
   border-radius: 10px;
-  padding: var(--whiteSpaceSmaller);
   margin-bottom: var(--whiteSpaceSmaller);
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border: 1px solid var(--softYellow);
 }
 .post-image img {
   display: block;
@@ -116,6 +115,10 @@
 }
 .is-animating {
   animation: heart-burst 0.8s steps(28) 1;
+}
+
+.dropdown ul li.no-display {
+  display: none;
 }
 
 @keyframes heart-burst {

@@ -10,9 +10,13 @@ import { useUserContext } from "../hooks/useUserContext";
 import DropdownMenu from "./DropdownMenu";
 import PropTypes from "prop-types";
 import BanPost from "./BanPost";
+import DeletePost from "./DeletePost";
+import PopUp from "./PopUp";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
-const SinglePost = ({ mappedPost }) => {
+const SinglePost = ({ mappedPost, refreshUsers }) => {
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
   const { user } = useUserContext();
   const { isLoading, error, anotherUser } = useGetAnotherUser({
     anotherUserId: mappedPost.userId,
@@ -31,6 +35,13 @@ const SinglePost = ({ mappedPost }) => {
   };
   const profileLink =
     anotherUser?._id === user._id ? "/my-posts" : `/user/${anotherUser?._id}`;
+  const openPopup = (e) => {
+    e.stopPropagation(); // Prevent the click event from bubbling up to the document
+    setPopUpOpen(true);
+  };
+  const closePopUp = () => {
+    setPopUpOpen(false);
+  };
   return (
     <div className="single-post-component">
       <div className="pos-container">
@@ -61,25 +72,45 @@ const SinglePost = ({ mappedPost }) => {
                   <a className="dropdonwButton">...</a>
                 </summary>
                 <ul>
-                  <li>Delete</li>
+                  <li
+                    className={
+                      anotherUser?._id === user._id ? "hi" : "no-display"
+                    }
+                  >
+                    <DeletePost
+                      postId={mappedPost._id}
+                      refreshUsers={refreshUsers}
+                    />
+                  </li>
                   <li>
-                    <BanPost postId={mappedPost._id} />
+                    <BanPost post={mappedPost} />
                   </li>
                 </ul>
               </DropdownMenu>
             </div>
           </div>
-
-          {/* Post Content */}
+          {/* Post Content */}{" "}
           <div className="post-context-text">
             {mappedPost.image && (
-              <div className="post-image">
-                <img
-                  src={mappedPost.image}
-                  alt="post image"
-                  onError={(e) => (e.target.src = "")}
-                ></img>
-              </div>
+              <>
+                <PopUp isOpen={isPopUpOpen} onClose={closePopUp}>
+                  <div className="popUp-Image-container">
+                    <img
+                      src={mappedPost.image}
+                      alt="post image"
+                      onError={(e) => (e.target.src = "")}
+                    ></img>
+                  </div>
+                </PopUp>
+                <div className="post-image">
+                  <img
+                    onClick={openPopup}
+                    src={mappedPost.image}
+                    alt="post image"
+                    onError={(e) => (e.target.src = "")}
+                  ></img>
+                </div>
+              </>
             )}
             {content}
             {mappedPost.content.length > MAX_CONTENT_LENGTH && !showMore && (
@@ -101,7 +132,11 @@ const SinglePost = ({ mappedPost }) => {
             <span key={tag}>#{tag.toUpperCase()}&nbsp;</span>
           ))}
         </p>
-        <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+        {mappedPost.isBanned ? (
+          <RemoveCircleIcon sx={{ color: "red" }} />
+        ) : (
+          <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+        )}
       </div>
 
       {error && <div className="error">{error?.message}</div>}
@@ -111,6 +146,7 @@ const SinglePost = ({ mappedPost }) => {
 
 SinglePost.propTypes = {
   mappedPost: PropTypes.object.isRequired,
+  refreshUsers: PropTypes.func.isRequired,
 };
 
 export default SinglePost;

@@ -3,14 +3,16 @@ import postBackground from "../assets/post-background.png";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
-import PropTypes from "prop-types";
 import { useUserContext } from "../hooks/useUserContext";
 import { useDateContext } from "../hooks/useDateContext";
+import Modal from "./Modal";
+import AddNewPost from "./AddNewPost";
 import moment from "moment";
-const MyPostsMiddle = ({ setActive }) => {
+const MyPostsMiddle = () => {
   const { user } = useUserContext();
   const { date } = useContext(useDateContext);
 
+  const [modalActive, setModalActive] = useState(false);
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("public");
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -53,6 +55,9 @@ const MyPostsMiddle = ({ setActive }) => {
 
   return (
     <div className="middle-section">
+      <Modal active={modalActive} setActive={setModalActive}>
+        <AddNewPost setActive={setModalActive} refreshUsers={performFetch} />
+      </Modal>
       <div className="middle-container">
         {/* Page Header */}
         <div className="page-header">
@@ -75,7 +80,7 @@ const MyPostsMiddle = ({ setActive }) => {
         <div className="add-new-post has-loading">
           <img src={postBackground} alt="user background" />
           <div className="post-button">
-            <button onClick={() => setActive(true)}>+ Add Post</button>
+            <button onClick={() => setModalActive(true)}>+ Add Post</button>
           </div>
         </div>
         {error && <div className="error">{error.message}</div>}
@@ -117,7 +122,10 @@ const MyPostsMiddle = ({ setActive }) => {
               })
               .map((mappedPost) => (
                 <div className="single-post has-loading" key={mappedPost._id}>
-                  <SinglePost mappedPost={mappedPost} />
+                  <SinglePost
+                    mappedPost={mappedPost}
+                    refreshUsers={performFetch}
+                  />
                 </div>
               ))}
           </>
@@ -129,10 +137,6 @@ const MyPostsMiddle = ({ setActive }) => {
       </div>
     </div>
   );
-};
-
-MyPostsMiddle.propTypes = {
-  setActive: PropTypes.func.isRequired,
 };
 
 export default MyPostsMiddle;

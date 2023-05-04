@@ -10,6 +10,7 @@ import Search from "./pages/Search/Search";
 import Settings from "./pages/Settings/Settings";
 import Moderation from "./pages/Moderation/Moderation";
 import AnotherUser from "./pages/AnotherUser/AnotherUser";
+import NotFound from "./pages/NotFound/NotFound";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 const App = () => {
@@ -37,6 +38,10 @@ const App = () => {
           element={auth ? <Search /> : <Navigate to="/login" />}
         />
         <Route
+          path="/search/tags/:most"
+          element={auth ? <Search /> : <Navigate to="/login" />}
+        />
+        <Route
           path="/settings"
           element={auth ? <Settings /> : <Navigate to="/login" />}
         />
@@ -48,6 +53,7 @@ const App = () => {
           path="/user/:id"
           element={auth ? <AnotherUser /> : <Navigate to="/login" />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

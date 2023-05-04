@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { icons } from "../assets/svg.js";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch.js";
 import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
-const AddNewPost = ({ setActive }) => {
+import AddNewPostImage from "./AddNewPostImage.jsx";
+
+const AddNewPost = ({ setActive, refreshUsers }) => {
   const { auth } = useAuthContext();
+
   // Todays date
   const newDate = new Date();
   const options = { day: "numeric", month: "long", year: "numeric" };
@@ -16,6 +18,12 @@ const AddNewPost = ({ setActive }) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const sanitizeTags = (value) => {
+    let sanitizedValue = value.trim(); // Remove leading and trailing spaces
+    sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
+    return sanitizedValue;
+  };
+  const [imageUrl, setImageUrl] = useState(null);
 
   //Text are to expand
   function expandTextarea() {
@@ -28,23 +36,41 @@ const AddNewPost = ({ setActive }) => {
     setContent("");
     setTags("");
     setIsPrivate(false);
-    alert("Post created successfully");
+    setImageUrl(null);
     setActive(false);
+    refreshUsers();
   };
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/post/create",
-    onSuccess
+    (response) => {
+      if (response.success) {
+        alert("Post created successfully");
+        onSuccess();
+      } else {
+        alert(`Post NOT created, Error: ${error}`);
+      }
+    }
   );
+
   useEffect(() => {
     return cancelFetch;
   }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const sanitizedTags = sanitizeTags(tags); // Remove '#' symbol from tags
+
+    const post = {
+      content,
+      image: imageUrl,
+      isPrivate,
+      tags: sanitizedTags,
+      userId,
+    };
+
     performFetch({
       method: "POST",
-      body: JSON.stringify({
-        post: { content, tags, isPrivate, userId },
-      }),
+      body: JSON.stringify({ post }),
     });
   };
 
@@ -62,7 +88,7 @@ const AddNewPost = ({ setActive }) => {
             className="post-exit"
             onClick={() => setActive(false)}
           >
-            ×
+            ✖
           </button>
         </div>
 
@@ -73,7 +99,7 @@ const AddNewPost = ({ setActive }) => {
             setContent(e.target.value);
           }}
           required
-          minLength="2"
+          minLength="3"
           className="new-post-content"
           id="new-post-content"
           placeholder="My Dear Diary,"
@@ -109,20 +135,12 @@ const AddNewPost = ({ setActive }) => {
               Private
             </h3>
           </div>
-          <div className="new-post-bottom-middle">
-            {/* {fethed.image && ( */}
-            <div className="add-post-image">
-              <img
-                src="https://cdn.pixabay.com/photo/2022/03/09/14/11/cat-7057971_960_720.png"
-                alt="post image"
-                onError={(e) => (e.target.src = "")}
-              ></img>
-            </div>
-            {/* )} */}
-          </div>
+          <AddNewPostImage
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            userId={userId}
+          />
           <div className="new-post-bottom-right">
-            <div className="new-post attach"> {icons.attach}</div>
-
             <button type="submit" className="post-publish-button">
               Publish
             </button>
@@ -137,6 +155,7 @@ const AddNewPost = ({ setActive }) => {
 
 AddNewPost.propTypes = {
   setActive: PropTypes.func.isRequired,
+  refreshUsers: PropTypes.func.isRequired,
 };
 
 export default AddNewPost;
