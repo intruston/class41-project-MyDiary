@@ -18,12 +18,14 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [imgLoading, setImgLoading] = useState(false);
+
   const sanitizeTags = (value) => {
     let sanitizedValue = value.trim(); // Remove leading and trailing spaces
     sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
     return sanitizedValue;
   };
-  const [imageUrl, setImageUrl] = useState(null);
 
   //Text are to expand
   function expandTextarea() {
@@ -138,11 +140,16 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
           <AddNewPostImage
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
+            setImgLoading={setImgLoading}
             userId={userId}
           />
           <div className="new-post-bottom-right">
-            <button type="submit" className="post-publish-button">
-              Publish
+            <button
+              type="submit"
+              className="post-publish-button"
+              disabled={imgLoading}
+            >
+              {imgLoading ? "..." : "Publish"}
             </button>
           </div>
         </div>

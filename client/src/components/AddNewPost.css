@@ -123,21 +123,19 @@
 
 /* BOTTOM MIDDLE */
 .add-post-image {
-  cursor: pointer;
   overflow: hidden;
   width: 50px;
   height: 50px;
   border-radius: 10px;
-  padding: var(--whiteSpaceSmaller);
+  /* padding: var(--whiteSpaceSmaller); */
   margin-bottom: var(--whiteSpaceSmaller);
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .add-post-image img {
+  object-fit: cover;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  max-width: 100%;
 }
 
 /* BOTTOM RIGHT */
@@ -163,7 +161,14 @@
   fill: var(--gray);
 }
 
+/* Button attach photo */
+.attach {
+  background: none;
+  border: none;
+}
+
 .post-publish-button {
+  min-width: 10em;
   cursor: pointer;
   font-weight: 500;
   font-size: 0.9rem;
