@@ -1,11 +1,14 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import "./searchMiddle.css";
 import loop from "../assets/search.png";
+import { useParams } from "react-router-dom";
 
 const SearchMiddle = () => {
+  const { most } = useParams(); //comes from tags
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -16,8 +19,24 @@ const SearchMiddle = () => {
   );
 
   useEffect(() => {
+    if (most) {
+      setSearchQuery((prevSearchQuery) => {
+        // Update the searchQuery based on the previous state
+        if (most !== prevSearchQuery) {
+          return most;
+        }
+        return prevSearchQuery;
+      });
+    }
+  }, [most]);
+
+  useEffect(() => {
+    if (most === searchQuery) {
+      performFetch();
+    }
+
     return cancelFetch;
-  }, []);
+  }, [most, searchQuery]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
