@@ -16,7 +16,9 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
-
+  const sanitizeTags = (value) => {
+    return value.replace(/#/g, ""); // Remove '#' symbol globally using regular expression
+  };
   //Text are to expand
   function expandTextarea() {
     const textarea = document.getElementById("new-post-content");
@@ -40,10 +42,12 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
+    const sanitizedTags = sanitizeTags(tags); // Remove '#' symbol from tags
+
     performFetch({
       method: "POST",
       body: JSON.stringify({
-        post: { content, tags, isPrivate, userId },
+        post: { content, tags: sanitizedTags, isPrivate, userId },
       }),
     });
   };
