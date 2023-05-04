@@ -22,6 +22,8 @@
   padding: var(--whiteSpaceMedium);
   border-radius: 20px;
   background-color: white;
+  max-width: 60%;
+  max-height: 60vh;
   min-height: 100px;
   min-width: 200px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
@@ -63,7 +65,10 @@
 .pop-up-button:hover {
   color: var(--orangeYellow);
 }
-
+.popUp-Image-container {
+  width: 50vh;
+  height: 50vh;
+}
 .pop-up-content img {
   display: block;
   width: 100%;
