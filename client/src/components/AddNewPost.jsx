@@ -17,7 +17,9 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const sanitizeTags = (value) => {
-    return value.replace(/#/g, ""); // Remove '#' symbol globally using regular expression
+    let sanitizedValue = value.trim(); // Remove leading and trailing spaces
+    sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
+    return sanitizedValue;
   };
   //Text are to expand
   function expandTextarea() {
