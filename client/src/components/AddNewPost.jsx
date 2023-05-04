@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch.js";
 import Loading from "./Loading.jsx";
@@ -8,6 +9,8 @@ import AddNewPostImage from "./AddNewPostImage.jsx";
 
 const AddNewPost = ({ setActive }) => {
   const { auth } = useAuthContext();
+  const navigate = useNavigate();
+
   // Todays date
   const newDate = new Date();
   const options = { day: "numeric", month: "long", year: "numeric" };
@@ -15,7 +18,7 @@ const AddNewPost = ({ setActive }) => {
   const userId = auth.id;
   // Inputs
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState();
+  const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -39,6 +42,7 @@ const AddNewPost = ({ setActive }) => {
       if (response.success) {
         alert("Post created successfully");
         onSuccess();
+        navigate("/");
       } else {
         alert(`Post NOT created, Error: ${error}`);
       }
@@ -75,11 +79,7 @@ const AddNewPost = ({ setActive }) => {
       <div className="new-post has-loading">
         <div className="new-post-top">
           <h3>- {formattedDate} -</h3>
-          <button
-            type="button"
-            className="post-exit"
-            onClick={() => setActive(false)}
-          >
+          <button type="button" className="post-exit" onClick={onSuccess}>
             ×
           </button>
         </div>
@@ -91,7 +91,7 @@ const AddNewPost = ({ setActive }) => {
             setContent(e.target.value);
           }}
           required
-          minLength="2"
+          minLength="10"
           className="new-post-content"
           id="new-post-content"
           placeholder="My Dear Diary,"
