@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import BanPost from "./BanPost";
 import DeletePost from "./DeletePost";
 import PopUp from "./PopUp";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost, refreshUsers }) => {
@@ -82,7 +83,7 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                     />
                   </li>
                   <li>
-                    <BanPost postId={mappedPost._id} />
+                    <BanPost post={mappedPost} />
                   </li>
                 </ul>
               </DropdownMenu>
@@ -131,7 +132,11 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
             <span key={tag}>#{tag.toUpperCase()}&nbsp;</span>
           ))}
         </p>
-        <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+        {mappedPost.isBanned ? (
+          <RemoveCircleIcon sx={{ color: "red" }} />
+        ) : (
+          <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
+        )}
       </div>
 
       {error && <div className="error">{error?.message}</div>}
