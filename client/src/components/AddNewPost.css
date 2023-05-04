@@ -11,19 +11,20 @@
   margin-top: 0;
 }
 .post-exit {
-  color: #c4c4c4;
-  background: white;
-  border: none;
-  position: absolute;
-  height: 1px;
-  top: 0%;
-  right: 3%;
-  font-size: 3rem;
   cursor: pointer;
+  top: 5px;
+  right: 5px;
+  position: absolute;
+  width: 30px;
+  font-size: 20px;
+  color: var(--softGray);
+  background-color: transparent;
+  border: none;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 1px var(--softYellow);
 }
 .post-exit:hover {
   color: var(--yellow);
-  text-shadow: 1px 1px 1px pink;
 }
 
 /* ================[ Content ]================== */

@@ -42,7 +42,10 @@ const ModerationMiddle = () => {
             bannedPosts.map((mappedPost) => (
               <div className="single-post has-loading" key={mappedPost._id}>
                 {isLoading && <Loading />}
-                <SinglePost mappedPost={mappedPost} />
+                <SinglePost
+                  mappedPost={mappedPost}
+                  refreshUsers={performFetch}
+                />
               </div>
             ))
           )}

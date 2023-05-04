@@ -38,6 +38,10 @@ const App = () => {
           element={auth ? <Search /> : <Navigate to="/login" />}
         />
         <Route
+          path="/search/tags/:most"
+          element={auth ? <Search /> : <Navigate to="/login" />}
+        />
+        <Route
           path="/settings"
           element={auth ? <Settings /> : <Navigate to="/login" />}
         />

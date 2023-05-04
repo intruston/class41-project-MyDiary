@@ -1,5 +1,4 @@
 import Post from "../models/Post.js";
-//import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 
 export const searchTags = async (req, res) => {
@@ -40,7 +39,7 @@ export const searchTags = async (req, res) => {
 };
 export const mostPopularTags = async (req, res) => {
   try {
-    const most = parseInt(req.params.most); // Convert string to number
+    const most = parseInt(req.params.most);
     const searchQuery = await Post.aggregate([
       // Match documents with non-empty tags array and isPrivate: false and isBanned: false
       {
@@ -58,29 +57,14 @@ export const mostPopularTags = async (req, res) => {
       // Sort documents by count in descending order
       { $sort: { count: -1 } },
 
-      // Facet stage to get the top N tags and their total count
-      {
-        $facet: {
-          // First pipeline gets the top tags
-          topTags: [
-            { $limit: most },
-            { $project: { _id: 0, tag: "$_id", count: 1 } },
-          ],
-          // Second pipeline gets the total count of tags
-          totalCount: [{ $count: "total" }],
-        },
-      },
+      // Get the top N tags
+      { $limit: most },
 
-      // Project the top tags and total count
-      {
-        $project: {
-          topTags: "$topTags",
-          total: { $arrayElemAt: ["$totalCount.total", 0] },
-        },
-      },
+      // Project only the tag name
+      { $project: { _id: 0, tag: "$_id" } },
     ]);
-
-    res.status(200).json({ success: true, result: searchQuery });
+    const tags = searchQuery.map((item) => item.tag);
+    res.status(200).json({ success: true, result: tags });
   } catch (error) {
     logError(error);
     res.status(500).json({

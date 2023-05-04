@@ -41,6 +41,7 @@ a.dropdonwButton {
   box-sizing: border-box;
 
   color: var(--grey);
+  user-select: none;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 300;

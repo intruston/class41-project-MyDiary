@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./trendingTags.css";
 import { Link } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
+import Loading from "./Loading";
 const TrendingTags = () => {
-  const tags = ["downtown", "long", "bike", "say", "way"];
+  const [popularTags, setPopularTags] = useState([]);
+  const { isLoading, error, performFetch, cancelFetch } = useFetch(
+    `/search/tags/${10}`,
+    (data) => {
+      setPopularTags(data.result);
+    }
+  );
+  useEffect(() => {
+    performFetch();
+    return cancelFetch;
+  }, []);
+
+  useEffect(() => {}, [popularTags]);
 
   return (
     <div className="tags-container">
-      {tags.map((tag) => (
-        <div key={tag} className="tags">
-          <Link to={`/search/tags?q=${tag}`}>
-            <p>{tag}</p>
-          </Link>
-        </div>
-      ))}
+      {error && <p>Error: {error.message}</p>}
+      {popularTags.map((popularTag) => {
+        return (
+          <div key={popularTag} className="tags">
+            {isLoading && <Loading />}
+            <Link to={`/search/tags/${popularTag}`}>
+              <p>{popularTag}</p>
+            </Link>
+          </div>
+        );
+      })}
     </div>
   );
 };
