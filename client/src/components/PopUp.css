@@ -66,8 +66,10 @@
   color: var(--orangeYellow);
 }
 .popUp-Image-container {
-  width: 50vh;
-  height: 50vh;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 50vh;
+  max-height: 50vh;
 }
 .pop-up-content img {
   display: block;
