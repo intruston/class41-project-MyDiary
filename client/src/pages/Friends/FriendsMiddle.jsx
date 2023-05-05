@@ -70,7 +70,7 @@ const FriendsMiddle = ({ searchData }) => {
 };
 
 FriendsMiddle.propTypes = {
-  searchData: PropTypes.array.isRequired,
+  searchData: PropTypes.object.isRequired,
 };
 
 export default FriendsMiddle;

@@ -16,7 +16,7 @@ const FriendsRight = ({ onSearchDataChange }) => {
 };
 
 FriendsRight.propTypes = {
-  onSearchDataChange: PropTypes.array.isRequired,
+  onSearchDataChange: PropTypes.func.isRequired,
 };
 
 function FriendsToFollow({ onSearchDataChange }) {
@@ -135,7 +135,7 @@ function FriendsToFollow({ onSearchDataChange }) {
 }
 
 FriendsToFollow.propTypes = {
-  onSearchDataChange: PropTypes.array.isRequired,
+  onSearchDataChange: PropTypes.func.isRequired,
 };
 
 export default FriendsRight;
