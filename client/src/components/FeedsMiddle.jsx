@@ -21,9 +21,9 @@ const FeedsMiddle = () => {
     return cancelFetch;
   }, []);
 
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
+  // useEffect(() => {
+  //   return cancelFetch;
+  // }, []);
 
   const feedPosts = posts.filter((post) => {
     return !post.isPrivate && !post.isBanned;
@@ -46,7 +46,6 @@ const FeedsMiddle = () => {
       {/* Posts */}
       {isLoading && (
         <div className="load-container">
-          .
           <Loading />
         </div>
       )}

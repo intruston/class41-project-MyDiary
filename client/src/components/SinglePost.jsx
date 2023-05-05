@@ -69,7 +69,7 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
               <PostDate date={mappedPost.createdAt} />
               <DropdownMenu>
                 <summary role="button">
-                  <a className="dropdonwButton">...</a>
+                  <a className="dropdownButton">...</a>
                 </summary>
                 <ul>
                   <DeletePost

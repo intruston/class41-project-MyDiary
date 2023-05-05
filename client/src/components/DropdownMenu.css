@@ -3,7 +3,7 @@
 }
 
 /* Button styles */
-a.dropdonwButton {
+a.dropdownButton {
   letter-spacing: 0.1rem;
   user-select: none;
   display: inline-block;
