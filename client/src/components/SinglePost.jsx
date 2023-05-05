@@ -15,6 +15,7 @@ import BanPost from "./BanPost";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import Loading from "./Loading";
 import PopUp from "./PopUp";
+import ReportPost from "./ReportPost";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost, refreshUsers }) => {
@@ -77,8 +78,8 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                     refreshUsers={refreshUsers}
                     anotherUserId={anotherUser?._id}
                   />
-
-                  <BanPost post={mappedPost} />
+                  <ReportPost post={mappedPost} refreshUsers={refreshUsers} />
+                  <BanPost post={mappedPost} refreshUsers={refreshUsers} />
                 </ul>
               </DropdownMenu>
             </div>

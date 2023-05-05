@@ -79,14 +79,14 @@ export const getBannedPosts = async (req, res) => {
 
     // Compare that user is real and moderator rights
     if (userId === authUserId && currentUser.isModerator) {
-      const bannedPosts = await Post.find({
-        isBanned: true,
+      const moderationPosts = await Post.find({
+        $or: [{ isBanned: true }, { isReported: true }],
       });
-      bannedPosts.sort((post1, post2) => {
+      moderationPosts.sort((post1, post2) => {
         return new Date(post2.createdAt) - new Date(post1.createdAt);
       });
 
-      res.status(200).json({ success: true, result: bannedPosts });
+      res.status(200).json({ success: true, result: moderationPosts });
     } else {
       return res.status(403).json({
         success: false,
@@ -246,7 +246,7 @@ export const updatePost = async (req, res) => {
     const post = await Post.findById(req.params.id);
     const user = await User.findById(authUserId);
 
-    if (post.userId === authUserId || user.isModerator) {
+    if (post.userId === authUserId || user.isModerator || req.body.isReported) {
       const post = await Post.findByIdAndUpdate(
         req.params.id,
         {

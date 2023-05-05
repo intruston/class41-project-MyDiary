@@ -7,12 +7,12 @@ import { useUserContext } from "../hooks/useUserContext";
 const ModerationMiddle = () => {
   // Getting user information and logout function from context
   const { user } = useUserContext();
-  const [bannedPosts, setBannedPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/moderation/${user._id}`,
     (response) => {
-      setBannedPosts(response.result);
+      setPosts(response.result);
     }
   );
 
@@ -21,7 +21,12 @@ const ModerationMiddle = () => {
     return cancelFetch;
   }, []);
 
-  useEffect(() => {}, [bannedPosts]);
+  useEffect(() => {}, [posts]);
+
+  const reportedPosts = posts.filter(
+    (post) => post.isReported && !post.isBanned
+  );
+  const bannedPosts = posts.filter((post) => post.isBanned);
 
   return (
     <div className="middle-section">
@@ -29,12 +34,30 @@ const ModerationMiddle = () => {
         {/* Page Header */}
         <div className="moderation-header">
           <div className="left">
+            <h2>To review</h2>
+          </div>
+        </div>
+        <div>
+          {reportedPosts === [] ? (
+            <div className="no-banned-posts">No any reports now</div>
+          ) : (
+            reportedPosts.map((mappedPost) => (
+              <div className="single-post has-loading" key={mappedPost._id}>
+                {isLoading && <Loading />}
+                <SinglePost
+                  mappedPost={mappedPost}
+                  refreshUsers={performFetch}
+                />
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="moderation-header">
+          <div className="left">
             <h2>Banned</h2>
           </div>
         </div>
-        {error && <div className="error">{error.message}</div>}
-
-        {/* Posts */}
         <div>
           {bannedPosts === [] ? (
             <div className="no-banned-posts">No banned posts</div>
@@ -50,6 +73,7 @@ const ModerationMiddle = () => {
             ))
           )}
         </div>
+        {error && <div className="error">{error.message}</div>}
       </div>
     </div>
   );

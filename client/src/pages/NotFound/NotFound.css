@@ -1,0 +1,10 @@
+/* ==========================================================================
+                           Not found page 404 CSS
+========================================================================== */
+.not-found-container {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

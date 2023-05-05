@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Loading from "../../components/Loading";
-import useFetch from "../../hooks/useFetch";
+import Loading from "./Loading";
+import useFetch from "../hooks/useFetch";
 import FriendsPageHeader from "./FriendsPageHeader";
 import FriendsList from "./FriendsList";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useUserContext } from "../../hooks/useUserContext";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useUserContext } from "../hooks/useUserContext";
 import PropTypes from "prop-types";
 
 const FriendsMiddle = ({ searchData }) => {
@@ -70,7 +70,7 @@ const FriendsMiddle = ({ searchData }) => {
 };
 
 FriendsMiddle.propTypes = {
-  searchData: PropTypes.array.isRequired,
+  searchData: PropTypes.object.isRequired,
 };
 
 export default FriendsMiddle;

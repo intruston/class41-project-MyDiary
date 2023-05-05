@@ -43,18 +43,18 @@ const AnotherUserMiddle = () => {
         {/* Page Header */}
         <div className="page-header has-loading">
           {anotherUserLoading && <Loading />}
-          <div className="another-profile">
-            <ProfilePicture
-              profilePicture={anotherUser && anotherUser.profilePicture}
-              size={"small"}
-            />
-          </div>
 
           <div className="left">
             <h2>{anotherUser && anotherUser.firstName}</h2>
             <h4>
               <strong>{posts && posts.length}</strong> Post
             </h4>
+          </div>
+          <div className="another-profile">
+            <ProfilePicture
+              profilePicture={anotherUser && anotherUser.profilePicture}
+              size={"large"}
+            />
           </div>
           <div className="right">
             <h3>{`"${anotherUser && anotherUser.bio}"`}</h3>

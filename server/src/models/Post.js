@@ -8,6 +8,7 @@ const postSchema = new mongoose.Schema(
     image: { type: String, default: "" },
     isPrivate: { type: Boolean, default: true },
     isBanned: { type: Boolean, default: false },
+    isReported: { type: Boolean, default: false },
     tags: { type: Array, default: [] },
     likes: { type: Array, default: [] },
     userId: { type: String, required: true },
