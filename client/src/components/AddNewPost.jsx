@@ -8,30 +8,39 @@ import AddNewPostImage from "./AddNewPostImage.jsx";
 
 const AddNewPost = ({ setActive, refreshUsers }) => {
   const { auth } = useAuthContext();
+  const userId = auth.id;
 
   // Todays date
   const newDate = new Date();
   const options = { day: "numeric", month: "long", year: "numeric" };
   const formattedDate = newDate.toLocaleDateString("en-US", options);
-  const userId = auth.id;
+
   // Inputs
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  //Regex control over tags
   const sanitizeTags = (value) => {
     let sanitizedValue = value.trim(); // Remove leading and trailing spaces
     sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
     return sanitizedValue;
   };
-  const [imageUrl, setImageUrl] = useState(null);
 
-  //Text are to expand
+  //Control expand of text area
   function expandTextarea() {
     const textarea = document.getElementById("new-post-content");
     textarea.style.height = "auto"; // Reset height to auto
     textarea.style.height = textarea.scrollHeight + "px"; // Set height to content height
   }
-  //Sending post
+
+  //Control Private-public post
+  const handleTabClick = (tab) => {
+    setIsPrivate(tab);
+  };
+
+  //When Post submitted succesfully
   const onSuccess = () => {
     setContent("");
     setTags("");
@@ -40,15 +49,11 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
     setActive(false);
     refreshUsers();
   };
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/post/create",
-    (response) => {
-      if (response.success) {
-        alert("Post created successfully");
-        onSuccess();
-      } else {
-        alert(`Post NOT created, Error: ${error}`);
-      }
+    () => {
+      onSuccess();
     }
   );
 
@@ -72,10 +77,6 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
       method: "POST",
       body: JSON.stringify({ post }),
     });
-  };
-
-  const handleTabClick = (tab) => {
-    setIsPrivate(tab);
   };
 
   return (
@@ -135,12 +136,13 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
               Private
             </h3>
           </div>
-          <AddNewPostImage
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            userId={userId}
-          />
+
           <div className="new-post-bottom-right">
+            <AddNewPostImage
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
+              userId={userId}
+            />
             <button type="submit" className="post-publish-button">
               Publish
             </button>

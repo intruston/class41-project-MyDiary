@@ -43,7 +43,9 @@ const BanPost = ({ post }) => {
   }
 
   return (
-    <span onClick={handleClick}>{banState ? "Unban post" : "Ban post"}</span>
+    <li>
+      <span onClick={handleClick}>{banState ? "Unban post" : "Ban post"}</span>
+    </li>
   );
 };
 

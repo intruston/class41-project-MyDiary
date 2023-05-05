@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import { Link } from "react-router-dom";
-import PostDate from "./PostDate";
-import PostReaction from "./PostReaction";
-import ProfilePicture from "./ProfilePicture";
-import Loading from "./Loading";
-import "./SinglePost.css";
-import { useUserContext } from "../hooks/useUserContext";
-import DropdownMenu from "./DropdownMenu";
 import PropTypes from "prop-types";
-import BanPost from "./BanPost";
+import { useUserContext } from "../hooks/useUserContext";
+import "./SinglePost.css";
+
+import useGetAnotherUser from "../hooks/useGetAnotherUser";
+import ProfilePicture from "./ProfilePicture";
+import PostReaction from "./PostReaction";
+import PostDate from "./PostDate";
+import DropdownMenu from "./DropdownMenu";
 import DeletePost from "./DeletePost";
-import PopUp from "./PopUp";
+import BanPost from "./BanPost";
+
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import Loading from "./Loading";
+import PopUp from "./PopUp";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost, refreshUsers }) => {
@@ -39,9 +41,7 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
     e.stopPropagation(); // Prevent the click event from bubbling up to the document
     setPopUpOpen(true);
   };
-  const closePopUp = () => {
-    setPopUpOpen(false);
-  };
+
   return (
     <div className="single-post-component">
       <div className="pos-container">
@@ -72,19 +72,13 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                   <a className="dropdonwButton">...</a>
                 </summary>
                 <ul>
-                  <li
-                    className={
-                      anotherUser?._id === user._id ? "hi" : "no-display"
-                    }
-                  >
-                    <DeletePost
-                      postId={mappedPost._id}
-                      refreshUsers={refreshUsers}
-                    />
-                  </li>
-                  <li>
-                    <BanPost post={mappedPost} />
-                  </li>
+                  <DeletePost
+                    postId={mappedPost._id}
+                    refreshUsers={refreshUsers}
+                    anotherUserId={anotherUser?._id}
+                  />
+
+                  <BanPost post={mappedPost} />
                 </ul>
               </DropdownMenu>
             </div>
@@ -93,7 +87,7 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
           <div className="post-context-text">
             {mappedPost.image && (
               <>
-                <PopUp isOpen={isPopUpOpen} onClose={closePopUp}>
+                <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
                   <div className="popUp-Image-container">
                     <img
                       src={mappedPost.image}

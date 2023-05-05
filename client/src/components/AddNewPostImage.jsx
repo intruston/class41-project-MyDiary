@@ -41,18 +41,16 @@ const AddNewPostImage = ({ imageUrl, setImageUrl, userId }) => {
 
   return (
     <>
-      <div className="new-post-bottom-middle">
-        <div className="add-post-image">
-          <img
-            src={
-              imageUrl
-                ? imageUrl
-                : "https://cdn.pixabay.com/photo/2022/03/09/14/11/cat-7057971_960_720.png"
-            }
-            alt="post image"
-            onError={(e) => (e.target.src = "")}
-          ></img>
-        </div>
+      <div className="add-post-image">
+        <img
+          src={
+            imageUrl
+              ? imageUrl
+              : "https://cdn.pixabay.com/photo/2022/03/09/14/11/cat-7057971_960_720.png"
+          }
+          alt="post image"
+          onError={(e) => (e.target.src = "")}
+        ></img>
       </div>
       <button
         type="button"
