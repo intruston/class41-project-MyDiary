@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Loading from "../../components/Loading";
 import { useSignup } from "../../hooks/useSignup";
 import "./SignUp.css";
+
 import background from "../../assets/landing/landing-background.jpg";
+import Loading from "../../components/Loading";
+import PopUp from "../../components/PopUp";
+import License from "../../assets/license";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -14,12 +17,12 @@ function RegisterForm() {
   const [country, setCountry] = useState("");
   const [bio, setBio] = useState("");
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
 
   const { signupError, isLoading, signup } = useSignup();
 
   async function handleSubmit(event) {
     event.preventDefault();
-
     await signup(
       email,
       password,
@@ -30,6 +33,11 @@ function RegisterForm() {
       bio
     ); // signup the user
   }
+
+  const openPopup = (e) => {
+    e.stopPropagation(); // Prevent the click event from bubbling up to the document
+    setPopUpOpen(true);
+  };
 
   return (
     <div
@@ -158,15 +166,14 @@ function RegisterForm() {
                 className="checkbox-input"
               />
               <small>
-                By clicking &ldquo;Sign up&ldquo; you agree to{" "}
-                <a
-                  href="https://github.com/HackYourFuture/class41-project-team-two/blob/develop/LICENSE.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  the privacy policy
-                </a>
+                By clicking &ldquo;Sign up&ldquo; you agree to the{" "}
+                <span className="privacy-button" onClick={openPopup}>
+                  privacy policy
+                </span>
               </small>
+              <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
+                <License />
+              </PopUp>
             </label>
           </div>
           <br />
