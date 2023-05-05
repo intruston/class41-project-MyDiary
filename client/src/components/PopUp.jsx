@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import "./PopUp.css";
 
-const PopUp = ({ children, isOpen, onClose }) => {
+const PopUp = ({ children, isOpen, setPopUpOpen }) => {
   const popUpRef = useRef(null);
 
   const closePopUp = (e) => {
@@ -10,12 +10,12 @@ const PopUp = ({ children, isOpen, onClose }) => {
 
     // Check if the click event target is the pop-up element or its immediate children
     if (e.target === popUpRef.current) {
-      onClose();
+      setPopUpOpen(false);
     }
   };
 
   const closePopUpByButton = () => {
-    onClose();
+    setPopUpOpen(false);
   };
 
   return (
@@ -41,7 +41,7 @@ const PopUp = ({ children, isOpen, onClose }) => {
 PopUp.propTypes = {
   children: PropTypes.node,
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
+  setPopUpOpen: PropTypes.func,
 };
 
 export default PopUp;

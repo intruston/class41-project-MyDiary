@@ -121,7 +121,7 @@
   font-weight: 400;
 }
 
-/* BOTTOM MIDDLE */
+/* BOTTOM RIGHT */
 .add-post-image {
   overflow: hidden;
   width: 100%;
@@ -139,17 +139,17 @@
   height: 100%;
 }
 
-/* BOTTOM RIGHT */
 .new-post-bottom-right {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: right;
 }
-.new-post-bottom-right .post-image {
-  display: flex;
-  align-items: center;
+.add-post-image {
   margin-right: var(--whiteSpaceSmall);
-  justify-content: space-between;
+}
+.new-post .attach {
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
 }
 .new-post svg {
   cursor: pointer;
