@@ -1,4 +1,5 @@
 import Post from "../models/Post.js";
+import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 
 export const searchTags = async (req, res) => {
@@ -37,6 +38,7 @@ export const searchTags = async (req, res) => {
     });
   }
 };
+
 export const mostPopularTags = async (req, res) => {
   try {
     const most = parseInt(req.params.most);
@@ -70,6 +72,54 @@ export const mostPopularTags = async (req, res) => {
     res.status(500).json({
       success: false,
       msg: `Unable to find posts, error: ${error}`,
+    });
+  }
+};
+
+//search through users
+export const searchUsers = async (req, res) => {
+  try {
+    const { firstName, lastName, birthday, country, email } = req.query;
+
+    if (!firstName && !lastName && !birthday && !country && !email) {
+      return res.status(400).json({
+        success: false,
+        msg: "At least one search parameter is required",
+      });
+    }
+
+    const searchQuery = await User.aggregate([
+      {
+        $match: {
+          $or: [
+            firstName ? { firstName: new RegExp(firstName, "i") } : null,
+            lastName ? { lastName: new RegExp(lastName, "i") } : null,
+            birthday ? { birthday: new Date(birthday) } : null,
+            country ? { country: new RegExp(country, "i") } : null,
+            email ? { email: new RegExp(email, "i") } : null,
+          ].filter((condition) => condition !== null),
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          firstName: 1,
+          lastName: 1,
+          birthday: 1,
+          country: 1,
+          email: 1,
+          profilePicture: 1,
+          bio: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({ success: true, result: searchQuery });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to find users, error: ${error}`,
     });
   }
 };

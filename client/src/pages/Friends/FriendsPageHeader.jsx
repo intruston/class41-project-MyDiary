@@ -1,7 +1,15 @@
 import React from "react";
 
 import PropTypes from "prop-types";
+import loop from "../../assets/search.png";
 
+const handleSearch = (event) => {
+  event.preventDefault();
+  const searchText = event.target.previousSibling.value.trim(); //take value from input to search on page
+  if (searchText) {
+    window.find(searchText);
+  }
+};
 const FriendsPageHeader = ({ friendCount }) => {
   return (
     <div className="page-header friends-page-header">
@@ -12,10 +20,14 @@ const FriendsPageHeader = ({ friendCount }) => {
         </h4>
       </div>
       <div>
-        <form className="search-form no-wrap">
+        <form className="friends-search-form no-wrap">
           <input type="text" placeholder="Find my friend" />
-          <button type="submit">
-            <i className="fa fa-search"></i>
+          <button
+            type="submit"
+            className="search-button"
+            onClick={handleSearch}
+          >
+            <img src={loop} alt="Search" />
           </button>
         </form>
       </div>
