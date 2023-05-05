@@ -6,6 +6,7 @@ import Loading from "./Loading";
 import "./searchMiddle.css";
 import loop from "../assets/search.png";
 import { useParams } from "react-router-dom";
+import MostLikedPosts from "./MostLikedPosts";
 
 const SearchMiddle = () => {
   const { most } = useParams(); //comes from tags
@@ -49,16 +50,19 @@ const SearchMiddle = () => {
         <form onSubmit={handleSubmit} className="search-form">
           <input
             type="text"
+            minLength={2}
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             className="search-input"
           />
+
           {searchResult && searchResult.length > 0 && (
             <p className="search-results">
               {searchResult.length}{" "}
               {searchResult.length === 1 ? "result" : "results"}
             </p>
           )}
+
           <button type="submit">
             <img src={loop} alt="Search" />
           </button>
@@ -67,7 +71,7 @@ const SearchMiddle = () => {
       {error && <p>Error: {error.message}</p>}
       {/* Posts */}
       <div className="middle-container-results">
-        {searchResult &&
+        {searchResult.length ? (
           searchResult
             .filter((mappedPost) => {
               return !mappedPost.isPrivate && !mappedPost.isBanned;
@@ -80,7 +84,10 @@ const SearchMiddle = () => {
                   refreshUsers={performFetch}
                 />
               </div>
-            ))}
+            ))
+        ) : (
+          <MostLikedPosts />
+        )}
       </div>
     </div>
   );
