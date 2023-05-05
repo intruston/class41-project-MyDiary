@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 
-const BanPost = ({ post }) => {
+const BanPost = ({ post, refreshUsers }) => {
   const { user } = useUserContext();
   const [banState, setBanState] = useState(post.isBanned);
 
@@ -12,6 +12,7 @@ const BanPost = ({ post }) => {
     (response) => {
       if (response.success) {
         setBanState(response.isBanned);
+        refreshUsers();
       } else {
         alert(response.msg);
       }
@@ -49,6 +50,7 @@ const BanPost = ({ post }) => {
 
 BanPost.propTypes = {
   post: PropTypes.object,
+  refreshUsers: PropTypes.func,
 };
 
 export default BanPost;

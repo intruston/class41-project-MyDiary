@@ -18,12 +18,14 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [imgLoading, setImgLoading] = useState(false);
+
   const sanitizeTags = (value) => {
     let sanitizedValue = value.trim(); // Remove leading and trailing spaces
     sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
     return sanitizedValue;
   };
-  const [imageUrl, setImageUrl] = useState(null);
 
   //Text are to expand
   function expandTextarea() {
@@ -44,7 +46,6 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
     "/post/create",
     (response) => {
       if (response.success) {
-        alert("Post created successfully");
         onSuccess();
       } else {
         alert(`Post NOT created, Error: ${error}`);
@@ -120,6 +121,17 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
             placeholder="#School #Spring"
           />
         </div>
+
+        {imageUrl && (
+          <div className="add-post-image">
+            <img
+              src={imageUrl}
+              alt="post image"
+              onError={(e) => (e.target.src = "")}
+            ></img>
+          </div>
+        )}
+
         <div className="new-post-bottom">
           <div className="new-post-bottom-left">
             <h3
@@ -135,14 +147,19 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
               Private
             </h3>
           </div>
-          <AddNewPostImage
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            userId={userId}
-          />
           <div className="new-post-bottom-right">
-            <button type="submit" className="post-publish-button">
-              Publish
+            <AddNewPostImage
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
+              setImgLoading={setImgLoading}
+              userId={userId}
+            />
+            <button
+              type="submit"
+              className="post-publish-button"
+              disabled={imgLoading}
+            >
+              {imgLoading ? "..." : "Publish"}
             </button>
           </div>
         </div>
