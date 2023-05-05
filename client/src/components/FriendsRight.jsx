@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import useFetch from "../../hooks/useFetch";
-import Loading from "../../components/Loading";
+import useFetch from "../hooks/useFetch";
+import Loading from "./Loading";
 import PropTypes from "prop-types";
 
 const FriendsRight = ({ onSearchDataChange }) => {

@@ -1,7 +1,7 @@
 import React from "react";
 
 import PropTypes from "prop-types";
-import loop from "../../assets/search.png";
+import loop from "../assets/search.png";
 
 const handleSearch = (event) => {
   event.preventDefault();
