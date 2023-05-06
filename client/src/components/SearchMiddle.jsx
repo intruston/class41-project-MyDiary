@@ -10,6 +10,12 @@ import MostLikedPosts from "./MostLikedPosts";
 
 const SearchMiddle = () => {
   const { most } = useParams(); //comes from tags
+  const sanitizeTags = (value) => {
+    let sanitizedValue = value.trim(); // Remove leading and trailing spaces
+    sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
+    return sanitizedValue;
+  };
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -21,10 +27,11 @@ const SearchMiddle = () => {
 
   useEffect(() => {
     if (most) {
+      const sanitizedMost = sanitizeTags(most); // Remove '#' symbol from tags
       setSearchQuery((prevSearchQuery) => {
         // Update the searchQuery based on the previous state
-        if (most !== prevSearchQuery) {
-          return most;
+        if (sanitizedMost !== prevSearchQuery) {
+          return sanitizedMost;
         }
         return prevSearchQuery;
       });

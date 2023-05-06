@@ -29,7 +29,9 @@ const MostLikedPosts = () => {
 
   return (
     <>
-      <h3>Take a look on our most trending posts or try another search</h3>
+      <h3 className="most-liked">
+        Take a look on our most trending posts or try another search
+      </h3>
       {error && <div className="error">{error.message}</div>}
       {isLoading && (
         <div className="load-container">

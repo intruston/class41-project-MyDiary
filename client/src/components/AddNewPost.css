@@ -148,10 +148,13 @@
   margin-right: var(--whiteSpaceSmall);
 }
 .new-post .attach {
+  display: flex;
+  align-items: center;
   border: none;
   background-color: rgba(255, 255, 255, 0);
 }
 .new-post svg {
+  padding: 12%;
   cursor: pointer;
 }
 .new-post path {
