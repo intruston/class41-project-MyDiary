@@ -132,13 +132,17 @@
   cursor: pointer;
   text-decoration: underline;
 }
-
+.privacy-header {
+  margin-top: var(--whiteSpaceMedium);
+  margin-bottom: var(--whiteSpaceMedium);
+}
 .privacy-policy {
-  margin: var(--whiteSpaceLarge) var(--whiteSpaceSmall) var(--whiteSpaceSmall)
-    var(--whiteSpaceLarge);
-  padding: var(--whiteSpaceSmall);
+  margin: 0 var(--whiteSpaceSmall) var(--whiteSpaceSmall) var(--whiteSpaceLarge);
   max-height: 400px;
   overflow-y: scroll;
+}
+.privacy-policy a {
+  text-decoration: underline;
 }
 /* Post Content Scrollbar */
 .privacy-policy::-webkit-scrollbar {
