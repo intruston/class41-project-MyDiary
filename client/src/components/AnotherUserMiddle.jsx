@@ -46,8 +46,11 @@ const AnotherUserMiddle = () => {
 
           <div className="left">
             <h2>{anotherUser && anotherUser.firstName}</h2>
+            <h2>{anotherUser && anotherUser.lastName}</h2>
+            <br />
             <h4>
-              <strong>{posts && posts.length}</strong> Post
+              <strong>{posts && posts.length}</strong>{" "}
+              {posts.length > 1 ? "posts" : "post"}
             </h4>
           </div>
           <div className="another-profile">
