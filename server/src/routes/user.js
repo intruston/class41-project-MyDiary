@@ -2,7 +2,6 @@ import express from "express";
 import {
   deleteUser,
   followUser,
-  unfollowUser,
   getUser,
   updateUser,
   updateUserPassword,
@@ -27,7 +26,6 @@ userRouter.put("/password/:id", updateUserPassword);
 userRouter.delete("/:id", deleteUser);
 userRouter.get("/:id", getUser);
 userRouter.put("/:id/follow", followUser);
-userRouter.put("/:id/unfollow", unfollowUser);
 userRouter.post("/upload/:id", uploadProfilePicture);
 userRouter.get("/friends/:userId", getUserFriends);
 

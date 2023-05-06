@@ -4,10 +4,12 @@ import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
+import { useUserContext } from "../hooks/useUserContext";
 
 import ProfilePicture from "./ProfilePicture";
 
 const AnotherUserMiddle = () => {
+  const { user, dispatch } = useUserContext();
   const { id } = useParams();
   const {
     isLoading: anotherUserLoading,
@@ -37,6 +39,31 @@ const AnotherUserMiddle = () => {
     resetAnotherUser(); // call reset function here
   }, [id]);
 
+  //Follow User
+  const [following, setFollowing] = useState(user?.following?.includes(id));
+
+  const buttonText = following ? "Unfollow" : "Follow";
+  const {
+    isLoading: isFollowLoading,
+    error: followError,
+    performFetch: followFetch,
+    cancelFetch: followCancel,
+  } = useFetch(`/user/${id}/follow`, (response) => {
+    dispatch({ type: "FOLLOWINGS", payload: { following: response.result } });
+    setFollowing(!following);
+  });
+  useEffect(() => {
+    return followCancel;
+  }, []);
+
+  const followClick = () => {
+    followFetch({
+      method: "PUT",
+      body: JSON.stringify({
+        _id: user._id,
+      }),
+    });
+  };
   return (
     <div className="middle-section">
       <div className="middle-container">
@@ -52,6 +79,10 @@ const AnotherUserMiddle = () => {
               <strong>{posts && posts.length}</strong>{" "}
               {posts.length > 1 ? "posts" : "post"}
             </h4>
+            <button onClick={followClick}>
+              {isFollowLoading ? "..." : buttonText}
+            </button>
+            {followError && <div className="error">{followError.message}</div>}
           </div>
           <div className="another-profile">
             <ProfilePicture

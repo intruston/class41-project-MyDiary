@@ -12,6 +12,14 @@ export const userReducer = (state, action) => {
         ...state,
         user: action.payload,
       };
+    case "FOLLOWINGS":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          following: action.payload.following,
+        },
+      };
     case "REMOVE_USER":
       return {
         ...state,

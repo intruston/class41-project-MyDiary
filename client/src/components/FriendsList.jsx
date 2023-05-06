@@ -21,7 +21,7 @@ const FriendsList = () => {
   useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, []);
+  }, [user]);
 
   return (
     <div className="friend-list-wrapper has-loading">
