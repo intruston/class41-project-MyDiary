@@ -80,6 +80,7 @@ const EntryCalendar = () => {
           <h2>{dateString}</h2>
           {date && (
             <EventRepeatIcon
+              className="event-repeat"
               titleAccess="clear date"
               onClick={handleCalendar}
               fontSize="large"
