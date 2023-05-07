@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Loading from "./Loading";
 import useFetch from "../hooks/useFetch";
 import FriendsPageHeader from "./FriendsPageHeader";
-import FriendsList from "./FriendsList";
+import FriendsPageList from "./FriendsPageList";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useUserContext } from "../hooks/useUserContext";
 import PropTypes from "prop-types";
@@ -38,7 +38,7 @@ const FriendsMiddle = ({ searchData }) => {
     <div className="middle-section">
       <div className="middle-container">
         <FriendsPageHeader friendCount={friendsList && friendsList.length} />
-        <FriendsList friends={friendsList} />
+        <FriendsPageList friends={friendsList} />
         {isLoading && <Loading />}
         {error && (
           <div className="error">
@@ -63,14 +63,15 @@ const FriendsMiddle = ({ searchData }) => {
             )}
           </div>
         </div>
-        {hasSearchData && <FriendsList friends={searchData} />}
+        {hasSearchData && <FriendsPageList friends={searchData} />}
       </div>
     </div>
   );
 };
 
 FriendsMiddle.propTypes = {
-  searchData: PropTypes.object.isRequired,
+  searchData: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    .isRequired,
 };
 
 export default FriendsMiddle;
