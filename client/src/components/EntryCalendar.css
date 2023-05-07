@@ -2,6 +2,9 @@
   font-weight: 300;
   color: var(--gray);
 }
+.event-repeat {
+  font-size: 1.5rem !important;
+}
 .icon-container {
   padding: 0 var(--whiteSpaceSmall) 0 var(--whiteSpaceSmall);
   display: flex;

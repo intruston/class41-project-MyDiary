@@ -16,3 +16,16 @@
   flex-direction: column;
   margin-top: 30px;
 }
+
+/* Post Content Scrollbar */
+.settings-right-wrapper::-webkit-scrollbar {
+  width: 0.5em;
+}
+.settings-right-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--yellow);
+}
+.settings-right-wrapper::-webkit-scrollbar-button:start:decrement,
+.settings-right-wrapper::-webkit-scrollbar-button:end:increment {
+  height: 30px; /* Set the height of the scrollbar buttons */
+}

@@ -9,6 +9,7 @@ import AddNewPostImage from "./AddNewPostImage.jsx";
 const AddNewPost = ({ setActive, refreshUsers }) => {
   const { auth } = useAuthContext();
   const userId = auth.id;
+  const [imgLoading, setImgLoading] = useState(false);
 
   // Todays date
   const newDate = new Date();
@@ -22,7 +23,6 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
   const [imageUrl, setImageUrl] = useState(null);
 
   //Regex control over tags
-  const [imgLoading, setImgLoading] = useState(false);
   const sanitizeTags = (value) => {
     let sanitizedValue = value.trim(); // Remove leading and trailing spaces
     sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning

@@ -37,8 +37,10 @@ body {
   font-family: "Fira Sans", sans-serif;
   color: var(--gray);
   background-color: var(--background);
-  max-width: 1440px;
+
   margin: auto;
+  /* If you remove this, body size will change when it is scrollable.  */
+  overflow: overlay;
 }
 /* React Links need style one bye one, so we style them all with a */
 a {
@@ -50,6 +52,8 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  margin: auto;
+  max-width: 1440px;
   width: 100%;
 }
 
@@ -92,6 +96,7 @@ input {
   width: 26%;
   height: 100vh;
 
+  margin-right: var(--whiteSpaceSmaller);
   padding: var(--whiteSpaceLarger) var(--whiteSpaceMedium)
     var(--whiteSpaceMedium) var(--whiteSpaceMedium);
 }

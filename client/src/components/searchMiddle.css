@@ -72,6 +72,14 @@
   color: #b2b1b0;
 }
 
+.most-liked {
+  color: var(--softGray);
+  font-weight: 400;
+  margin-top: var(--whiteSpaceLarge);
+  margin-bottom: var(--whiteSpaceLarge);
+  text-align: center;
+}
+
 /* ==========================================================================
                              Responsive Design
   ========================================================================== */
