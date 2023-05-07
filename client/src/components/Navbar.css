@@ -188,10 +188,34 @@
   }
 }
 
+/* ===========================[ 650px !HEIGHT ]================================== */
+@media screen and (max-height: 650px) {
+  .nav-middle {
+    row-gap: var(--whiteSpaceSmall);
+  }
+}
+/* ===========================[ 630px !HEIGHT ]================================== */
+@media screen and (max-height: 630px) {
+  .nav-middle {
+    row-gap: var(--whiteSpaceSmaller);
+  }
+}
 /* ===========================[ 600px !HEIGHT ]================================== */
 @media screen and (max-height: 600px) {
-  .profile-picture {
-    width: 100%;
+  .nav-top .profile-picture-component {
+    display: none;
+  }
+}
+/* ===========================[ 465px !HEIGHT ]================================== */
+@media screen and (max-height: 465px) {
+  .nav-middle {
+    row-gap: 0;
+  }
+  .user-status {
+    padding-bottom: 0;
+  }
+  .nav-middle {
+    padding-top: 0;
   }
 }
 
