@@ -11,7 +11,7 @@ const TrendingTags = () => {
     return sanitizedValue;
   };
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/search/tags/${6}`,
+    `/search/tags/${8}`,
     (data) => {
       setPopularTags(data.result);
     }
