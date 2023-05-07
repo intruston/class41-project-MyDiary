@@ -127,3 +127,32 @@
   border: none;
   margin: 7px;
 }
+
+.privacy-button {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.privacy-header {
+  margin-top: var(--whiteSpaceMedium);
+  margin-bottom: var(--whiteSpaceMedium);
+}
+.privacy-policy {
+  margin: 0 var(--whiteSpaceSmall) var(--whiteSpaceSmall) var(--whiteSpaceLarge);
+  max-height: 400px;
+  overflow-y: scroll;
+}
+.privacy-policy a {
+  text-decoration: underline;
+}
+/* Post Content Scrollbar */
+.privacy-policy::-webkit-scrollbar {
+  width: 0.5em;
+}
+.privacy-policy::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--yellow);
+}
+.privacy-policy::-webkit-scrollbar-button:start:decrement,
+.privacy-policy::-webkit-scrollbar-button:end:increment {
+  height: 30px; /* Set the height of the scrollbar buttons */
+}
