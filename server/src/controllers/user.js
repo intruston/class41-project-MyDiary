@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import User, { validateUser } from "../models/User.js";
+import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 import { comparePassword, hashPassword } from "../util/password.js";
 import { authCheckId } from "./auth.js";
@@ -251,45 +251,5 @@ export const getUserFriends = async (req, res) => {
       success: false,
       msg: "Unable to get friends list, try again later",
     });
-  }
-};
-
-export const createUser = async (req, res) => {
-  try {
-    const { email, password, firstName, lastName, birthday, country, bio } =
-      req.body;
-    const user = {
-      email,
-      password,
-      firstName,
-      lastName,
-      birthday,
-      country,
-      bio,
-    };
-    if (typeof user !== "object") {
-      res.status(400).json({
-        success: false,
-        msg: `You need to provide a 'user' object. Received: ${JSON.stringify(
-          user
-        )}`,
-      });
-      return;
-    }
-    const errorList = validateUser(user);
-    if (errorList.length > 0) {
-      res
-        .status(400)
-        .json({ success: false, msg: "Something wrong with JSON" });
-    } else {
-      user.password = await hashPassword(user.password);
-      const newUser = await User.create(user);
-      res.status(201).json({ success: true, user: newUser });
-    }
-  } catch (error) {
-    logError(error);
-    res
-      .status(500)
-      .json({ success: false, msg: "Unable to create user, try again later" });
   }
 };

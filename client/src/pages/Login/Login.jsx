@@ -8,7 +8,7 @@ import background from "../../assets/landing/landing-background.jpg";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { error, isLoading, login } = useLogin();
+  const { userError, error, isLoading, login } = useLogin();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -76,7 +76,11 @@ function LoginForm() {
         </form>
         <br />
         {isLoading && <Loading />}
-        {error && <div className="error">{error}</div>}
+        {(error || userError) && (
+          <div className="error">
+            {error.message}||{userError.message}
+          </div>
+        )}
       </div>
     </div>
   );
