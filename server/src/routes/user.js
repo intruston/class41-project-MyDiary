@@ -7,7 +7,6 @@ import {
   updateUserPassword,
   uploadProfilePicture,
   getUserFriends,
-  createUser,
 } from "../controllers/user.js";
 import { loginUser, signupUser } from "../controllers/auth.js";
 import requireAuth from "../middleware/requireAuth.js";
@@ -16,7 +15,6 @@ const userRouter = express.Router();
 
 userRouter.post("/signup", signupUser);
 userRouter.post("/login", loginUser);
-userRouter.post("/create", createUser);
 
 // require authorization for all the protected routes
 userRouter.use(requireAuth);

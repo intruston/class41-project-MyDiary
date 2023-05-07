@@ -9,21 +9,22 @@ export const useLogin = () => {
   const { dispatch, auth } = useAuthContext();
   const navigate = useNavigate();
 
-  // Fetch for getting user info from database
-  const { performFetch: performFetchUser } = useFetch(
-    `/user/${auth?.id}`,
-    (response) => {
-      // Setting UserContext with fetched User.
-      userDispatch({ type: "SET_USER", payload: response.result });
-      navigate("/my-posts");
-    }
-  );
+  // USER FETCH: Fetch for getting user info from database
+  const {
+    error: userError,
+    cancelFetch: userCancelFetch,
+    performFetch: performFetchUser,
+  } = useFetch(`/user/${auth?.id}`, (response) => {
+    // Updating UserContext with: fetched User.
+    userDispatch({ type: "SET_USER", payload: response.result });
+    navigate("/my-posts");
+  });
 
-  // Fetch for login
+  // AUTH FETCH: Login with Email and password. No Auth needed. Response will be the auth.
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/user/login",
     (response) => {
-      // Setting Token info into Local storage.
+      // Saving Token info into Local storage.
       localStorage.setItem("auth", JSON.stringify(response.result));
       // Setting AuthContext
       dispatch({ type: "LOGIN", payload: response.result });
@@ -31,12 +32,18 @@ export const useLogin = () => {
   );
 
   useEffect(() => {
+    // Get user from database only when there is Auth.
     if (auth) {
       performFetchUser();
     }
-    return cancelFetch;
+    return userCancelFetch;
   }, [auth]);
 
+  useEffect(() => {
+    return cancelFetch;
+  }, []);
+
+  //Setting Fetch for AUTH FETCH
   const login = async (email, password) => {
     performFetch({
       method: "POST",
@@ -47,5 +54,5 @@ export const useLogin = () => {
     });
   };
 
-  return { error, isLoading, login };
+  return { userError, error, isLoading, login };
 };

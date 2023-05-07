@@ -19,7 +19,7 @@ function RegisterForm() {
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
   const [isPopUpOpen, setPopUpOpen] = useState(false);
 
-  const { signupError, isLoading, signup } = useSignup();
+  const { userError, signupError, isLoading, signup } = useSignup();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -187,7 +187,11 @@ function RegisterForm() {
         </form>
         <br />
         {isLoading && <Loading />}
-        {signupError && <div className="error">{signupError}</div>}
+        {(signupError || userError) && (
+          <div className="error">
+            {signupError} || {userError}
+          </div>
+        )}
       </div>
     </div>
   );
