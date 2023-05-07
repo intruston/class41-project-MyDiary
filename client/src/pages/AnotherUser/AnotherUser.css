@@ -9,20 +9,36 @@
   padding-bottom: var(--whiteSpaceSmaller);
   cursor: default;
 }
-.another-profile {
-  padding-right: var(--whiteSpaceSmaller);
-}
-
 .page-header h4 {
   padding-top: var(--whiteSpaceSmaller);
   text-align: left;
   font-weight: 300;
   color: var(--softGray);
 }
+.page-header .left {
+  width: 30%;
+}
+.page-header button {
+  letter-spacing: 0.02rem;
+  border-radius: 10px;
+  color: var(--gray);
+  background-color: rgba(255, 255, 255, 0);
+  border: 2px solid var(--yellow);
+  margin-top: var(--whiteSpaceSmall);
+  padding: var(--whiteSpaceSmaller) var(--whiteSpaceSmall)
+    var(--whiteSpaceSmaller) var(--whiteSpaceSmall);
+}
+.page-header button:hover {
+  color: var(--orangeYellow);
+}
+.another-profile {
+  padding-right: var(--whiteSpaceSmaller);
+}
 
 .page-header .right {
-  width: 80%;
+  width: 30%;
 }
+
 .page-header .right h3 {
   margin-top: 0;
   text-align: right;

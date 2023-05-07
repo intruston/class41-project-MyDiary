@@ -10,7 +10,6 @@ import { useUserContext } from "../hooks/useUserContext";
 const Navbar = ({ active }) => {
   // Getting user information and logout function from context
   const { user } = useUserContext();
-
   const logout = useLogout();
   const logoutUser = () => {
     logout();
