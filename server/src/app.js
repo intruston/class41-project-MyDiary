@@ -24,7 +24,8 @@ app.use(
     crossOriginResourcePolicy: { policy: "same-origin" },
     contentSecurityPolicy: {
       directives: {
-        "img-src": ["'self'", "*.cloudinary.com"],
+        imgSrc: ["'self'", "*.cloudinary.com"],
+        connectSrc: ["'self'", "*.cloudinary.com"],
       },
     },
   })
