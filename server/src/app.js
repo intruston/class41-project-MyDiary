@@ -19,7 +19,15 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use(cors());
 
 // Helmet helps you secure your Express apps by setting various HTTP headers.
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        "img-src": ["'self'", "*.cloudinary.com"],
+      },
+    },
+  })
+);
 
 /****** Attach routes ******/
 app.use("/api/user", userRouter);
