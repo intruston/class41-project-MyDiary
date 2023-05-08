@@ -7,6 +7,7 @@ import "./searchMiddle.css";
 import loop from "../assets/search.png";
 import { useParams } from "react-router-dom";
 import MostLikedPosts from "./MostLikedPosts";
+import noImage from "../assets/no-image.png";
 
 const SearchMiddle = () => {
   const { most } = useParams(); //comes from tags
@@ -70,7 +71,11 @@ const SearchMiddle = () => {
             </p>
           )}
           <button type="submit" className="search-button">
-            <img src={loop} alt="Search" />
+            <img
+              src={loop}
+              alt="Search"
+              onError={(e) => (e.target.src = noImage)}
+            />
           </button>
         </form>
       </div>

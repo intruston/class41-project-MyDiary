@@ -2,7 +2,7 @@ import React from "react";
 
 import PropTypes from "prop-types";
 import loop from "../assets/search.png";
-
+import noImage from "../assets/no-image.png";
 const handleSearch = (event) => {
   event.preventDefault();
   const searchText = event.target.previousSibling.value.trim(); //take value from input to search on page
@@ -27,7 +27,11 @@ const FriendsPageHeader = ({ friendCount }) => {
             className="search-button"
             onClick={handleSearch}
           >
-            <img src={loop} alt="Search" />
+            <img
+              src={loop}
+              alt="Search"
+              onError={(e) => (e.target.src = noImage)}
+            />
           </button>
         </form>
       </div>

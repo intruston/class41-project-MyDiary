@@ -8,6 +8,7 @@ import { useDateContext } from "../hooks/useDateContext";
 import Modal from "./Modal";
 import AddNewPost from "./AddNewPost";
 import moment from "moment";
+import noImage from "../assets/no-image.png";
 const MyPostsMiddle = () => {
   const { user } = useUserContext();
   const { date } = useContext(useDateContext);
@@ -78,7 +79,11 @@ const MyPostsMiddle = () => {
 
         {/* Add New Post */}
         <div className="add-new-post has-loading">
-          <img src={postBackground} alt="user background" />
+          <img
+            src={postBackground}
+            alt="user background"
+            onError={(e) => (e.target.src = noImage)}
+          />
           <div className="post-button">
             <button onClick={() => setModalActive(true)}>+ Add Post</button>
           </div>

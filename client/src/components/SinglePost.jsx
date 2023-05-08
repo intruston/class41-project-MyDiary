@@ -16,6 +16,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import Loading from "./Loading";
 import PopUp from "./PopUp";
 import ReportPost from "./ReportPost";
+import noImage from "../assets/no-image.png";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
 const SinglePost = ({ mappedPost, refreshUsers }) => {
@@ -93,7 +94,7 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                     <img
                       src={mappedPost.image}
                       alt="post image"
-                      onError={(e) => (e.target.src = "")}
+                      onError={(e) => (e.target.src = noImage)}
                     ></img>
                   </div>
                 </PopUp>
@@ -102,7 +103,7 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                     onClick={openPopup}
                     src={mappedPost.image}
                     alt="post image"
-                    onError={(e) => (e.target.src = "")}
+                    onError={(e) => (e.target.src = noImage)}
                   ></img>
                 </div>
               </>
