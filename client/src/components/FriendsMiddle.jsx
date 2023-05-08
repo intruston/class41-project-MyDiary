@@ -47,24 +47,35 @@ const FriendsMiddle = ({ searchData }) => {
           </div>
         )}
       </div>
-      <div className="middle-container friends-second">
+      {/* Display 'You can find friends...' or 'No users found' or search results */}
+      <h3
+        className="friends-search-results"
+        style={{
+          display: searchData && searchData.length > 0 ? "none" : "block",
+        }}
+      >
+        {searchData && searchData.length === 0
+          ? "No users found"
+          : "You can find friends by filling the search form →"}
+      </h3>
+      {error && <div className="error">{error.message}</div>}
+      {isLoading && (
+        <div className="load-container">
+          <Loading />
+        </div>
+      )}
+      <div
+        className="middle-container friends-second"
+        style={{
+          display: searchData.length > 0 ? "block" : "none",
+        }}
+      >
         <div className="page-header friends-page-header">
           <div>
             <h3>+ Friends to follow</h3>
-            {searchData.length > 0 ? (
-              <h4>
-                <strong>{searchData.length}</strong> Found
-              </h4>
-            ) : searchData &&
-              Array.isArray(searchData) &&
-              searchData.length === 0 ? (
-              <h4>No users found</h4>
-            ) : (
-              <h4>
-                You can find friends by filling the search form
-                <strong> →</strong>
-              </h4>
-            )}
+            <h4>
+              <strong>{searchData.length}</strong> Found
+            </h4>
           </div>
         </div>
         {hasSearchData && <FriendsPageList friends={searchData} />}

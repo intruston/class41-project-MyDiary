@@ -116,6 +116,14 @@
   width: 100%;
 }
 
+.friends-search-results {
+  color: var(--softGray);
+  font-weight: 400;
+  margin-top: var(--whiteSpaceLarge);
+  margin-bottom: var(--whiteSpaceLarge);
+  text-align: center;
+}
+
 .friends-page-item-container {
   flex: 0 0 48%;
   min-width: 300px;
@@ -195,9 +203,6 @@
 
 /* ===========================[ 1024px ]================================== */
 @media screen and (max-width: 1024px) {
-  .friends-second {
-    visibility: hidden;
-  }
 }
 
 /* ===========================[ 768px ]================================== */
