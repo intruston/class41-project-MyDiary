@@ -77,9 +77,7 @@ function LoginForm() {
         <br />
         {isLoading && <Loading />}
         {(error || userError) && (
-          <div className="error">
-            {error.message}||{userError.message}
-          </div>
+          <div className="error">{error || userError}</div>
         )}
       </div>
     </div>
