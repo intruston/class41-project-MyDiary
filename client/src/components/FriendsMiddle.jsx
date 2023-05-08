@@ -55,6 +55,10 @@ const FriendsMiddle = ({ searchData }) => {
               <h4>
                 <strong>{searchData.length}</strong> Found
               </h4>
+            ) : searchData &&
+              Array.isArray(searchData) &&
+              searchData.length === 0 ? (
+              <h4>No users found</h4>
             ) : (
               <h4>
                 You can find friends by filling the search form

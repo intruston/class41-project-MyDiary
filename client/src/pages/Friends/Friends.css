@@ -3,10 +3,64 @@
 ========================================================================== */
 
 .friends-page-header {
-  border-bottom: 1px solid var(--gray);
+  /* border-bottom: 1px solid var(--gray); */
   margin-bottom: var(--whiteSpaceLarge);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: default;
 }
 
+.friends-page-header h4 {
+  text-align: left;
+  font-weight: 300;
+  color: var(--softGray);
+}
+
+.friends-page-header .right {
+  width: 40%;
+}
+
+/* Search */
+.friends-search-form {
+  border-radius: 30px;
+  color: var(--gray);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: var(--whiteSpaceSmall) var(--whiteSpaceMedium) var(--whiteSpaceSmall)
+    var(--whiteSpaceMedium);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.friends-search-input {
+  width: 80%;
+  border: transparent;
+}
+.friends-search-input::placeholder {
+  text-align: left;
+}
+
+.friends-search-input:focus {
+  outline: none;
+  border-bottom: 1px solid #b2b1b0;
+}
+
+.friends-search-button {
+  cursor: pointer;
+  border: transparent;
+  background-color: transparent;
+  color: var(--softGray);
+}
+
+.friends-search-form:focus-within .friends-search-icon {
+  color: var(--gray);
+}
+.friends-search-icon:hover {
+  color: var(--orangeYellow);
+}
+
+/* Results */
 .friends-page {
   display: flex;
   flex-direction: row;
@@ -74,42 +128,8 @@
   width: 100%;
 }
 
-/* Search form */
-
-.friends-search-form {
-  background-color: #e8e8e8;
-  padding: 8px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  border-radius: 7px;
-  border: none;
-  outline: none;
-  width: 100%;
-}
-
-.friends-search-form input[type="text"] {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  flex: 1;
-  margin-right: 5px;
-  text-align: center;
-}
-
-/* .friends-search-form button[type="submit"] {
-  background-color: transparent;
-  color: black;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 18px;
-  margin: 10px 10px 5px 20px;
-} */
-
 .friends-input {
-  width: 250px;
+  width: 95%;
   height: 40px;
   background: #e8e8e8;
   border: none;
@@ -126,7 +146,7 @@
 }
 
 .friends-button {
-  width: 250px;
+  width: 95%;
   height: 40px;
   background: #ff9f23;
   color: white;
@@ -175,6 +195,9 @@
 
 /* ===========================[ 1024px ]================================== */
 @media screen and (max-width: 1024px) {
+  .friends-second {
+    visibility: hidden;
+  }
 }
 
 /* ===========================[ 768px ]================================== */

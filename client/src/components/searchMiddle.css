@@ -28,10 +28,15 @@
   color: #b2b1b0;
 }
 
-.search-button {
+.search-search-button {
   cursor: pointer;
   border: transparent;
   background-color: transparent;
+  color: var(--softGray);
+}
+
+.search-search-icon:hover {
+  color: var(--orangeYellow);
 }
 
 .middle-container-results {
