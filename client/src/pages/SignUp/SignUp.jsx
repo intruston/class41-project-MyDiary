@@ -187,10 +187,11 @@ function RegisterForm() {
         </form>
         <br />
         {isLoading && <Loading />}
-        {(signupError || userError) && (
-          <div className="error">
-            {signupError} || {userError}
-          </div>
+        {signupError && (
+          <div className="error">{signupError.message || signupError}</div>
+        )}
+        {userError && (
+          <div className="error">{userError.message || userError}</div>
         )}
       </div>
     </div>
