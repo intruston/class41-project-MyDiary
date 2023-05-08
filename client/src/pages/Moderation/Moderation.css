@@ -8,21 +8,27 @@
   border-radius: 37px;
   background-color: white;
 }
-.moderation-header.banned {
-  margin-top: var(--whiteSpaceLarger);
-}
-.moderation-header h2 {
+
+.headers-switch {
+  display: flex;
+  justify-content: space-between;
   padding-bottom: var(--whiteSpaceSmall);
 }
+
+.headers-switch > h2 {
+  color: var(--softGray);
+  cursor: pointer;
+}
+
+h2.active-tab {
+  text-decoration: underline;
+  color: var(--gray);
+}
+
 .moderation-header p {
   color: var(--softGray);
 }
 
-.moderation-hr {
-  margin-top: var(--whiteSpaceLarger);
-  color: var(--softGray);
-  border-top: 3px dotted var(--softGray);
-}
 /* ==========================================================================
                              Responsive Design
   ========================================================================== */
