@@ -17,6 +17,7 @@ const SearchMiddle = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchedWord, setSeacrhedWord] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags?q=${searchQuery}`,
@@ -49,6 +50,7 @@ const SearchMiddle = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     performFetch();
+    setSeacrhedWord(searchQuery);
   };
 
   return (
@@ -92,7 +94,16 @@ const SearchMiddle = () => {
               </div>
             ))
         ) : (
-          <MostLikedPosts />
+          <>
+            {searchedWord || most ? (
+              <div className="found-no-result">
+                No result for: <strong>{searchedWord || most}</strong>
+              </div>
+            ) : (
+              ""
+            )}
+            <MostLikedPosts />
+          </>
         )}
       </div>
     </div>
