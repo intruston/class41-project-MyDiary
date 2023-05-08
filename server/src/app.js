@@ -21,6 +21,7 @@ app.use(cors());
 // Helmet helps you secure your Express apps by setting various HTTP headers.
 app.use(
   helmet({
+    crossOriginResourcePolicy: { policy: "same-origin" },
     contentSecurityPolicy: {
       directives: {
         "img-src": ["'self'", "*.cloudinary.com"],
