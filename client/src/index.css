@@ -146,18 +146,30 @@ input {
   border-radius: 37px;
   background-color: white;
 }
+
 /* Post Content Scrollbar */
 .middle-div::-webkit-scrollbar {
-  width: 0.5em;
+  width: 0.3em;
 }
 .middle-div::-webkit-scrollbar-thumb {
   border-radius: 5px;
+  max-height: 10px;
+  background-color: transparent;
+}
+.middle-div:hover::-webkit-scrollbar-thumb {
   background-color: var(--yellow);
 }
 .middle-div::-webkit-scrollbar-button:start:decrement,
 .middle-div::-webkit-scrollbar-button:end:increment {
   height: 30px; /* Set the height of the scrollbar buttons */
 }
+.middle-div::-webkit-scrollbar-track-piece:end {
+  margin-bottom: 40px;
+}
+.middle-div::-webkit-scrollbar-track-piece:start {
+  margin-top: 40px;
+}
+
 .bottom-div {
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
