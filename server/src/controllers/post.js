@@ -130,6 +130,11 @@ export const createPost = async (req, res) => {
       return;
     }
 
+    // Split tags by space
+    if (typeof post.tags === "string") {
+      post.tags = post.tags.split(" ");
+    }
+
     const errorList = validatePost(post);
 
     if (errorList.length > 0) {
