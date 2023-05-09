@@ -120,9 +120,12 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
             {content}
             {(mappedPost.content.length > MAX_CONTENT_LENGTH ||
               numLines > MAX_CONTENT_LINES) && (
-              <a href="#" className="show-link" onClick={handleShowMore}>
-                {showMore ? " Show less" : "... Show more"}
-              </a>
+              <span>
+                {showMore ? " " : "... "}
+                <a href="#" className="show-link" onClick={handleShowMore}>
+                  {showMore ? " Show less" : "Show more"}
+                </a>
+              </span>
             )}
           </div>
         </div>
