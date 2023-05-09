@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../hooks/useUserContext";
+import hearthAnimation from "../assets/heart-animation.png";
 import useFetch from "../hooks/useFetch";
 import PropTypes from "prop-types";
 
@@ -32,7 +33,7 @@ const PostReaction = ({ id, totalLikes }) => {
   return (
     <div className="post-reaction" onClick={likePost}>
       <div
-        style={{ backgroundImage: "url(/heart-animation.png)" }}
+        style={{ backgroundImage: `url(${hearthAnimation})` }}
         className={`heart-icon ${isLikedByUser ? "pink is-animating" : "grey"}`}
       ></div>
       <div className="likes">{likes.length}</div>
