@@ -27,17 +27,27 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
 
   //Limit text inside result in 140 symbols. Otherwise ...Show more
   const MAX_CONTENT_LENGTH = 140;
+  const MAX_CONTENT_LINES = 3;
   const [showMore, setShowMore] = useState(false);
+  const numLines = mappedPost.content.split("\n").length;
   const content = showMore
     ? mappedPost.content
-    : mappedPost.content.slice(0, MAX_CONTENT_LENGTH);
+    : mappedPost.content
+        .split("\n")
+        .slice(0, MAX_CONTENT_LINES)
+        .join("\n")
+        .slice(0, MAX_CONTENT_LENGTH);
 
   const handleShowMore = (event) => {
     event.preventDefault();
-    setShowMore(true);
+    setShowMore(!showMore);
   };
+
+  //Link to profile
   const profileLink =
     anotherUser?._id === user._id ? "/my-posts" : `/user/${anotherUser?._id}`;
+
+  // Pop-up controller
   const openPopup = (e) => {
     e.stopPropagation(); // Prevent the click event from bubbling up to the document
     setPopUpOpen(true);
@@ -108,13 +118,11 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
               </>
             )}
             {content}
-            {mappedPost.content.length > MAX_CONTENT_LENGTH && !showMore && (
-              <span>
-                ...{" "}
-                <a href="#" className="show-link" onClick={handleShowMore}>
-                  Show more
-                </a>
-              </span>
+            {(mappedPost.content.length > MAX_CONTENT_LENGTH ||
+              numLines > MAX_CONTENT_LINES) && (
+              <a href="#" className="show-link" onClick={handleShowMore}>
+                {showMore ? " Show less" : "... Show more"}
+              </a>
             )}
           </div>
         </div>

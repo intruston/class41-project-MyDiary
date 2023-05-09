@@ -61,6 +61,7 @@
 }
 .post-context-text {
   padding-right: var(--whiteSpaceLarge);
+  white-space: pre-line;
 }
 .show-link {
   color: #b2b1b0;
