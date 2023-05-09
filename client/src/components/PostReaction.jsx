@@ -36,7 +36,7 @@ const PostReaction = ({ id, totalLikes }) => {
         className={`heart-icon ${isLikedByUser ? "pink is-animating" : "grey"}`}
       ></div>
       <div className="likes">{likes.length}</div>
-      {error && <div className="error">{error.message}</div>}
+      {error && <div className="error">{error.message || error}</div>}
     </div>
   );
 };
