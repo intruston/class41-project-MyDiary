@@ -7,7 +7,7 @@ const AnotherUser = () => {
   return (
     <div className="page-container">
       {/* active must be same with navbar name of the page */}
-      <Navbar active={"Feeds"} />
+      <Navbar />
       <AnotherUserMiddle />
       <MyPostsRight />
     </div>

@@ -4,10 +4,9 @@ import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import "./searchMiddle.css";
-import loop from "../assets/search.png";
+import SearchIcon from "@mui/icons-material/Search";
 import { useParams } from "react-router-dom";
 import MostLikedPosts from "./MostLikedPosts";
-import noImage from "../assets/no-image.png";
 
 const SearchMiddle = () => {
   const { most } = useParams(); //comes from tags
@@ -18,6 +17,7 @@ const SearchMiddle = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchedWord, setSeacrhedWord] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags?q=${searchQuery}`,
@@ -50,6 +50,7 @@ const SearchMiddle = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     performFetch();
+    setSeacrhedWord(searchQuery);
   };
 
   return (
@@ -70,12 +71,8 @@ const SearchMiddle = () => {
               {searchResult.length === 1 ? "result" : "results"}
             </p>
           )}
-          <button type="submit" className="search-button">
-            <img
-              src={loop}
-              alt="Search"
-              onError={(e) => (e.target.src = noImage)}
-            />
+          <button type="submit" className="search-search-button">
+            <SearchIcon className="search-search-icon" />
           </button>
         </form>
       </div>
@@ -97,7 +94,16 @@ const SearchMiddle = () => {
               </div>
             ))
         ) : (
-          <MostLikedPosts />
+          <>
+            {searchedWord || most ? (
+              <div className="found-no-result">
+                No result for: <strong>{searchedWord || most}</strong>
+              </div>
+            ) : (
+              ""
+            )}
+            <MostLikedPosts />
+          </>
         )}
       </div>
     </div>
