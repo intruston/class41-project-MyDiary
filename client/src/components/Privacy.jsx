@@ -1,5 +1,5 @@
 import React from "react";
-const License = () => {
+const Privacy = () => {
   return (
     <>
       <strong className="privacy-header">Privacy Policy</strong>
@@ -83,7 +83,7 @@ const License = () => {
         <br />
         Check{" "}
         <a
-          href="https://github.com/HackYourFuture/class41-project-team-two/blob/develop/LICENSE.md"
+          href="https://www.gnu.org/licenses/gpl-3.0.html"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -94,4 +94,4 @@ const License = () => {
     </>
   );
 };
-export default License;
+export default Privacy;

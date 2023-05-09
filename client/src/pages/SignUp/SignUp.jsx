@@ -6,7 +6,7 @@ import "./SignUp.css";
 import background from "../../assets/landing/landing-background.jpg";
 import Loading from "../../components/Loading";
 import PopUp from "../../components/PopUp";
-import License from "../../assets/license";
+import Privacy from "../../components/Privacy";
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -172,7 +172,7 @@ function RegisterForm() {
                 </span>
               </small>
               <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
-                <License />
+                <Privacy />
               </PopUp>
             </label>
           </div>
