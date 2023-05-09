@@ -134,7 +134,7 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
         )}
       </div>
 
-      {error && <div className="error">{error?.message}</div>}
+      {error && <div className="error">{error.message || error}</div>}
     </div>
   );
 };

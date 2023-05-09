@@ -83,7 +83,7 @@ const MyPostsMiddle = () => {
             <button onClick={() => setModalActive(true)}>+ Add Post</button>
           </div>
         </div>
-        {error && <div className="error">{error.message}</div>}
+        {error && <div className="error">{error.message || error}</div>}
 
         {/* Public - Private */}
         <div className="public-private">
