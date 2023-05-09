@@ -147,15 +147,18 @@ input {
   background-color: white;
 }
 
-/* Post Content Scrollbar */
-.middle-div::-webkit-scrollbar {
+/* Scrollbar */
+.middle-div::-webkit-scrollbar,
+.right-section > .single-container::-webkit-scrollbar {
   width: 0.3em;
 }
+.right-section > .single-container::-webkit-scrollbar-thumb,
 .middle-div::-webkit-scrollbar-thumb {
   border-radius: 5px;
   max-height: 10px;
   background-color: transparent;
 }
+.right-section > .single-container:hover::-webkit-scrollbar-thumb,
 .middle-div:hover::-webkit-scrollbar-thumb {
   background-color: var(--yellow);
 }
@@ -163,9 +166,11 @@ input {
 .middle-div::-webkit-scrollbar-button:end:increment {
   height: 30px; /* Set the height of the scrollbar buttons */
 }
+.right-section > .single-container::-webkit-scrollbar-track-piece:end,
 .middle-div::-webkit-scrollbar-track-piece:end {
   margin-bottom: 40px;
 }
+.right-section > .single-container::-webkit-scrollbar-track-piece:start,
 .middle-div::-webkit-scrollbar-track-piece:start {
   margin-top: 40px;
 }
