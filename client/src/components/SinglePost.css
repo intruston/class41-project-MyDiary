@@ -61,9 +61,14 @@
 }
 .post-context-text {
   padding-right: var(--whiteSpaceLarge);
+  white-space: pre-line;
 }
 .show-link {
+  font-size: 0.9rem;
   color: #b2b1b0;
+}
+.show-link:hover {
+  text-decoration: underline;
 }
 
 .side-profile {
