@@ -51,7 +51,7 @@ const FriendsList = () => {
       </div>
       <br />
       {isLoading && <Loading />}
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error">{error.message || error}</div>}
     </div>
   );
 };

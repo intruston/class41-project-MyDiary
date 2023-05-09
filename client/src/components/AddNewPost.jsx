@@ -169,7 +169,7 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
             </button>
           </div>
         </div>
-        {error && <div className="error">{error}</div>}
+        {error && <div className="error">{error.message || error}</div>}
         {isLoading && <Loading />}
       </div>
     </form>

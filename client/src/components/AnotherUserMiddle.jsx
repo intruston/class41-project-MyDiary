@@ -40,6 +40,7 @@ const AnotherUserMiddle = () => {
   }, [id]);
 
   //Follow User
+  const [disableButton, setDisableButton] = useState(false);
   const [following, setFollowing] = useState(user?.following?.includes(id));
 
   const buttonText = following ? "Unfollow" : "Follow";
@@ -51,12 +52,14 @@ const AnotherUserMiddle = () => {
   } = useFetch(`/user/${id}/follow`, (response) => {
     dispatch({ type: "FOLLOWINGS", payload: { following: response.result } });
     setFollowing(!following);
+    setDisableButton(false);
   });
   useEffect(() => {
     return followCancel;
   }, []);
 
   const followClick = () => {
+    setDisableButton(true); // disable the button
     followFetch({
       method: "PUT",
       body: JSON.stringify({
@@ -79,10 +82,12 @@ const AnotherUserMiddle = () => {
               <strong>{posts && posts.length}</strong>{" "}
               {posts.length > 1 ? "posts" : "post"}
             </h4>
-            <button onClick={followClick}>
+            <button onClick={followClick} disabled={disableButton}>
               {isFollowLoading ? "..." : buttonText}
             </button>
-            {followError && <div className="error">{followError.message}</div>}
+            {followError && (
+              <div className="error">{followError.message || followError}</div>
+            )}
           </div>
           <div className="another-profile">
             <ProfilePicture
@@ -94,9 +99,10 @@ const AnotherUserMiddle = () => {
             <h3>{`"${anotherUser && anotherUser.bio}"`}</h3>
           </div>
         </div>
-        {(error || anotherUserError) && (
+        {error && <div className="error">{error.message || error}</div>}
+        {anotherUserError && (
           <div className="error">
-            {error.message}||{anotherUserError.message}
+            {anotherUserError.message || anotherUserError}
           </div>
         )}
       </div>
