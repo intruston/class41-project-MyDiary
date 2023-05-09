@@ -5,9 +5,9 @@ import Loading from "./Loading";
 import { useUserContext } from "../hooks/useUserContext";
 
 const ModerationMiddle = () => {
-  // Getting user information and logout function from context
   const { user } = useUserContext();
   const [posts, setPosts] = useState([]);
+  const [activeTab, setActiveTab] = useState("review");
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/moderation/${user._id}`,
@@ -23,53 +23,57 @@ const ModerationMiddle = () => {
 
   useEffect(() => {}, [posts]);
 
-  const reportedPosts = posts.filter(
-    (post) => post.isReported && !post.isBanned
-  );
-  const bannedPosts = posts.filter((post) => post.isBanned);
+  const getPosts =
+    activeTab === "review"
+      ? posts.filter((post) => post.isReported && !post.isBanned)
+      : posts.filter((post) => post.isBanned);
 
   return (
     <div className="middle-section">
-      {/* Page Header */}
       <div className="moderation-header">
-        <h2>To review</h2>
-        <p>
-          These posts have been reported by users. They will still be visible to
-          other users.
-        </p>
-        <p>You can remove the report or ban the posts.</p>
-      </div>
-      <div>
-        {reportedPosts === [] ? (
-          <div className="no-banned-posts">No any reports now</div>
-        ) : (
-          reportedPosts.map((mappedPost) => (
-            <div className="single-post has-loading" key={mappedPost._id}>
-              {isLoading && <Loading />}
-              <SinglePost mappedPost={mappedPost} refreshUsers={performFetch} />
-            </div>
-          ))
+        <div className="headers-switch">
+          <h2
+            onClick={() => setActiveTab("review")}
+            className={activeTab === "review" ? "active-tab" : ""}
+          >
+            To review
+          </h2>
+          <h2
+            onClick={() => setActiveTab("banned")}
+            className={activeTab === "banned" ? "active-tab" : ""}
+          >
+            Banned
+          </h2>
+        </div>
+
+        {activeTab === "review" && (
+          <p>
+            These posts have been reported by users. They will still be visible
+            to other users. <br />
+            You can remove the report or ban the posts.
+          </p>
         )}
-      </div>
-      <hr className="moderation-hr" />
-      <div className="moderation-header banned">
-        <h2>Banned</h2>
-        <p>These posts are banned by moderation. Users can&apos;t see them</p>
-        <p>You can remove the ban from posts.</p>
+        {activeTab === "banned" && (
+          <p>
+            These posts are banned by moderation. Users can&apos;t see them.
+            <br /> You can remove the ban from posts.
+          </p>
+        )}
       </div>
 
       <div>
-        {bannedPosts === [] ? (
-          <div className="no-banned-posts">No banned posts</div>
+        {getPosts === [] ? (
+          <div className="no-banned-posts">No any reports now</div>
         ) : (
-          bannedPosts.map((mappedPost) => (
+          getPosts.map((mappedPost) => (
             <div className="single-post has-loading" key={mappedPost._id}>
-              {isLoading && <Loading />}
               <SinglePost mappedPost={mappedPost} refreshUsers={performFetch} />
             </div>
           ))
         )}
       </div>
+
+      {isLoading && <Loading />}
       {error && <div className="error">{error.message}</div>}
     </div>
   );
