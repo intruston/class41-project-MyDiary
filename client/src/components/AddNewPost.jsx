@@ -5,6 +5,7 @@ import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
 import AddNewPostImage from "./AddNewPostImage.jsx";
+import noImage from "../assets/no-image.png";
 
 const AddNewPost = ({ setActive, refreshUsers }) => {
   const { auth } = useAuthContext();
@@ -132,7 +133,7 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
             <img
               src={imageUrl}
               alt="post image"
-              onError={(e) => (e.target.src = "")}
+              onError={(e) => (e.target.src = noImage)}
             ></img>
           </div>
         )}

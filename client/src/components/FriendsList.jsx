@@ -38,6 +38,7 @@ const FriendsList = () => {
                     }
                     alt="friend avatar"
                     className="friend-list-avatar"
+                    onError={(e) => (e.target.src = noAvatar)}
                   />
                   <div className="friend-list-name">
                     <span>{`${friend.firstName} ${friend.lastName}`}</span>

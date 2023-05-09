@@ -1,7 +1,6 @@
 import React from "react";
 import noAvatar from "../assets/NoAvatar.png";
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
 
 const SingleFriend = ({ mappedFriend }) => {
@@ -18,6 +17,7 @@ const SingleFriend = ({ mappedFriend }) => {
           }
           alt="friend avatar"
           className="friend-avatar"
+          onError={(e) => (e.target.src = noAvatar)}
         />
         <div className="friend-details">
           <div className="friend-name">

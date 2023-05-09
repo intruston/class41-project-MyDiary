@@ -16,6 +16,7 @@ import p2 from "../../assets/landing/p2.png";
 import p3 from "../../assets/landing/p3.png";
 import p4 from "../../assets/landing/p4.png";
 import p5 from "../../assets/landing/p5.png";
+import noImage from "../../assets/no-image.png";
 
 const Home = () => {
   const { dispatch } = useUserContext();
@@ -71,63 +72,107 @@ const Home = () => {
           </div>
         </div>
         <div className="landing-right">
-          <img src={diary} alt="Diary" />
+          <img
+            src={diary}
+            alt="Diary"
+            onError={(e) => (e.target.src = noImage)}
+          />
         </div>
         <div className="landing-container">
           <div className="landing-block primary">
             <div className="person">
-              <img src={p1} alt="Person1" />
+              <img
+                src={p1}
+                alt="Person1"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Daan</h3>
               <p className="person-description">Hi!</p>
             </div>
             <div className="person">
-              <img src={p2} alt="Person2" />
+              <img
+                src={p2}
+                alt="Person2"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Bram</h3>
               <p className="person-description">How are you?</p>
             </div>
             <div className="person">
-              <img src={p3} alt="Person3" />
+              <img
+                src={p3}
+                alt="Person3"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Emma</h3>
               <p className="person-description">Welcome to the diary!</p>
             </div>
             <div className="person">
-              <img src={p4} alt="Person4" />
+              <img
+                src={p4}
+                alt="Person4"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Lotte</h3>
               <p className="person-description">
                 It&apos;s great to see you again!
               </p>
             </div>
             <div className="person">
-              <img src={p5} alt="Person5" />
+              <img
+                src={p5}
+                alt="Person5"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Sofie</h3>
               <p className="person-description">What a wonderful day!</p>
             </div>
           </div>
           <div className="landing-block secondary">
             <div className="person">
-              <img src={p1} alt="Person1" />
+              <img
+                src={p1}
+                alt="Person1"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Daan</h3>
               <p className="person-description">Hi!</p>
             </div>
             <div className="person">
-              <img src={p2} alt="Person2" />
+              <img
+                src={p2}
+                alt="Person2"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Bram</h3>
               <p className="person-description">How are you?</p>
             </div>
             <div className="person">
-              <img src={p3} alt="Person3" />
+              <img
+                src={p3}
+                alt="Person3"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Emma</h3>
               <p className="person-description">Welcome to the diary!</p>
             </div>
             <div className="person">
-              <img src={p4} alt="Person4" />
+              <img
+                src={p4}
+                alt="Person4"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Lotte</h3>
               <p className="person-description">
                 It&apos;s great to see you again!
               </p>
             </div>
             <div className="person">
-              <img src={p5} alt="Person5" />
+              <img
+                src={p5}
+                alt="Person5"
+                onError={(e) => (e.target.src = noImage)}
+              />
               <h3 className="person-name">Sofie</h3>
               <p className="person-description">What a wonderful day!</p>
             </div>
