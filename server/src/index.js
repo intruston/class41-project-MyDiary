@@ -18,6 +18,7 @@ if (port == null) {
 
 const startServer = async () => {
   try {
+    //This function connecting database to MongoDB
     await connectDB();
     app.listen(port, () => {
       logInfo(`Server started on port ${port}`);
