@@ -50,11 +50,11 @@ const Privacy = () => {
         If you have any questions or concerns regarding this privacy policy,
         please contact us at{" "}
         <a
-          href="github.com/HackYourFuture"
+          href="https://github.com/HackYourFuture"
           target="_blank"
           rel="noopener noreferrer"
         >
-          github
+          GitHub
         </a>
         .
         <br />
