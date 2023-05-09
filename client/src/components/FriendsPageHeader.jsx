@@ -1,7 +1,7 @@
 import React from "react";
 
 import PropTypes from "prop-types";
-import loop from "../assets/search.png";
+import SearchIcon from "@mui/icons-material/Search";
 
 const handleSearch = (event) => {
   event.preventDefault();
@@ -10,24 +10,30 @@ const handleSearch = (event) => {
     window.find(searchText);
   }
 };
+
 const FriendsPageHeader = ({ friendCount }) => {
   return (
-    <div className="page-header friends-page-header">
+    <div className="friends-page-header">
       <div>
         <h2>Friends</h2>
         <h4>
           <strong>{friendCount}</strong> Friends
         </h4>
       </div>
-      <div>
-        <form className="friends-search-form no-wrap">
-          <input type="text" placeholder="Find my friend" />
+      <div className="right">
+        {/* Search Bar */}
+        <form className="friends-search-form">
+          <input
+            type="text"
+            placeholder="Find in my friends"
+            className="friends-search-input"
+          />
           <button
             type="submit"
-            className="search-button"
+            className="friends-search-button"
             onClick={handleSearch}
           >
-            <img src={loop} alt="Search" />
+            <SearchIcon className="friends-search-icon" />
           </button>
         </form>
       </div>
