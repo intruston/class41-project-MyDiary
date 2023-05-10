@@ -27,7 +27,7 @@ export const searchTags = async (req, res) => {
       {
         $sort: { score: -1, createdAt: -1 },
       },
-    ]);
+    ]).exec();
 
     res.status(200).json({ success: true, result: searchQuery });
   } catch (error) {
@@ -64,7 +64,7 @@ export const mostPopularTags = async (req, res) => {
 
       // Project only the tag name
       { $project: { _id: 0, tag: "$_id" } },
-    ]);
+    ]).exec();
     const tags = searchQuery.map((item) => item.tag);
     res.status(200).json({ success: true, result: tags });
   } catch (error) {
@@ -112,7 +112,7 @@ export const searchUsers = async (req, res) => {
           bio: 1,
         },
       },
-    ]);
+    ]).exec();
 
     res.status(200).json({ success: true, result: searchQuery });
   } catch (error) {

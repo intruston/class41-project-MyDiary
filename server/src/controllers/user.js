@@ -13,7 +13,7 @@ import { authCheckId } from "./auth.js";
  */
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).exec();
 
     const {
       _id,
@@ -59,7 +59,7 @@ export const updateUser = async (req, res) => {
       .json({ success: false, msg: "You can update only your account!" });
   }
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).exec();
     const match = await comparePassword(req.body.password, user.password);
 
     if (match) {
@@ -71,7 +71,7 @@ export const updateUser = async (req, res) => {
           $set: req.body,
         },
         { new: true }
-      );
+      ).exec();
       res.status(200).json({ success: true, result: user });
     } else {
       return res
@@ -97,7 +97,7 @@ export const updateUserPassword = async (req, res) => {
       .json({ success: false, msg: "You can change only your password!" });
   }
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).exec();
     const match = await comparePassword(req.body.password, user.password);
 
     if (match) {
@@ -110,7 +110,7 @@ export const updateUserPassword = async (req, res) => {
           $set: req.body,
         },
         { new: true }
-      );
+      ).exec();
       res.status(200).json({ success: true, result: user });
     } else {
       return res
@@ -139,7 +139,7 @@ export const uploadProfilePicture = async (req, res) => {
       });
     }
 
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).exec();
 
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
@@ -194,14 +194,14 @@ export const deleteUser = async (req, res) => {
     }
 
     // checks if the user exists in the database
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).exec();
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
     }
 
     // TODO: to let user delete profile uncomment
-    // await Post.deleteMany({ userId: user._id });
-    // await User.findByIdAndDelete(user._id);
+    // await Post.deleteMany({ userId: user._id }).exec();
+    // await User.findByIdAndDelete(user._id).exec();
 
     res
       .status(200)
@@ -221,9 +221,9 @@ export const deleteUser = async (req, res) => {
 export const followUser = async (req, res) => {
   try {
     // Get target User
-    const targetUser = await User.findById(req.params.id);
+    const targetUser = await User.findById(req.params.id).exec();
     // Get main user
-    const currentUser = await User.findById(req.body._id);
+    const currentUser = await User.findById(req.body._id).exec();
     if (targetUser._id === currentUser._id) {
       return res.status(403).json({
         success: false,
@@ -234,35 +234,37 @@ export const followUser = async (req, res) => {
     // Check: If target id is already in following?
     if (currentUser.following.includes(targetUser._id)) {
       // remove target user from main user.Following
-      await currentUser.updateOne(
-        { $pull: { following: req.params.id } },
-        { new: true }
-      );
+      await currentUser
+        .updateOne({ $pull: { following: req.params.id } }, { new: true })
+        .exec();
       // remove main user from target user.Followers
-      await targetUser.updateOne(
-        { $pull: { followers: req.body._id } },
-        { new: true }
-      );
+      await targetUser
+        .updateOne({ $pull: { followers: req.body._id } }, { new: true })
+        .exec();
 
-      const updatedUser = await User.findById(req.body._id);
+      const updatedUser = await User.findById(req.body._id).exec();
       // Only sending Current User.following back to the Client
       res.status(200).json({ success: true, result: updatedUser.following });
     } else {
       // ELSE: If target id is not in following?
 
-      await currentUser.updateOne(
-        // add target user to main user.Following
-        { $push: { following: req.params.id } },
-        { new: true }
-      );
+      await currentUser
+        .updateOne(
+          // add target user to main user.Following
+          { $push: { following: req.params.id } },
+          { new: true }
+        )
+        .exec();
 
-      await targetUser.updateOne(
-        // add main user to target user.followers
-        { $push: { followers: req.body._id } },
-        { new: true }
-      );
+      await targetUser
+        .updateOne(
+          // add main user to target user.followers
+          { $push: { followers: req.body._id } },
+          { new: true }
+        )
+        .exec();
 
-      const updatedUser = await User.findById(req.body._id);
+      const updatedUser = await User.findById(req.body._id).exec();
       res.status(200).json({ success: true, result: updatedUser.following });
     }
   } catch (err) {
@@ -278,11 +280,11 @@ export const followUser = async (req, res) => {
  */
 export const getUserFriends = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.params.userId).exec();
     // Find all following users and put them in friends.
     const friends = await Promise.all(
       user.following.map((friendId) => {
-        return User.findById(friendId);
+        return User.findById(friendId).exec();
       })
     );
 
