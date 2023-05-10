@@ -6,8 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 const FriendsPageHeader = ({ friendCount }) => {
   const inputRef = useRef(null); // create a ref to the input element
 
-  const handleSearch = (event) => {
-    event.preventDefault();
+  const handleSearch = () => {
     const searchText = inputRef.current.value.trim(); //take value from input to search on page
     if (searchText) {
       window.find(searchText);
