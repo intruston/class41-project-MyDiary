@@ -44,25 +44,29 @@ export const getFeed = async (req, res) => {
         msg: "User feed not found",
       });
     }
+
     const currentUser = await User.findById(req.params.id).exec();
-    const userPosts = await Post.find({ userId: currentUser._id })
-      .sort({ createdAt: -1 })
-      .exec();
-    const friendsPosts = await Promise.all(
+
+    const [feedPosts] = await Promise.all(
       currentUser.following.map((friendId) => {
         return Post.find({
-          userId: friendId,
-          isPrivate: false,
-          isBanned: false,
+          $or: [
+            {
+              userId: friendId,
+              isPrivate: false,
+              isBanned: false,
+            },
+            {
+              userId: currentUser._id,
+              isPrivate: false,
+              isBanned: false,
+            },
+          ],
         })
           .sort({ createdAt: -1 })
           .exec();
       })
     );
-
-    const feedPosts = userPosts.concat(...friendsPosts).sort((post1, post2) => {
-      return new Date(post2.createdAt) - new Date(post1.createdAt);
-    });
 
     res.status(200).json({ success: true, result: feedPosts });
   } catch (error) {
