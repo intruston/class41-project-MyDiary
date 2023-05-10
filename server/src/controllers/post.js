@@ -11,18 +11,18 @@ export const getTimeline = async (req, res) => {
   try {
     const authUserId = authCheckId(req);
     if (authUserId === req.params.id) {
-      timelinePosts = await Post.find({ userId: req.params.id });
+      timelinePosts = await Post.find({ userId: req.params.id })
+        .sort({ createdAt: -1 })
+        .exec();
     } else {
       timelinePosts = await Post.find({
         userId: req.params.id,
         isPrivate: false,
         isBanned: false,
-      });
+      })
+        .sort({ createdAt: -1 })
+        .exec();
     }
-
-    timelinePosts.sort((post1, post2) => {
-      return new Date(post2.createdAt) - new Date(post1.createdAt);
-    });
 
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
@@ -44,21 +44,18 @@ export const getFeed = async (req, res) => {
         msg: "User feed not found",
       });
     }
-    const currentUser = await User.findById(req.params.id);
-    const userPosts = await Post.find({ userId: currentUser._id });
-    const friendsPosts = await Promise.all(
-      currentUser.following.map((friendId) => {
-        return Post.find({
-          userId: friendId,
-          isPrivate: false,
-          isBanned: false,
-        });
-      })
-    );
 
-    const feedPosts = userPosts.concat(...friendsPosts).sort((post1, post2) => {
-      return new Date(post2.createdAt) - new Date(post1.createdAt);
-    });
+    const currentUser = await User.findById(req.params.id).exec();
+    const userFriendsId = currentUser.following;
+    const usersForFeed = [...userFriendsId, currentUser._id.toString()];
+
+    const feedPosts = await Post.find({
+      userId: { $in: usersForFeed },
+      isPrivate: false,
+      isBanned: false,
+    })
+      .sort({ createdAt: -1 })
+      .exec();
 
     res.status(200).json({ success: true, result: feedPosts });
   } catch (error) {
@@ -74,17 +71,16 @@ export const getBannedPosts = async (req, res) => {
   try {
     const authUserId = authCheckId(req);
 
-    const currentUser = await User.findById(req.params.id);
+    const currentUser = await User.findById(req.params.id).exec();
     const userId = currentUser._id.toString();
 
     // Compare that user is real and moderator rights
     if (userId === authUserId && currentUser.isModerator) {
       const moderationPosts = await Post.find({
         $or: [{ isBanned: true }, { isReported: true }],
-      });
-      moderationPosts.sort((post1, post2) => {
-        return new Date(post2.createdAt) - new Date(post1.createdAt);
-      });
+      })
+        .sort({ createdAt: -1 })
+        .exec();
 
       res.status(200).json({ success: true, result: moderationPosts });
     } else {
@@ -104,7 +100,7 @@ export const getBannedPosts = async (req, res) => {
 
 export const getPost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).exec();
     res.status(200).json({ success: true, result: post });
   } catch (error) {
     logError(error);
@@ -142,7 +138,7 @@ export const createPost = async (req, res) => {
         .status(400)
         .json({ success: false, msg: validationErrorMessage(errorList) });
     } else {
-      const newPost = await Post.create(post);
+      const newPost = await Post.create(post).exec();
 
       res.status(201).json({ success: true, post: newPost });
     }
@@ -159,10 +155,10 @@ export const deletePost = async (req, res) => {
     const authUserId = authCheckId(req);
 
     // Compare that user deleted only his post
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).exec();
 
     if (post.userId === authUserId) {
-      await post.deleteOne();
+      await post.deleteOne().exec();
       res.status(200).json({
         success: true,
         msg: "The post has been deleted",
@@ -183,15 +179,15 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).exec();
 
     if (!post.likes.includes(req.body.userId)) {
-      await post.updateOne({ $push: { likes: req.body.userId } });
+      await post.updateOne({ $push: { likes: req.body.userId } }).exec();
     } else {
-      await post.updateOne({ $pull: { likes: req.body.userId } });
+      await post.updateOne({ $pull: { likes: req.body.userId } }).exec();
     }
 
-    const updatedPost = await Post.findById(req.params.id);
+    const updatedPost = await Post.findById(req.params.id).exec();
 
     res.status(200).json({
       success: true,
@@ -211,7 +207,7 @@ export const likePost = async (req, res) => {
 
 export const uploadPostPicture = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).exec();
     if (!user) {
       return res.status(404).json({ success: false, msg: "User not found" });
     }
@@ -248,8 +244,8 @@ export const updatePost = async (req, res) => {
   try {
     const authUserId = authCheckId(req);
 
-    const post = await Post.findById(req.params.id);
-    const user = await User.findById(authUserId);
+    const post = await Post.findById(req.params.id).exec();
+    const user = await User.findById(authUserId).exec();
 
     if (post.userId === authUserId || user.isModerator || req.body.isReported) {
       const post = await Post.findByIdAndUpdate(
@@ -258,7 +254,7 @@ export const updatePost = async (req, res) => {
           $set: req.body,
         },
         { new: true }
-      );
+      ).exec();
       res.status(200).json({
         success: true,
         result: post,

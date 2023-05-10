@@ -34,7 +34,7 @@ export const signupUser = async (req, res) => {
   }
   try {
     user.password = await hashPassword(user.password);
-    const newUser = await User.create(user);
+    const newUser = await User.create(user).exec();
     // create token
     const token = createToken(newUser._id);
     const result = { email: user.email, id: newUser._id, token };
@@ -51,7 +51,7 @@ export const signupUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.login(email, password);
+    const user = await User.login(email, password).exec();
     // create token
     const token = createToken(user._id);
 
