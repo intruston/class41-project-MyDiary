@@ -17,7 +17,7 @@ import requireAuth from "../middleware/requireAuth.js";
 // require authorization for all the protected routes
 postRouter.use(requireAuth);
 
-postRouter.get("/feed/:id", getFeed); // get friends feed and my posts sorted by date
+postRouter.get("/feed/:id", getFeed); // get friends feed and my public posts sorted by date
 postRouter.get("/timeline/:id", getTimeline); // get all my posts
 postRouter.get("/:id", getPost); //get a post
 postRouter.post("/create", createPost); // create a new post
