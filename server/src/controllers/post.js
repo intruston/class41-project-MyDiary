@@ -46,27 +46,16 @@ export const getFeed = async (req, res) => {
     }
 
     const currentUser = await User.findById(req.params.id).exec();
+    const userFriendsId = currentUser.following;
+    const usersForFeed = [...userFriendsId, currentUser._id.toString()];
 
-    const [feedPosts] = await Promise.all(
-      currentUser.following.map((friendId) => {
-        return Post.find({
-          $or: [
-            {
-              userId: friendId,
-              isPrivate: false,
-              isBanned: false,
-            },
-            {
-              userId: currentUser._id,
-              isPrivate: false,
-              isBanned: false,
-            },
-          ],
-        })
-          .sort({ createdAt: -1 })
-          .exec();
-      })
-    );
+    const feedPosts = await Post.find({
+      userId: { $in: usersForFeed },
+      isPrivate: false,
+      isBanned: false,
+    })
+      .sort({ createdAt: -1 })
+      .exec();
 
     res.status(200).json({ success: true, result: feedPosts });
   } catch (error) {
