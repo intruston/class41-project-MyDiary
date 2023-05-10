@@ -10,25 +10,40 @@ const FeedsMiddle = () => {
   // Getting user information and logout function from context
   const { user } = useUserContext();
   const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fetching, setFetching] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/feed/${user._id}`,
+    `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
-      setPosts(response.result);
+      setPosts([...posts, ...response.result]);
+      setTotalCount(response.pagination.totalIndexes);
+      setCurrentPage((prevState) => prevState + 1);
+      setFetching(false);
     }
   );
+
+  useEffect(() => {
+    if (fetching && posts.length < totalCount) {
+      performFetch();
+    }
+    return cancelFetch;
+  }, [fetching]);
 
   useEffect(() => {
     performFetch();
     return cancelFetch;
   }, []);
 
-  // useEffect(() => {
-  //   return cancelFetch;
-  // }, []);
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+    return removeEventListener("scroll", scrollHandler);
+  }, [totalCount]);
 
+  // second check not really needed
   const feedPosts = posts.filter((post) => {
     return !post.isPrivate && !post.isBanned;
   });
@@ -39,6 +54,7 @@ const FeedsMiddle = () => {
     sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
     return sanitizedValue;
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const sanitizedTags = sanitizeTags(searchQuery);
@@ -46,6 +62,18 @@ const FeedsMiddle = () => {
       ? navigate(`/search/tags/${sanitizedTags}`)
       : navigate("/search");
   };
+
+  const scrollHandler = (e) => {
+    if (
+      e.target.documentElement.scrollHeight -
+        (e.target.documentElement.scrollTop + window.innerHeight) <
+        100 &&
+      posts.length < totalCount
+    ) {
+      setFetching(true);
+    }
+  };
+
   return (
     <div className="middle-section">
       <div className="middle-container ">

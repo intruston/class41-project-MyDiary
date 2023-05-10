@@ -35,10 +35,10 @@ export const getTimeline = async (req, res) => {
 };
 
 export const getFeed = async (req, res) => {
-  // const page = parseInt(req.query.page) || 1;
-  // const postsPerPage = 5;
-  // const startIndex = (page - 1) * postsPerPage;
-  // const endIndex = page * postsPerPage;
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage;
 
   try {
     const authUserId = authCheckId(req);
@@ -54,17 +54,27 @@ export const getFeed = async (req, res) => {
     const userFriendsId = currentUser.following;
     const usersForFeed = [...userFriendsId, currentUser._id.toString()];
 
+    const totalIndexes = await Post.countDocuments({
+      userId: { $in: usersForFeed },
+      isPrivate: false,
+      isBanned: false,
+    }).exec();
+
     const feedPosts = await Post.find({
       userId: { $in: usersForFeed },
       isPrivate: false,
       isBanned: false,
     })
       .sort({ createdAt: -1 })
-      // .skip(startIndex)
-      // .limit(endIndex)
+      .skip(startIndex)
+      .limit(endIndex)
       .exec();
 
-    res.status(200).json({ success: true, result: feedPosts });
+    res.status(200).json({
+      success: true,
+      result: feedPosts,
+      pagination: { page, totalIndexes, postsPerPage, startIndex, endIndex },
+    });
   } catch (error) {
     logError(error);
     res.status(500).json({
