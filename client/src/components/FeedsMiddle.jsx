@@ -11,7 +11,6 @@ const FeedsMiddle = () => {
   const { user } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [fetching, setFetching] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
@@ -21,8 +20,6 @@ const FeedsMiddle = () => {
     (response) => {
       setPosts((prevPosts) => [...prevPosts, ...response.result]);
       setHasNextPage(Boolean(response.result.length));
-      setCurrentPage((prevPage) => prevPage + 1);
-      setFetching(false);
     }
   );
 
@@ -31,11 +28,11 @@ const FeedsMiddle = () => {
   const lastPostRef = useCallback(
     (post) => {
       if (isLoading) return;
-      if (intObserver.current) intObserver.current.disconnect();
 
+      if (intObserver.current) intObserver.current.disconnect();
       intObserver.current = new IntersectionObserver((posts) => {
         if (posts[0].isIntersecting && hasNextPage) {
-          setFetching(true);
+          setCurrentPage((prevPage) => prevPage + 1);
         }
       });
 
@@ -45,14 +42,9 @@ const FeedsMiddle = () => {
   );
 
   useEffect(() => {
-    if (fetching) performFetch();
-    return cancelFetch;
-  }, [fetching]);
-
-  useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, []);
+  }, [currentPage]);
 
   //Handle Search
   const sanitizeTags = (value) => {
