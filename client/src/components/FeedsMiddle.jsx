@@ -27,7 +27,7 @@ const FeedsMiddle = () => {
   );
 
   // using Intersection Observer for fetching new posts when we see the last post on the page
-  const intObserver = useRef();
+  const intObserver = useRef(null);
   const lastPostRef = useCallback(
     (post) => {
       if (isLoading) return;
@@ -104,21 +104,15 @@ const FeedsMiddle = () => {
       )}
       <div>
         {posts.length > 0
-          ? posts.map((post, i) =>
-              posts.length === i + 1 ? (
-                <div
-                  ref={lastPostRef}
-                  className="single-post has-loading"
-                  key={post._id}
-                >
-                  <SinglePost mappedPost={post} refreshUsers={performFetch} />
-                </div>
-              ) : (
-                <div className="single-post has-loading" key={post._id}>
-                  <SinglePost mappedPost={post} refreshUsers={performFetch} />
-                </div>
-              )
-            )
+          ? posts.map((post, i) => (
+              <div
+                className="single-post has-loading"
+                ref={posts.length === i + 1 ? lastPostRef : null}
+                key={post._id}
+              >
+                <SinglePost mappedPost={post} refreshUsers={performFetch} />
+              </div>
+            ))
           : !isLoading && (
               <div className="no-post">No post to show in your feed</div>
             )}
