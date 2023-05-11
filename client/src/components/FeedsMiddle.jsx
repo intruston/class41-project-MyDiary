@@ -19,17 +19,15 @@ const FeedsMiddle = () => {
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
-      setPosts([...posts, ...response.result]);
-      setTotalCount(response.pagination.totalIndexes);
-      setCurrentPage((prevState) => prevState + 1);
+      setPosts((prevPosts) => [...prevPosts, ...response.result]);
+      setTotalCount(response.totalPosts);
+      setCurrentPage((prevPage) => prevPage + 1);
       setFetching(false);
     }
   );
 
   useEffect(() => {
-    if (fetching && posts.length < totalCount) {
-      performFetch();
-    }
+    if (fetching && posts.length < totalCount) performFetch();
     return cancelFetch;
   }, [fetching]);
 

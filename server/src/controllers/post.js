@@ -73,7 +73,7 @@ export const getFeed = async (req, res) => {
     res.status(200).json({
       success: true,
       result: feedPosts,
-      pagination: { page, totalIndexes, postsPerPage, startIndex, endIndex },
+      totalPosts: totalIndexes,
     });
   } catch (error) {
     logError(error);
