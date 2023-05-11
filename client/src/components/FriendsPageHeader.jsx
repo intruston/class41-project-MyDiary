@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import PropTypes from "prop-types";
 import SearchIcon from "@mui/icons-material/Search";
 
-const handleSearch = (event) => {
-  event.preventDefault();
-  const searchText = event.target.previousSibling.value.trim(); //take value from input to search on page
-  if (searchText) {
-    window.find(searchText);
-  }
-};
-
 const FriendsPageHeader = ({ friendCount }) => {
+  const inputRef = useRef(null); // create a ref to the input element
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const searchText = inputRef.current.value.trim(); //take value from input to search on page
+    if (searchText) {
+      window.find(searchText);
+    }
+  };
+
   return (
     <div className="friends-page-header">
       <div>
@@ -27,6 +29,7 @@ const FriendsPageHeader = ({ friendCount }) => {
             type="text"
             placeholder="Find in my friends"
             className="friends-search-input"
+            ref={inputRef}
           />
           <button
             type="submit"
