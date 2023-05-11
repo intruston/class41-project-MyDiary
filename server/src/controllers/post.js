@@ -38,7 +38,7 @@ export const getFeed = async (req, res) => {
   const page = parseInt(req.query.page);
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
-  const endIndex = page * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
 
   try {
     const authUserId = authCheckId(req);
@@ -54,12 +54,6 @@ export const getFeed = async (req, res) => {
     const userFriendsId = currentUser.following;
     const usersForFeed = [...userFriendsId, currentUser._id.toString()];
 
-    const totalIndexes = await Post.countDocuments({
-      userId: { $in: usersForFeed },
-      isPrivate: false,
-      isBanned: false,
-    }).exec();
-
     const feedPosts = await Post.find({
       userId: { $in: usersForFeed },
       isPrivate: false,
@@ -73,7 +67,6 @@ export const getFeed = async (req, res) => {
     res.status(200).json({
       success: true,
       result: feedPosts,
-      totalPosts: totalIndexes,
     });
   } catch (error) {
     logError(error);
@@ -289,36 +282,3 @@ export const updatePost = async (req, res) => {
     });
   }
 };
-
-// function paginatedResults() {
-//   return async (req, res, next) => {
-//     const page = parseInt(req.query.page);
-//     const limit = parseInt(req.query.limit);
-
-//     const startIndex = (page - 1) * limit;
-//     const endIndex = page * limit;
-
-//     const results = {};
-
-//     if (endIndex < (await Post.countDocuments().exec())) {
-//       results.next = {
-//         page: page + 1,
-//         limit: limit,
-//       };
-//     }
-
-//     if (startIndex > 0) {
-//       results.previous = {
-//         page: page - 1,
-//         limit: limit,
-//       };
-//     }
-//     try {
-//       results.results = await Post.find().limit(limit).skip(startIndex).exec();
-//       res.paginatedResults = results;
-//       next();
-//     } catch (e) {
-//       res.status(500).json({ message: e.message });
-//     }
-//   };
-// }

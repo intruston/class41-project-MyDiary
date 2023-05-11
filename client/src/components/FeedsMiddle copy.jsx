@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,8 @@ const FeedsMiddle = () => {
   const { user } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [fetching, setFetching] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -20,32 +20,14 @@ const FeedsMiddle = () => {
     `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
       setPosts((prevPosts) => [...prevPosts, ...response.result]);
-      setHasNextPage(Boolean(response.result.length));
+      setTotalCount(response.totalPosts);
       setCurrentPage((prevPage) => prevPage + 1);
       setFetching(false);
     }
   );
 
-  // using Intersection Observer for fetching new posts when we see the last post on the page
-  const intObserver = useRef();
-  const lastPostRef = useCallback(
-    (post) => {
-      if (isLoading) return;
-      if (intObserver.current) intObserver.current.disconnect();
-
-      intObserver.current = new IntersectionObserver((posts) => {
-        if (posts[0].isIntersecting && hasNextPage) {
-          setFetching(true);
-        }
-      });
-
-      if (post) intObserver.current.observe(post);
-    },
-    [isLoading, hasNextPage]
-  );
-
   useEffect(() => {
-    if (fetching) performFetch();
+    if (fetching && posts.length < totalCount) performFetch();
     return cancelFetch;
   }, [fetching]);
 
@@ -53,6 +35,16 @@ const FeedsMiddle = () => {
     performFetch();
     return cancelFetch;
   }, []);
+
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+    return removeEventListener("scroll", scrollHandler);
+  }, [totalCount]);
+
+  // second check not really needed
+  const feedPosts = posts.filter((post) => {
+    return !post.isPrivate && !post.isBanned;
+  });
 
   //Handle Search
   const sanitizeTags = (value) => {
@@ -67,6 +59,17 @@ const FeedsMiddle = () => {
     sanitizedTags
       ? navigate(`/search/tags/${sanitizedTags}`)
       : navigate("/search");
+  };
+
+  const scrollHandler = (e) => {
+    if (
+      e.target.documentElement.scrollHeight -
+        (e.target.documentElement.scrollTop + window.innerHeight) <
+        100 &&
+      posts.length < totalCount
+    ) {
+      setFetching(true);
+    }
   };
 
   return (
@@ -103,22 +106,15 @@ const FeedsMiddle = () => {
         </div>
       )}
       <div>
-        {posts.length > 0
-          ? posts.map((post, i) =>
-              posts.length === i + 1 ? (
-                <div
-                  ref={lastPostRef}
-                  className="single-post has-loading"
-                  key={post._id}
-                >
-                  <SinglePost mappedPost={post} refreshUsers={performFetch} />
-                </div>
-              ) : (
-                <div className="single-post has-loading" key={post._id}>
-                  <SinglePost mappedPost={post} refreshUsers={performFetch} />
-                </div>
-              )
-            )
+        {feedPosts.length > 0
+          ? feedPosts.map((mappedPost) => (
+              <div className="single-post has-loading" key={mappedPost._id}>
+                <SinglePost
+                  mappedPost={mappedPost}
+                  refreshUsers={performFetch}
+                />
+              </div>
+            ))
           : !isLoading && (
               <div className="no-post">No post to show in your feed</div>
             )}
