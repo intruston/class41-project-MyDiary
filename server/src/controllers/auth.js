@@ -32,9 +32,17 @@ export const signupUser = async (req, res) => {
   if (errorList.length > 0) {
     res.status(400).json({ success: false, msg: errorList });
   }
+
+  const exists = await User.findOne({ email: user.email }).exec();
+
+  if (exists) {
+    res.status(409).json({ success: false, msg: "Email already in use" });
+    return;
+  }
+
   try {
     user.password = await hashPassword(user.password);
-    const newUser = await User.create(user).exec();
+    const newUser = await User.create(user);
     // create token
     const token = createToken(newUser._id);
     const result = { email: user.email, id: newUser._id, token };
@@ -43,7 +51,7 @@ export const signupUser = async (req, res) => {
     logError(error);
     res.status(500).json({
       success: false,
-      msg: "Unable to get friends list, try again later",
+      msg: `Unable to create user, try again later. Error: ${error}`,
     });
   }
 };
@@ -51,7 +59,7 @@ export const signupUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.login(email, password).exec();
+    const user = await User.login(email, password);
     // create token
     const token = createToken(user._id);
 
