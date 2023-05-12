@@ -33,7 +33,7 @@ export const signupUser = async (req, res) => {
     res.status(400).json({ success: false, msg: errorList });
   }
 
-  const exists = await User.findOne({ email: user.email }).exec();
+  const exists = await User.findOne({ email: user.email });
 
   if (exists) {
     res.status(409).json({ success: false, msg: "Email already in use" });

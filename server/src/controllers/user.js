@@ -71,7 +71,7 @@ export const updateUser = async (req, res) => {
           $set: req.body,
         },
         { new: true }
-      ).exec();
+      );
       res.status(200).json({ success: true, result: user });
     } else {
       return res
@@ -110,7 +110,7 @@ export const updateUserPassword = async (req, res) => {
           $set: req.body,
         },
         { new: true }
-      ).exec();
+      );
       res.status(200).json({ success: true, result: user });
     } else {
       return res
@@ -200,8 +200,8 @@ export const deleteUser = async (req, res) => {
     }
 
     // TODO: to let user delete profile uncomment
-    // await Post.deleteMany({ userId: user._id }).exec();
-    // await User.findByIdAndDelete(user._id).exec();
+    // await Post.deleteMany({ userId: user._id });
+    // await User.findByIdAndDelete(user._id);
 
     res
       .status(200)
@@ -234,13 +234,15 @@ export const followUser = async (req, res) => {
     // Check: If target id is already in following?
     if (currentUser.following.includes(targetUser._id)) {
       // remove target user from main user.Following
-      await currentUser
-        .updateOne({ $pull: { following: req.params.id } }, { new: true })
-        .exec();
+      await currentUser.updateOne(
+        { $pull: { following: req.params.id } },
+        { new: true }
+      );
       // remove main user from target user.Followers
-      await targetUser
-        .updateOne({ $pull: { followers: req.body._id } }, { new: true })
-        .exec();
+      await targetUser.updateOne(
+        { $pull: { followers: req.body._id } },
+        { new: true }
+      );
 
       const updatedUser = await User.findById(req.body._id).exec();
       // Only sending Current User.following back to the Client
@@ -248,21 +250,17 @@ export const followUser = async (req, res) => {
     } else {
       // ELSE: If target id is not in following?
 
-      await currentUser
-        .updateOne(
-          // add target user to main user.Following
-          { $push: { following: req.params.id } },
-          { new: true }
-        )
-        .exec();
+      await currentUser.updateOne(
+        // add target user to main user.Following
+        { $push: { following: req.params.id } },
+        { new: true }
+      );
 
-      await targetUser
-        .updateOne(
-          // add main user to target user.followers
-          { $push: { followers: req.body._id } },
-          { new: true }
-        )
-        .exec();
+      await targetUser.updateOne(
+        // add main user to target user.followers
+        { $push: { followers: req.body._id } },
+        { new: true }
+      );
 
       const updatedUser = await User.findById(req.body._id).exec();
       res.status(200).json({ success: true, result: updatedUser.following });

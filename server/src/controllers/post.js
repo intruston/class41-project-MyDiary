@@ -158,7 +158,7 @@ export const deletePost = async (req, res) => {
     const post = await Post.findById(req.params.id).exec();
 
     if (post.userId === authUserId) {
-      await post.deleteOne().exec();
+      await post.deleteOne();
       res.status(200).json({
         success: true,
         msg: "The post has been deleted",
@@ -182,9 +182,9 @@ export const likePost = async (req, res) => {
     const post = await Post.findById(req.params.id).exec();
 
     if (!post.likes.includes(req.body.userId)) {
-      await post.updateOne({ $push: { likes: req.body.userId } }).exec();
+      await post.updateOne({ $push: { likes: req.body.userId } });
     } else {
-      await post.updateOne({ $pull: { likes: req.body.userId } }).exec();
+      await post.updateOne({ $pull: { likes: req.body.userId } });
     }
 
     const updatedPost = await Post.findById(req.params.id).exec();
@@ -254,7 +254,7 @@ export const updatePost = async (req, res) => {
           $set: req.body,
         },
         { new: true }
-      ).exec();
+      );
       res.status(200).json({
         success: true,
         result: post,
