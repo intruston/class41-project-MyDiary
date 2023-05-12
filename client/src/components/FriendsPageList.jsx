@@ -1,7 +1,7 @@
 import React from "react";
-import noAvatar from "../assets/NoAvatar.png";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import ProfilePicture from "./ProfilePicture";
 
 const SingleFriend = ({ mappedFriend }) => {
   return (
@@ -11,14 +11,9 @@ const SingleFriend = ({ mappedFriend }) => {
         to={`/user/${mappedFriend._id}`}
         className="friends-page-item"
       >
-        <img
-          src={
-            mappedFriend.profilePicture ? mappedFriend.profilePicture : noAvatar
-          }
-          alt="friend avatar"
-          className="friend-avatar"
-          onError={(e) => (e.target.src = noAvatar)}
-        />
+        <div>
+          <ProfilePicture profilePicture={mappedFriend.profilePicture} />
+        </div>
         <div className="friend-details">
           <div className="friend-name">
             <h3>
