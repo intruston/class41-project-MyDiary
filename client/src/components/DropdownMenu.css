@@ -8,6 +8,7 @@ a.dropdownButton {
   user-select: none;
   display: inline-block;
   cursor: pointer;
+  font-weight: 800;
 }
 
 /* Dropdown styles */

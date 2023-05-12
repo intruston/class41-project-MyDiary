@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
 import { useUserContext } from "../hooks/useUserContext";
 
-const FollowUnfollowButton = ({ anotherUserId, refreshUser }) => {
+const FollowUnfollowButton = ({ anotherUserId, refreshUser = () => {} }) => {
   const { user, dispatch } = useUserContext();
   const [disableButton, setDisableButton] = useState(false);
   const [following, setFollowing] = useState(
@@ -41,14 +41,17 @@ const FollowUnfollowButton = ({ anotherUserId, refreshUser }) => {
 
   return (
     <>
-      <div
-        className="follow-unfollow"
-        onClick={followClick}
-        disabled={disableButton}
-      >
-        {isFollowLoading ? "..." : buttonText}
-      </div>
-
+      {user._id === anotherUserId ? (
+        <div className="follow-unfollow">This is you!</div>
+      ) : (
+        <div
+          className="follow-unfollow"
+          onClick={followClick}
+          disabled={disableButton}
+        >
+          {isFollowLoading ? "..." : buttonText}
+        </div>
+      )}
       {followError && (
         <div className="error">{followError.message || followError}</div>
       )}
