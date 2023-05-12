@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import "./friendsList.css";
-import noAvatar from "../assets/NoAvatar.png";
+import ProfilePicture from "./ProfilePicture";
 import Loading from "./Loading";
 import { useUserContext } from "../hooks/useUserContext";
 
@@ -32,14 +32,13 @@ const FriendsList = () => {
             <div key={friend._id}>
               <Link to={`/user/${friend._id}`}>
                 <div className="friend-list-item">
-                  <img
-                    src={
-                      friend.profilePicture ? friend.profilePicture : noAvatar
-                    }
-                    alt="friend avatar"
-                    className="friend-list-avatar"
-                    onError={(e) => (e.target.src = noAvatar)}
-                  />
+                  <div>
+                    <ProfilePicture
+                      profilePicture={friend.profilePicture}
+                      size={"smaller"}
+                    />
+                  </div>
+
                   <div className="friend-list-name">
                     <span>{`${friend.firstName} ${friend.lastName}`}</span>
                   </div>
