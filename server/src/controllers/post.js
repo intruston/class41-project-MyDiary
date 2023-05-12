@@ -138,7 +138,7 @@ export const createPost = async (req, res) => {
         .status(400)
         .json({ success: false, msg: validationErrorMessage(errorList) });
     } else {
-      const newPost = await Post.create(post).exec();
+      const newPost = await Post.create(post);
 
       res.status(201).json({ success: true, post: newPost });
     }
