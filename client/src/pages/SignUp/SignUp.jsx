@@ -23,6 +23,10 @@ function RegisterForm() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (!agreeToPrivacyPolicy) {
+      alert("You have to agree to privacy policy before signing up!");
+      return;
+    }
     await signup(
       email,
       password,
@@ -177,11 +181,7 @@ function RegisterForm() {
             </label>
           </div>
           <br />
-          <button
-            type="submit"
-            disabled={!agreeToPrivacyPolicy || isLoading}
-            className="login-button"
-          >
+          <button type="submit" disabled={isLoading} className="login-button">
             Sign up
           </button>
         </form>
