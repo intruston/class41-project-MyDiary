@@ -38,7 +38,7 @@ const FriendsMiddle = ({ searchData }) => {
     <div className="middle-section">
       <div className="middle-container">
         <FriendsPageHeader friendCount={friendsList && friendsList.length} />
-        <FriendsPageList friends={friendsList} />
+        <FriendsPageList friends={friendsList} refreshUser={performFetch} />
         {isLoading && <Loading />}
         {error && (
           <div className="error">
@@ -78,7 +78,9 @@ const FriendsMiddle = ({ searchData }) => {
             </h4>
           </div>
         </div>
-        {hasSearchData && <FriendsPageList friends={searchData} />}
+        {hasSearchData && (
+          <FriendsPageList friends={searchData} refreshUser={performFetch} />
+        )}
       </div>
     </div>
   );

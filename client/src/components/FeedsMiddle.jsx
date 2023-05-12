@@ -25,10 +25,6 @@ const FeedsMiddle = () => {
     return cancelFetch;
   }, []);
 
-  // useEffect(() => {
-  //   return cancelFetch;
-  // }, []);
-
   const feedPosts = posts.filter((post) => {
     return !post.isPrivate && !post.isBanned;
   });

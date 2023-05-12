@@ -59,6 +59,7 @@ a.dropdownButton {
 /* Close the dropdown with outside clicks */
 .dropdown > summary::before {
   display: none;
+  cursor: auto;
 }
 
 .dropdown[open] > summary::before {

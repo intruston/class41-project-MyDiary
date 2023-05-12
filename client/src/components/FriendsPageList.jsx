@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ProfilePicture from "./ProfilePicture";
+import DropdownMenu from "./DropdownMenu";
+import FollowUnfollowButton from "./FollowUnfollowButton";
 
-const SingleFriend = ({ mappedFriend }) => {
+const SingleFriend = ({ mappedFriend, refreshUser }) => {
   return (
     <div className="friends-page-item-container">
       <Link
@@ -25,23 +27,38 @@ const SingleFriend = ({ mappedFriend }) => {
           </div>
         </div>
       </Link>
-      <div className="dots-container">
-        <span className="dots">•••</span>
-      </div>
+      <DropdownMenu>
+        <summary role="button">
+          <a className="dropdownButton">...</a>
+        </summary>
+        <ul>
+          <li>
+            <FollowUnfollowButton
+              anotherUserId={mappedFriend._id}
+              refreshUser={refreshUser}
+            />
+          </li>
+        </ul>
+      </DropdownMenu>
     </div>
   );
 };
 
 SingleFriend.propTypes = {
-  mappedFriend: PropTypes.object.isRequired,
+  mappedFriend: PropTypes.object,
+  refreshUser: PropTypes.func,
 };
 
-const FriendsPageList = ({ friends }) => {
+const FriendsPageList = ({ friends, refreshUser }) => {
   return (
     <div className="friends-page">
       {friends &&
         friends.map((mappedFriend) => (
-          <SingleFriend key={mappedFriend._id} mappedFriend={mappedFriend} />
+          <SingleFriend
+            key={mappedFriend._id}
+            mappedFriend={mappedFriend}
+            refreshUser={refreshUser}
+          />
         ))}
     </div>
   );
@@ -49,6 +66,7 @@ const FriendsPageList = ({ friends }) => {
 
 FriendsPageList.propTypes = {
   friends: PropTypes.array.isRequired,
+  refreshUser: PropTypes.func,
 };
 
 export default FriendsPageList;

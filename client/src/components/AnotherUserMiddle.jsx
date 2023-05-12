@@ -54,6 +54,7 @@ const AnotherUserMiddle = () => {
     setFollowing(!following);
     setDisableButton(false);
   });
+
   useEffect(() => {
     return followCancel;
   }, []);
