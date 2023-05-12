@@ -229,8 +229,7 @@ input {
   right: 0%;
   bottom: 0%;
   left: 0%;
-
-  border-radius: 37px;
+  border-radius: 10px;
   backdrop-filter: blur(0.2rem);
   z-index: 1;
 }
