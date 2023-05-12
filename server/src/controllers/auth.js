@@ -74,7 +74,7 @@ export const loginUser = async (req, res) => {
 };
 
 // Authorization checks
-export const authCheckId = (req) => {
+export const authCheckId = (req, res) => {
   const { authorization } = req.headers;
   if (!authorization) {
     throw new Error("Authorization header not found");
@@ -85,21 +85,30 @@ export const authCheckId = (req) => {
     //Check if token expired
     const decodedToken = jwt.decode(token);
     if (decodedToken.exp < Date.now() / 1000) {
-      throw new Error("Token expired");
+      return res.status(401).json({
+        success: false,
+        msg: "Token is expired",
+      });
     }
     // Access the user ID from the decoded payload and check if the token is expired
     const { _id } = jwt.verify(token, process.env.SECRET);
     return _id;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      //Double check for expired token
-      throw new Error("Token expired");
+      return res.status(401).json({
+        success: false,
+        msg: "Token is expired",
+      });
     } else if (error instanceof jwt.JsonWebTokenError) {
-      // Handle other token verification errors
-      throw new Error("Invalid token");
+      return res.status(401).json({
+        success: false,
+        msg: "Invalid Token",
+      });
     } else {
-      // Unexpected error
-      throw new Error("Unexpected error while verifying token");
+      return res.status(401).json({
+        success: false,
+        msg: "Unexpected error while verifying Token. ",
+      });
     }
   }
 };
