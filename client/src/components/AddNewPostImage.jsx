@@ -23,10 +23,10 @@ const AddNewPostImage = ({ imageUrl, setImageUrl, userId, setImgLoading }) => {
   }, [imageUrl]);
 
   const uploadImageSubmit = (event) => {
+    setImgLoading(true);
     const formData = new FormData();
     const selectedFile = event.target.files[0];
     if (!selectedFile) return;
-    setImgLoading(true);
     formData.append("file", selectedFile);
 
     performFetch(
