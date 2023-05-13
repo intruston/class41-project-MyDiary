@@ -25,33 +25,10 @@ const FeedsMiddle = () => {
     }
   );
 
-  // function updateAndFilterPosts(posts, postsNew) {
-  //   const updatedPosts = postsNew.reduce(
-  //     (acc, post) => {
-  //       const existingPostIndex = acc.findIndex((p) => p._id === post._id);
-  //       if (existingPostIndex !== -1) {
-  //         acc[existingPostIndex] = post;
-  //       } else {
-  //         acc.push(post);
-  //       }
-  //       return acc;
-  //     },
-  //     [...posts]
-  //   );
-
-  //   const filteredPosts = updatedPosts.filter((post) => {
-  //     return !post.isPrivate && !post.isBanned;
-  //   });
-
-  //   return filteredPosts;
-  // }
-
   // if we want banned post disappears at the same moment as ban pushed
   const filteredPosts = posts.filter((post) => {
     return !post.isPrivate && !post.isBanned;
   });
-
-  // console.log(posts);
 
   // using Intersection Observer for fetching new posts when we see the last post on the page
   const intObserver = useRef(null);
@@ -131,7 +108,7 @@ const FeedsMiddle = () => {
                 ref={filteredPosts.length === i + 1 ? lastPostRef : null}
                 key={post._id}
               >
-                <SinglePost mappedPost={post} refreshUsers={performFetch} />
+                <SinglePost mappedPost={post} />
               </div>
             ))
           : !isLoading && (

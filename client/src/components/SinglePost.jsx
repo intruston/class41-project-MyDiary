@@ -19,7 +19,7 @@ import ReportPost from "./ReportPost";
 import noImage from "../assets/no-image.png";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
-const SinglePost = ({ mappedPost, refreshUsers }) => {
+const SinglePost = ({ mappedPost }) => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const { user } = useUserContext();
   const { isLoading, error, anotherUser } = useGetAnotherUser({
@@ -86,7 +86,6 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                 <ul>
                   <DeletePost
                     postId={mappedPost._id}
-                    refreshUsers={refreshUsers}
                     anotherUserId={anotherUser?._id}
                   />
                   <ReportPost post={mappedPost} />
@@ -153,7 +152,6 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
 
 SinglePost.propTypes = {
   mappedPost: PropTypes.object.isRequired,
-  refreshUsers: PropTypes.func.isRequired,
 };
 
 export default SinglePost;
