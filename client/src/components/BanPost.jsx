@@ -11,7 +11,7 @@ const BanPost = ({ post, refreshUsers }) => {
     `/post/${post._id}`,
     (response) => {
       if (response.success) {
-        setBanState(response.isBanned);
+        setBanState(response.result.isBanned);
         refreshUsers();
       } else {
         alert(response.msg);

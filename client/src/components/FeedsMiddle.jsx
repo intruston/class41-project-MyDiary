@@ -25,7 +25,7 @@ const FeedsMiddle = () => {
   );
 
   function updatePosts(posts, postsNew) {
-    const updatedPosts = postsNew.reduce(
+    const updatedPosts = posts.reduce(
       (acc, post) => {
         const existingPostIndex = acc.findIndex((p) => p._id === post._id);
         if (existingPostIndex !== -1) {
@@ -35,9 +35,12 @@ const FeedsMiddle = () => {
         }
         return acc;
       },
-      [...posts]
+      [...postsNew]
     );
-    return updatedPosts;
+    const updatedPostsFiltered = updatedPosts.filter((post) => {
+      return !post.isPrivate && !post.isBanned;
+    });
+    return updatedPostsFiltered;
   }
 
   // console.log(posts);
