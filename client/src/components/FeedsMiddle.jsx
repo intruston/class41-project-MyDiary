@@ -19,10 +19,28 @@ const FeedsMiddle = () => {
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
-      setPosts((prevPosts) => [...prevPosts, ...response.result]);
       setHasNextPage(Boolean(response.result.length));
+      setPosts(updatePosts(posts, response.result));
     }
   );
+
+  function updatePosts(posts, postsNew) {
+    const updatedPosts = postsNew.reduce(
+      (acc, post) => {
+        const existingPostIndex = acc.findIndex((p) => p._id === post._id);
+        if (existingPostIndex !== -1) {
+          acc[existingPostIndex] = post;
+        } else {
+          acc.push(post);
+        }
+        return acc;
+      },
+      [...posts]
+    );
+    return updatedPosts;
+  }
+
+  // console.log(posts);
 
   // using Intersection Observer for fetching new posts when we see the last post on the page
   const intObserver = useRef(null);
@@ -46,6 +64,10 @@ const FeedsMiddle = () => {
     performFetch();
     return cancelFetch;
   }, [currentPage]);
+
+  // useEffect(() => {
+  //   return cancelFetch;
+  // }, []);
 
   //Handle Search
   const handleSubmit = (event) => {
