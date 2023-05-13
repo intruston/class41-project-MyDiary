@@ -6,6 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
 import AddNewPostImage from "./AddNewPostImage.jsx";
 import noImage from "../assets/no-image.png";
+import { sanitizeTagsAddNewPost } from "../util/sanitizeTags.js";
 
 const AddNewPost = ({ setActive, refreshUsers }) => {
   const { auth } = useAuthContext();
@@ -23,17 +24,6 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
 
-  //Regex control for tags
-  const sanitizeTags = (value) => {
-    let sanitizedValue = value.trim(); // Remove leading and trailing spaces
-    sanitizedValue = sanitizedValue.replace(/#/g, " "); // Remove all '#' symbols with 1 space
-    sanitizedValue = sanitizedValue.replace(/\s+/g, " "); // Replace any sequence of whitespace characters with a single space
-    sanitizedValue = sanitizedValue.trim(); // Remove leading and trailing spaces AGAIN
-    const tags = sanitizedValue.split(" "); // Split the string by space
-    const uniqueTags = [...new Set(tags)]; // Remove any duplicates
-    return uniqueTags.join(" "); // Join the unique tags with a space
-  };
-
   //Control expand of text area
   function expandTextarea() {
     const textarea = document.getElementById("new-post-content");
@@ -46,7 +36,7 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
     setIsPrivate(tab);
   };
 
-  //When Post submitted succesfully
+  //When Post submitted successfully
   const onSuccess = () => {
     setContent("");
     setTags("");
@@ -69,7 +59,7 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const sanitizedTags = sanitizeTags(tags); // Remove '#' symbol from tags
+    const sanitizedTags = sanitizeTagsAddNewPost(tags); // Remove '#' symbol from tags
 
     const post = {
       content,

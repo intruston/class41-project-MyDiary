@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import { useUserContext } from "../hooks/useUserContext";
+import { sanitizeTags } from "../util/sanitizeTags";
 
 const FeedsMiddle = () => {
   // Getting user information and logout function from context
@@ -47,12 +48,6 @@ const FeedsMiddle = () => {
   }, [currentPage]);
 
   //Handle Search
-  const sanitizeTags = (value) => {
-    let sanitizedValue = value.trim(); // Remove leading and trailing spaces
-    sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
-    return sanitizedValue;
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const sanitizedTags = sanitizeTags(searchQuery);

@@ -7,17 +7,12 @@ import "./searchMiddle.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { useParams } from "react-router-dom";
 import MostLikedPosts from "./MostLikedPosts";
+import { sanitizeTags } from "../util/sanitizeTags";
 
 const SearchMiddle = () => {
   const { most } = useParams(); //comes from tags
-  const sanitizeTags = (value) => {
-    let sanitizedValue = value.trim(); // Remove leading and trailing spaces
-    sanitizedValue = sanitizedValue.replace(/^[#\s]+/, ""); // Remove '#' symbols and spaces from the beginning
-    return sanitizedValue;
-  };
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchedWord, setSeacrhedWord] = useState(null);
+  const [searchedWord, setSearchedWord] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags?q=${searchQuery}`,
@@ -50,7 +45,7 @@ const SearchMiddle = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     performFetch();
-    setSeacrhedWord(searchQuery);
+    setSearchedWord(searchQuery);
   };
 
   return (
