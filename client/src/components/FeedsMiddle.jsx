@@ -25,10 +25,12 @@ const FeedsMiddle = () => {
     }
   );
 
-  // if we want banned post disappears at the same moment as ban pushed
-  const filteredPosts = posts.filter((post) => {
-    return !post.isPrivate && !post.isBanned;
-  });
+  // NO filter posts so Moderator will se sign but post disappear from feed only after fetching
+  const filteredPosts = posts;
+  // or filter if we want banned post disappears at the same moment as ban pushed
+  // const filteredPosts = posts.filter((post) => {
+  //   return !post.isPrivate && !post.isBanned;
+  // });
 
   // using Intersection Observer for fetching new posts when we see the last post on the page
   const intObserver = useRef(null);

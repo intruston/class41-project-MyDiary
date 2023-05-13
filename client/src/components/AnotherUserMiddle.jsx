@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
@@ -6,6 +6,7 @@ import Loading from "./Loading";
 import useGetAnotherUser from "../hooks/useGetAnotherUser";
 import ProfilePicture from "./ProfilePicture";
 import FollowUnfollowButton from "./FollowUnfollowButton";
+import { usePostsContext } from "../hooks/usePostsContext";
 
 const AnotherUserMiddle = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const AnotherUserMiddle = () => {
   } = useGetAnotherUser({
     anotherUserId: id,
   });
-  const [posts, setPosts] = useState([]);
+  const { posts, setPosts } = usePostsContext();
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/timeline/${id}`,
     (response) => {
@@ -26,17 +27,15 @@ const AnotherUserMiddle = () => {
   );
 
   useEffect(() => {
+    resetAnotherUser(); // call reset function here
     performFetch();
     return cancelFetch;
   }, [id]);
 
   useEffect(() => {
+    setPosts([]);
     return cancelFetch;
   }, []);
-
-  useEffect(() => {
-    resetAnotherUser(); // call reset function here
-  }, [id]);
 
   return (
     <div className="middle-section">
@@ -89,10 +88,7 @@ const AnotherUserMiddle = () => {
               })
               .map((mappedPost) => (
                 <div className="single-post has-loading" key={mappedPost._id}>
-                  <SinglePost
-                    mappedPost={mappedPost}
-                    refreshUsers={performFetch}
-                  />
+                  <SinglePost mappedPost={mappedPost} />
                 </div>
               ))
           : !isLoading && (

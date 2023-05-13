@@ -139,7 +139,7 @@ const SinglePost = ({ mappedPost }) => {
           ))}
         </p>
         {mappedPost.isBanned ? (
-          <RemoveCircleIcon sx={{ color: "red" }} />
+          <RemoveCircleIcon sx={{ color: "red", fontSize: 40 }} />
         ) : (
           <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
         )}
