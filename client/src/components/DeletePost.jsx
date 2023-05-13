@@ -14,18 +14,12 @@ const DeletePost = ({ postId, anotherUserId }) => {
     `/post/${postId}`,
     (response) => {
       if (response.success) {
-        setPosts(
-          posts.map((p) => {
-            if (p._id === postId) {
-              return;
-            } else {
-              return p;
-            }
-          })
-        );
+        setPosts(posts.filter((post) => post._id !== postId));
+        setPopUpOpen(false);
       }
     }
   );
+
   useEffect(() => {
     return cancelFetch;
   }, []);
