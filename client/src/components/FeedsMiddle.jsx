@@ -20,12 +20,12 @@ const FeedsMiddle = () => {
     `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
       setHasNextPage(Boolean(response.result.length));
-      setPosts(updatePosts(posts, response.result));
+      setPosts(updateAndFilterPosts(posts, response.result));
     }
   );
 
-  function updatePosts(posts, postsNew) {
-    const updatedPosts = posts.reduce(
+  function updateAndFilterPosts(posts, postsNew) {
+    const updatedPosts = postsNew.reduce(
       (acc, post) => {
         const existingPostIndex = acc.findIndex((p) => p._id === post._id);
         if (existingPostIndex !== -1) {
@@ -35,12 +35,14 @@ const FeedsMiddle = () => {
         }
         return acc;
       },
-      [...postsNew]
+      [...posts]
     );
-    const updatedPostsFiltered = updatedPosts.filter((post) => {
+
+    const filteredPosts = updatedPosts.filter((post) => {
       return !post.isPrivate && !post.isBanned;
     });
-    return updatedPostsFiltered;
+
+    return filteredPosts;
   }
 
   // console.log(posts);
