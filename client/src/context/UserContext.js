@@ -1,6 +1,5 @@
-import { createContext, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 import PropTypes from "prop-types";
-import React from "react";
 
 //Creating a user context to hold user information
 export const UserContext = createContext();

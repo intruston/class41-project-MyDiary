@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import { useUserContext } from "../hooks/useUserContext";
+// import { usePostsContext } from "../hooks/usePostsContext";
 import { sanitizeTags } from "../util/sanitizeTags";
 
 const FeedsMiddle = () => {
   // Getting user information and logout function from context
   const { user } = useUserContext();
+  // const { posts, setPosts } = usePostsContext();
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -20,30 +22,30 @@ const FeedsMiddle = () => {
     `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
       setHasNextPage(Boolean(response.result.length));
-      setPosts(updateAndFilterPosts(posts, response.result));
+      setPosts((prevPosts) => [...prevPosts, ...response.result]);
     }
   );
 
-  function updateAndFilterPosts(posts, postsNew) {
-    const updatedPosts = postsNew.reduce(
-      (acc, post) => {
-        const existingPostIndex = acc.findIndex((p) => p._id === post._id);
-        if (existingPostIndex !== -1) {
-          acc[existingPostIndex] = post;
-        } else {
-          acc.push(post);
-        }
-        return acc;
-      },
-      [...posts]
-    );
+  // function updateAndFilterPosts(posts, postsNew) {
+  //   const updatedPosts = postsNew.reduce(
+  //     (acc, post) => {
+  //       const existingPostIndex = acc.findIndex((p) => p._id === post._id);
+  //       if (existingPostIndex !== -1) {
+  //         acc[existingPostIndex] = post;
+  //       } else {
+  //         acc.push(post);
+  //       }
+  //       return acc;
+  //     },
+  //     [...posts]
+  //   );
 
-    const filteredPosts = updatedPosts.filter((post) => {
-      return !post.isPrivate && !post.isBanned;
-    });
+  //   const filteredPosts = updatedPosts.filter((post) => {
+  //     return !post.isPrivate && !post.isBanned;
+  //   });
 
-    return filteredPosts;
-  }
+  //   return filteredPosts;
+  // }
 
   // console.log(posts);
 
@@ -71,6 +73,7 @@ const FeedsMiddle = () => {
   }, [currentPage]);
 
   // useEffect(() => {
+  //   setPosts([]);
   //   return cancelFetch;
   // }, []);
 
