@@ -5,14 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import { useUserContext } from "../hooks/useUserContext";
-// import { usePostsContext } from "../hooks/usePostsContext";
+import { usePostsContext } from "../hooks/usePostsContext";
 import { sanitizeTags } from "../util/sanitizeTags";
 
 const FeedsMiddle = () => {
   // Getting user information and logout function from context
   const { user } = useUserContext();
-  // const { posts, setPosts } = usePostsContext();
-  const [posts, setPosts] = useState([]);
+  const { posts, setPosts } = usePostsContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,8 +20,8 @@ const FeedsMiddle = () => {
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
-      setHasNextPage(Boolean(response.result.length));
       setPosts((prevPosts) => [...prevPosts, ...response.result]);
+      setHasNextPage(Boolean(response.result.length));
     }
   );
 
@@ -46,6 +45,11 @@ const FeedsMiddle = () => {
 
   //   return filteredPosts;
   // }
+
+  // if we want banned post disappears at the same moment as ban pushed
+  const filteredPosts = posts.filter((post) => {
+    return !post.isPrivate && !post.isBanned;
+  });
 
   // console.log(posts);
 
@@ -72,10 +76,10 @@ const FeedsMiddle = () => {
     return cancelFetch;
   }, [currentPage]);
 
-  // useEffect(() => {
-  //   setPosts([]);
-  //   return cancelFetch;
-  // }, []);
+  useEffect(() => {
+    setPosts([]);
+    return cancelFetch;
+  }, []);
 
   //Handle Search
   const handleSubmit = (event) => {
@@ -120,11 +124,11 @@ const FeedsMiddle = () => {
         </div>
       )}
       <div>
-        {posts.length > 0
-          ? posts.map((post, i) => (
+        {filteredPosts.length > 0
+          ? filteredPosts.map((post, i) => (
               <div
                 className="single-post has-loading"
-                ref={posts.length === i + 1 ? lastPostRef : null}
+                ref={filteredPosts.length === i + 1 ? lastPostRef : null}
                 key={post._id}
               >
                 <SinglePost mappedPost={post} refreshUsers={performFetch} />

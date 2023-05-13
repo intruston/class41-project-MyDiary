@@ -4,14 +4,26 @@ import PopUp from "./PopUp";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
 import { useUserContext } from "../hooks/useUserContext";
+import { usePostsContext } from "../hooks/usePostsContext";
 
-const DeletePost = ({ postId, refreshUsers, anotherUserId }) => {
+const DeletePost = ({ postId, anotherUserId }) => {
   const { user } = useUserContext();
+  const { posts, setPosts } = usePostsContext();
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/${postId}`,
-    () => {
-      refreshUsers();
+    (response) => {
+      if (response.success) {
+        setPosts(
+          posts.map((p) => {
+            if (p._id === postId) {
+              return;
+            } else {
+              return p;
+            }
+          })
+        );
+      }
     }
   );
   useEffect(() => {

@@ -89,8 +89,8 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                     refreshUsers={refreshUsers}
                     anotherUserId={anotherUser?._id}
                   />
-                  <ReportPost post={mappedPost} refreshUsers={refreshUsers} />
-                  <BanPost post={mappedPost} refreshUsers={refreshUsers} />
+                  <ReportPost post={mappedPost} />
+                  <BanPost post={mappedPost} />
                 </ul>
               </DropdownMenu>
             </div>
