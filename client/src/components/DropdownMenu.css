@@ -8,6 +8,7 @@ a.dropdownButton {
   user-select: none;
   display: inline-block;
   cursor: pointer;
+  font-weight: 800;
 }
 
 /* Dropdown styles */
@@ -59,6 +60,7 @@ a.dropdownButton {
 /* Close the dropdown with outside clicks */
 .dropdown > summary::before {
   display: none;
+  cursor: auto;
 }
 
 .dropdown[open] > summary::before {

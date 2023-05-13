@@ -40,7 +40,7 @@ userSchema.statics.signup = async function (user) {
     );
   } else {
     // TODO: THIS CHECK DOESN't WORK added another one in auth
-    const exists = await this.findOne({ email: user.email }).exec();
+    const exists = await this.findOne({ email: user.email });
 
     if (exists) {
       throw new Error("Email already in use");
@@ -59,7 +59,7 @@ userSchema.statics.login = async function (email, password) {
     throw new Error("Email and password are required");
   }
 
-  const user = await this.findOne({ email }).exec();
+  const user = await this.findOne({ email });
 
   if (!user) {
     throw new Error("Invalid email");

@@ -19,6 +19,7 @@
   width: 30%;
 }
 .page-header button {
+  cursor: pointer;
   letter-spacing: 0.02rem;
   border-radius: 10px;
   color: var(--gray);
