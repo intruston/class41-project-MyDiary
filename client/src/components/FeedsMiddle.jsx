@@ -26,9 +26,9 @@ const FeedsMiddle = () => {
   );
 
   // NO filter posts so Moderator will se sign but post disappear from feed only after fetching
-  const filteredPosts = posts;
   // or filter if we want banned post disappears at the same moment as ban pushed
-  // const filteredPosts = posts.filter((post) => {
+  const filteredPosts = posts;
+  // .filter((post) => {
   //   return !post.isPrivate && !post.isBanned;
   // });
 

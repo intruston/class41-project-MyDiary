@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
@@ -19,23 +19,59 @@ const AnotherUserMiddle = () => {
     anotherUserId: id,
   });
   const { posts, setPosts } = usePostsContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [fetch, setFetch] = useState(false);
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${id}`,
+    `/post/timeline/${id}?limit=10&page=${currentPage}`,
     (response) => {
-      setPosts(response.result);
+      setFetch(false);
+      setPosts((prevPosts) => [...prevPosts, ...response.result]);
+      setHasNextPage(Boolean(response.result.length));
     }
   );
 
   useEffect(() => {
+    setCurrentPage(1);
+    setPosts([]);
     resetAnotherUser(); // call reset function here
     performFetch();
     return cancelFetch;
   }, [id]);
 
   useEffect(() => {
-    setPosts([]);
+    if (fetch && currentPage !== 1) {
+      performFetch();
+    }
     return cancelFetch;
-  }, []);
+  }, [fetch]);
+
+  // NO filter posts so Moderator will se sign but post disappear from feed only after fetching
+  // or filter if we want banned post disappears at the same moment as ban pushed
+  const filteredPosts = posts;
+  // .filter((post) => {
+  //   return !post.isPrivate && !post.isBanned;
+  // });
+
+  // using Intersection Observer for fetching new posts when we see the last post on the page
+  const intObserver = useRef(null);
+  const lastPostRef = useCallback(
+    (post) => {
+      if (anotherUserLoading || isLoading) return;
+
+      if (intObserver.current) intObserver.current.disconnect();
+      intObserver.current = new IntersectionObserver((posts) => {
+        if (posts[0].isIntersecting && hasNextPage) {
+          setCurrentPage((prevPage) => prevPage + 1);
+          setFetch(true);
+        }
+      });
+
+      if (post) intObserver.current.observe(post);
+    },
+    [isLoading, anotherUserLoading, hasNextPage]
+  );
 
   return (
     <div className="middle-section">
@@ -49,8 +85,8 @@ const AnotherUserMiddle = () => {
             <h2>{anotherUser && anotherUser.lastName}</h2>
             <br />
             <h4>
-              <strong>{posts && posts.length}</strong>{" "}
-              {posts.length > 1 ? "posts" : "post"}
+              <strong>{filteredPosts && filteredPosts.length}</strong>{" "}
+              {filteredPosts.length > 1 ? "posts" : "post"}
             </h4>
             <button>
               <FollowUnfollowButton anotherUserId={id} />
@@ -81,16 +117,16 @@ const AnotherUserMiddle = () => {
         </div>
       )}
       <div>
-        {posts.length > 0
-          ? posts
-              .filter((mappedPost) => {
-                return !mappedPost.isPrivate;
-              })
-              .map((mappedPost) => (
-                <div className="single-post has-loading" key={mappedPost._id}>
-                  <SinglePost mappedPost={mappedPost} />
-                </div>
-              ))
+        {filteredPosts.length > 0
+          ? filteredPosts.map((post, i) => (
+              <div
+                className="single-post has-loading"
+                ref={filteredPosts.length === i + 1 ? lastPostRef : null}
+                key={post._id}
+              >
+                <SinglePost mappedPost={post} />
+              </div>
+            ))
           : !isLoading && (
               <div className="no-post">This user not yet post anything</div>
             )}

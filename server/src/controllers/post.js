@@ -7,12 +7,19 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 import { authCheckId } from "./auth.js";
 
 export const getTimeline = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+
   let timelinePosts = [];
   try {
     const authUserId = authCheckId(req);
     if (authUserId === req.params.id) {
       timelinePosts = await Post.find({ userId: req.params.id })
         .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
         .exec();
     } else {
       timelinePosts = await Post.find({
@@ -21,6 +28,8 @@ export const getTimeline = async (req, res) => {
         isBanned: false,
       })
         .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
         .exec();
     }
 
