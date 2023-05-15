@@ -5,6 +5,7 @@ import {
   getBannedPosts,
   getFeed,
   getPost,
+  getReportedPosts,
   getTimeline,
   likePost,
   updatePost,
@@ -25,6 +26,7 @@ postRouter.post("/upload/:id", uploadPostPicture); // add a post picture to clou
 postRouter.put("/:id", updatePost); // update a post
 postRouter.delete("/:id", deletePost); //delete a post
 postRouter.put("/:id/like", likePost); //like/dislike a post
-postRouter.get("/moderation/:id", getBannedPosts); // banned posts for moderator page
+postRouter.get("/moderation/banned/:id", getBannedPosts); // banned posts for moderator page
+postRouter.get("/moderation/reported/:id", getReportedPosts); // Reported posts for moderator page
 
 export default postRouter;
