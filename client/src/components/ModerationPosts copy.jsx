@@ -21,11 +21,6 @@ const ModerationPosts = ({ status }) => {
     return cancelFetch;
   }, [status]);
 
-  useEffect(() => {
-    performFetch();
-    return cancelFetch;
-  }, []);
-
   return (
     <>
       <div>
