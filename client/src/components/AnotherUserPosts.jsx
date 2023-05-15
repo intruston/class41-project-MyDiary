@@ -18,22 +18,20 @@ const AnotherUserPosts = ({ id }) => {
     }
   );
 
-  function changeUser() {
+  useEffect(() => {
     setCurrentPage(1);
     setPosts([]);
-  }
-
-  useEffect(() => {
-    changeUser();
-    performFetch();
-    return cancelFetch;
   }, [id]);
 
   useEffect(() => {
-    if (posts.length < 10) return;
-    if (currentPage !== 1) {
-      performFetch();
-    }
+    if (currentPage !== 1) return;
+    performFetch();
+    return cancelFetch;
+  }, [id, currentPage]);
+
+  useEffect(() => {
+    if (posts.length < 10 || currentPage === 1) return;
+    performFetch();
     return cancelFetch;
   }, [currentPage]);
 
