@@ -82,7 +82,6 @@ const SearchMiddle = () => {
     },
     [isLoading, hasNextPage]
   );
-  console.log(searchResult);
 
   return (
     <div className="middle-section">
