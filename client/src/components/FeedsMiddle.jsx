@@ -25,12 +25,15 @@ const FeedsMiddle = () => {
     }
   );
 
-  // NO filter posts so Moderator will se sign but post disappear from feed only after fetching
-  // or filter if we want banned post disappears at the same moment as ban pushed
-  const filteredPosts = posts;
-  // .filter((post) => {
-  //   return !post.isPrivate && !post.isBanned;
-  // });
+  useEffect(() => {
+    performFetch();
+    return cancelFetch;
+  }, [currentPage]);
+
+  useEffect(() => {
+    setPosts([]);
+    return cancelFetch;
+  }, []);
 
   // using Intersection Observer for fetching new posts when we see the last post on the page
   const intObserver = useRef(null);
@@ -50,16 +53,6 @@ const FeedsMiddle = () => {
     [isLoading, hasNextPage]
   );
 
-  useEffect(() => {
-    performFetch();
-    return cancelFetch;
-  }, [currentPage]);
-
-  useEffect(() => {
-    setPosts([]);
-    return cancelFetch;
-  }, []);
-
   //Handle Search
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -68,6 +61,13 @@ const FeedsMiddle = () => {
       ? navigate(`/search/tags/${sanitizedTags}`)
       : navigate("/search");
   };
+
+  // NO filter posts so Moderator will se sign but post disappear from feed only after fetching
+  // or filter if we want banned post disappears at the same moment as ban pushed
+  const filteredPosts = posts;
+  // .filter((post) => {
+  //   return !post.isPrivate && !post.isBanned;
+  // });
 
   return (
     <div className="middle-section">
@@ -104,13 +104,13 @@ const FeedsMiddle = () => {
       )}
       <div>
         {filteredPosts.length > 0
-          ? filteredPosts.map((post, i) => (
+          ? filteredPosts.map((mappedPost, i) => (
               <div
                 className="single-post has-loading"
                 ref={filteredPosts.length === i + 1 ? lastPostRef : null}
-                key={post._id}
+                key={mappedPost._id}
               >
-                <SinglePost mappedPost={post} />
+                <SinglePost mappedPost={mappedPost} />
               </div>
             ))
           : !isLoading && (

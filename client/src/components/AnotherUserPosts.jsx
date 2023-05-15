@@ -52,7 +52,6 @@ const AnotherUserPosts = ({ id }) => {
       intObserver.current = new IntersectionObserver((postList) => {
         if (postList[0].isIntersecting && hasNextPage && posts.length > 9) {
           setCurrentPage((prevPage) => prevPage + 1);
-          // console.log("intersection observer, page: " + currentPage);
         }
       });
 

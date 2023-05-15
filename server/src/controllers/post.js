@@ -32,7 +32,7 @@ export const getTimeline = async (req, res) => {
         .limit(endIndex)
         .exec();
     }
-    // console.log(req.query);
+
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
@@ -82,66 +82,6 @@ export const getFeed = async (req, res) => {
     res.status(500).json({
       success: false,
       msg: `Unable to get feed posts, error: ${error}`,
-    });
-  }
-};
-
-export const getBannedPosts = async (req, res) => {
-  try {
-    const authUserId = authCheckId(req);
-
-    const currentUser = await User.findById(req.params.id).exec();
-    const userId = currentUser._id.toString();
-
-    // Compare that user is real and moderator rights
-    if (userId === authUserId && currentUser.isModerator) {
-      const bannedPosts = await Post.find({ isBanned: true })
-        .sort({ createdAt: -1 })
-        .exec();
-
-      res.status(200).json({ success: true, result: bannedPosts });
-    } else {
-      return res.status(403).json({
-        success: false,
-        msg: "You do not have moderation permission!",
-      });
-    }
-  } catch (error) {
-    logError(error);
-    res.status(500).json({
-      success: false,
-      msg: `Unable to get banned posts, error: ${error}`,
-    });
-  }
-};
-
-export const getReportedPosts = async (req, res) => {
-  try {
-    const authUserId = authCheckId(req);
-
-    const currentUser = await User.findById(req.params.id).exec();
-    const userId = currentUser._id.toString();
-
-    // Compare that user is real and moderator rights
-    if (userId === authUserId && currentUser.isModerator) {
-      const reportedPosts = await Post.find({
-        $and: [{ isBanned: false }, { isReported: true }],
-      })
-        .sort({ createdAt: -1 })
-        .exec();
-
-      res.status(200).json({ success: true, result: reportedPosts });
-    } else {
-      return res.status(403).json({
-        success: false,
-        msg: "You do not have moderation permission!",
-      });
-    }
-  } catch (error) {
-    logError(error);
-    res.status(500).json({
-      success: false,
-      msg: `Unable to get reported posts, error: ${error}`,
     });
   }
 };
@@ -342,6 +282,79 @@ export const updatePost = async (req, res) => {
     res.status(500).json({
       success: false,
       msg: "Unable to update post. Error: " + error,
+    });
+  }
+};
+
+// Moderator routes
+export const getReportedPosts = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+
+  try {
+    const authUserId = authCheckId(req);
+    const currentUser = await User.findById(req.params.id).exec();
+    const userId = currentUser._id.toString();
+
+    // Compare that user is real and moderator rights
+    if (userId === authUserId && currentUser.isModerator) {
+      const reportedPosts = await Post.find({
+        $and: [{ isBanned: false }, { isReported: true }],
+      })
+        .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
+        .exec();
+
+      res.status(200).json({ success: true, result: reportedPosts });
+    } else {
+      return res.status(403).json({
+        success: false,
+        msg: "You do not have moderation permission!",
+      });
+    }
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get reported posts, error: ${error}`,
+    });
+  }
+};
+
+export const getBannedPosts = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+
+  try {
+    const authUserId = authCheckId(req);
+    const currentUser = await User.findById(req.params.id).exec();
+    const userId = currentUser._id.toString();
+
+    // Compare that user is real and moderator rights
+    if (userId === authUserId && currentUser.isModerator) {
+      const bannedPosts = await Post.find({ isBanned: true })
+        .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
+        .exec();
+
+      res.status(200).json({ success: true, result: bannedPosts });
+    } else {
+      return res.status(403).json({
+        success: false,
+        msg: "You do not have moderation permission!",
+      });
+    }
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get banned posts, error: ${error}`,
     });
   }
 };
