@@ -178,7 +178,7 @@ export const deletePost = async (req, res) => {
 
     if (post.userId === authUserId) {
       // Delete image from Cloudinary
-      if (post.image !== "") {
+      if (post.image) {
         const urlArr = post.image.split("/");
         const imageFolder = urlArr[urlArr.length - 2];
         const imageName = urlArr[urlArr.length - 1].split(".")[0];
