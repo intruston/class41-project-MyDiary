@@ -30,8 +30,9 @@ const AnotherUserHeader = ({ id }) => {
           <h2>{anotherUser && anotherUser.lastName}</h2>
           <br />
           <h4>
-            need to change this
-            {/* <strong>{filteredPosts && filteredPosts.length}</strong>{" "} */}
+            {anotherUser && anotherUser.country}
+            {/* we cannot use the posts with scroll if we not make a separate request */}
+            {/*<strong>{filteredPosts && filteredPosts.length}</strong>{" "} */}
             {/* {filteredPosts.length > 1 ? "posts" : "post"} */}
           </h4>
           <button>
