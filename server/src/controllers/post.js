@@ -32,7 +32,7 @@ export const getTimeline = async (req, res) => {
         .limit(endIndex)
         .exec();
     }
-
+    // console.log(req.query);
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
@@ -177,6 +177,31 @@ export const deletePost = async (req, res) => {
     const post = await Post.findById(req.params.id).exec();
 
     if (post.userId === authUserId) {
+      // Delete image from Cloudinary
+      if (post.image !== "") {
+        const urlArr = post.image.split("/");
+        const imageFolder = urlArr[urlArr.length - 2];
+        const imageName = urlArr[urlArr.length - 1].split(".")[0];
+        const imagePath = `Diary/post_images/${imageFolder}/${imageName}`;
+
+        cloudinary.config({
+          cloud_name: process.env.CLOUD_NAME,
+          api_key: process.env.API_KEY,
+          api_secret: process.env.API_SECRET,
+        });
+
+        const imageResult = await cloudinary.uploader.destroy(imagePath);
+        if (imageResult.result !== "ok") {
+          res.status(400).json({
+            success: false,
+            msg: `Cannot delete image on Cloudinary: ${JSON.stringify(
+              imageResult
+            )}`,
+          });
+          return;
+        }
+      }
+
       await post.deleteOne();
       res.status(200).json({
         success: true,
