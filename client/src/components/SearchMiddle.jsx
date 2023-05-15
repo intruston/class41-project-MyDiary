@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
@@ -14,15 +14,28 @@ const SearchMiddle = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedWord, setSearchedWord] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/search/tags?q=${searchQuery}`,
-    (data) => {
-      setSearchResult(data.result);
+    `/search/tags?q=${searchQuery}&limit=10&page=${currentPage}`,
+    (response) => {
+      if (currentPage === 1 && response.result === []) setSearchResult([]);
+      setSearchResult((prevPosts) => [...prevPosts, ...response.result]);
+      setHasNextPage(Boolean(response.result.length));
     }
   );
 
   useEffect(() => {
+    if (searchResult.length < 10 || currentPage === 1) return;
+    performFetch();
+    return cancelFetch;
+  }, [currentPage]);
+
+  useEffect(() => {
     if (most) {
+      setCurrentPage(1);
+      setSearchResult([]);
       const sanitizedMost = sanitizeTags(most); // Remove '#' symbol from tags
       setSearchQuery((prevSearchQuery) => {
         // Update the searchQuery based on the previous state
@@ -36,6 +49,8 @@ const SearchMiddle = () => {
 
   useEffect(() => {
     if (most === searchQuery) {
+      setCurrentPage(1);
+      setSearchResult([]);
       performFetch();
     }
 
@@ -44,9 +59,30 @@ const SearchMiddle = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    performFetch();
     setSearchedWord(searchQuery);
+    setSearchResult([]);
+    if (!searchQuery) return;
+    performFetch();
   };
+
+  // using Intersection Observer for fetching new posts when we see the last post on the page
+  const intObserver = useRef(null);
+  const lastPostRef = useCallback(
+    (post) => {
+      if (isLoading) return;
+
+      if (intObserver.current) intObserver.current.disconnect();
+      intObserver.current = new IntersectionObserver((posts) => {
+        if (posts[0].isIntersecting && hasNextPage) {
+          setCurrentPage((prevPage) => prevPage + 1);
+        }
+      });
+
+      if (post) intObserver.current.observe(post);
+    },
+    [isLoading, hasNextPage]
+  );
+  console.log(searchResult);
 
   return (
     <div className="middle-section">
@@ -54,7 +90,8 @@ const SearchMiddle = () => {
         <form onSubmit={handleSubmit} className="search-form">
           <input
             type="text"
-            minLength={2}
+            minLength="2"
+            required
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             className="search-input"
@@ -74,28 +111,23 @@ const SearchMiddle = () => {
       {error && <p>Error: {error.message}</p>}
       {/* Posts */}
       <div className="middle-container-results">
+        {isLoading && <Loading />}
         {searchResult.length ? (
-          searchResult
-            .filter((mappedPost) => {
-              return !mappedPost.isPrivate && !mappedPost.isBanned;
-            })
-            .map((mappedPost) => (
-              <div className="single-post has-loading" key={mappedPost._id}>
-                {isLoading && <Loading />}
-                <SinglePost
-                  mappedPost={mappedPost}
-                  refreshUsers={performFetch}
-                />
-              </div>
-            ))
+          searchResult.map((mappedPost, i) => (
+            <div
+              className="single-post has-loading"
+              ref={searchResult.length === i + 1 ? lastPostRef : null}
+              key={mappedPost._id}
+            >
+              <SinglePost mappedPost={mappedPost} />
+            </div>
+          ))
         ) : (
           <>
-            {searchedWord || most ? (
+            {!isLoading && (searchedWord || most) && (
               <div className="found-no-result">
                 No result for: <strong>{searchedWord || most}</strong>
               </div>
-            ) : (
-              ""
             )}
             <MostLikedPosts />
           </>

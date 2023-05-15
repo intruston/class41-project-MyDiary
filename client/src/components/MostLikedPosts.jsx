@@ -1,31 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import { useUserContext } from "../hooks/useUserContext";
+import { usePostsContext } from "../hooks/usePostsContext";
 
 const MostLikedPosts = () => {
   const { user } = useUserContext();
-  const [posts, setPosts] = useState([]);
+  const { posts, setPosts } = usePostsContext();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/feed/${user._id}`,
+    `/post/feed/${user._id}?limit=10&page=1&sort=likes`,
     (response) => {
       setPosts(response.result);
     }
   );
 
   useEffect(() => {
+    setPosts([]);
     performFetch();
     return cancelFetch;
   }, []);
-
-  const bestPosts = posts
-    .filter((post) => {
-      return !post.isPrivate && !post.isBanned;
-    })
-    .sort((a, b) => b.likes.length - a.likes.length)
-    .slice(0, 10);
 
   return (
     <>
@@ -39,10 +34,10 @@ const MostLikedPosts = () => {
         </div>
       )}
       <div>
-        {bestPosts.length > 0
-          ? bestPosts.map((post) => (
+        {posts.length > 0
+          ? posts.map((post) => (
               <div className="single-post has-loading" key={post._id}>
-                <SinglePost mappedPost={post} refreshUsers={performFetch} />
+                <SinglePost mappedPost={post} />
               </div>
             ))
           : !isLoading && (

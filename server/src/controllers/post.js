@@ -48,6 +48,7 @@ export const getFeed = async (req, res) => {
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
   const endIndex = page * postsPerPage - startIndex;
+  const sort = req.query.sort;
 
   try {
     const authUserId = authCheckId(req);
@@ -63,15 +64,38 @@ export const getFeed = async (req, res) => {
     const userFriendsId = currentUser.following;
     const usersForFeed = [...userFriendsId, currentUser._id.toString()];
 
-    const feedPosts = await Post.find({
-      userId: { $in: usersForFeed },
-      isPrivate: false,
-      isBanned: false,
-    })
-      .sort({ createdAt: -1 })
-      .skip(startIndex)
-      .limit(endIndex)
-      .exec();
+    const feedPosts =
+      sort === "likes"
+        ? await Post.aggregate([
+            {
+              $match: {
+                userId: { $in: usersForFeed },
+                isPrivate: false,
+                isBanned: false,
+              },
+            },
+            {
+              $addFields: {
+                likesLength: {
+                  $size: "$likes",
+                },
+              },
+            },
+            {
+              $sort: { likesLength: -1 },
+            },
+          ])
+            .skip(startIndex)
+            .limit(endIndex)
+        : await Post.find({
+            userId: { $in: usersForFeed },
+            isPrivate: false,
+            isBanned: false,
+          })
+            .sort({ createdAt: -1 })
+            .skip(startIndex)
+            .limit(endIndex)
+            .exec();
 
     res.status(200).json({
       success: true,
