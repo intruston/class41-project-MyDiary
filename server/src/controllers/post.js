@@ -11,12 +11,16 @@ export const getTimeline = async (req, res) => {
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
   const endIndex = page * postsPerPage - startIndex;
+  const privacy = req.query.privacy;
 
   let timelinePosts = [];
   try {
     const authUserId = authCheckId(req);
-    if (authUserId === req.params.id) {
-      timelinePosts = await Post.find({ userId: req.params.id })
+    if (authUserId === req.params.id && privacy === "private") {
+      timelinePosts = await Post.find({
+        userId: req.params.id,
+        isPrivate: true,
+      })
         .sort({ createdAt: -1 })
         .skip(startIndex)
         .limit(endIndex)
@@ -32,7 +36,7 @@ export const getTimeline = async (req, res) => {
         .limit(endIndex)
         .exec();
     }
-
+    console.log("privacy " + privacy, "page " + page);
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
