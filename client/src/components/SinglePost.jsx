@@ -13,6 +13,7 @@ import DeletePost from "./DeletePost";
 import BanPost from "./BanPost";
 
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import LockPersonIcon from "@mui/icons-material/LockPerson";
 import Loading from "./Loading";
 import PopUp from "./PopUp";
 import ReportPost from "./ReportPost";
@@ -139,7 +140,9 @@ const SinglePost = ({ mappedPost }) => {
           ))}
         </p>
         {mappedPost.isBanned ? (
-          <RemoveCircleIcon sx={{ color: "red", fontSize: 40 }} />
+          <RemoveCircleIcon sx={{ color: "red", fontSize: 30 }} />
+        ) : mappedPost.isPrivate ? (
+          <LockPersonIcon sx={{ color: "gray", fontSize: 30 }} />
         ) : (
           <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
         )}

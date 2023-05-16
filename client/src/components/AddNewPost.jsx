@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch.js";
-import Loading from "./Loading.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "./AddNewPost.css";
+import Loading from "./Loading.jsx";
 import AddNewPostImage from "./AddNewPostImage.jsx";
 import noImage from "../assets/no-image.png";
 import { sanitizeTagsAddNewPost } from "../util/sanitizeTags.js";
 
-const AddNewPost = ({ setActive }) => {
+const AddNewPost = ({ setActive, handlePostsRefresh }) => {
   const { auth } = useAuthContext();
   const userId = auth.id;
   const [imgLoading, setImgLoading] = useState(false);
@@ -43,12 +43,15 @@ const AddNewPost = ({ setActive }) => {
     setIsPrivate(false);
     setImageUrl(null);
     setActive(false);
+    handlePostsRefresh();
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/post/create",
-    () => {
-      onSuccess();
+    (response) => {
+      if (response.success) {
+        onSuccess();
+      }
     }
   );
 
@@ -168,6 +171,7 @@ const AddNewPost = ({ setActive }) => {
 
 AddNewPost.propTypes = {
   setActive: PropTypes.func.isRequired,
+  handlePostsRefresh: PropTypes.func.isRequired,
 };
 
 export default AddNewPost;

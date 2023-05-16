@@ -5,17 +5,17 @@ import React, {
   useRef,
   useCallback,
 } from "react";
+import { useUserContext } from "../hooks/useUserContext";
+import { useDateContext } from "../hooks/useDateContext";
+import { usePostsContext } from "../hooks/usePostsContext";
 import postBackground from "../assets/post-background.png";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
-import { useUserContext } from "../hooks/useUserContext";
-import { useDateContext } from "../hooks/useDateContext";
 import Modal from "./Modal";
 import AddNewPost from "./AddNewPost";
 import moment from "moment";
 import noImage from "../assets/no-image.png";
-import { usePostsContext } from "../hooks/usePostsContext";
 
 const MyPostsMiddle = () => {
   const { user } = useUserContext();
@@ -49,6 +49,12 @@ const MyPostsMiddle = () => {
     performFetch();
     return cancelFetch;
   }, [currentPage]);
+
+  const handlePostsRefresh = () => {
+    setCurrentPage(1);
+    setPosts([]);
+    performFetch();
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -89,7 +95,10 @@ const MyPostsMiddle = () => {
   return (
     <div className="middle-section">
       <Modal active={modalActive} setActive={setModalActive}>
-        <AddNewPost setActive={setModalActive} />
+        <AddNewPost
+          setActive={setModalActive}
+          handlePostsRefresh={handlePostsRefresh}
+        />
       </Modal>
       <div className="middle-container">
         {/* Page Header */}

@@ -36,7 +36,7 @@ export const getTimeline = async (req, res) => {
         .limit(endIndex)
         .exec();
     }
-    console.log("privacy " + privacy, "page " + page);
+
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
     logError(error);
@@ -156,7 +156,7 @@ export const createPost = async (req, res) => {
     } else {
       const newPost = await Post.create(post);
 
-      res.status(201).json({ success: true, post: newPost });
+      res.status(201).json({ success: true, result: newPost });
     }
   } catch (error) {
     logError(error);
