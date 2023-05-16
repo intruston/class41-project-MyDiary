@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import moment from "moment";
 import Post, { validatePost } from "../models/Post.js";
 import User from "../models/User.js";
 import { logError } from "../util/logging.js";
@@ -12,30 +13,35 @@ export const getTimeline = async (req, res) => {
   const startIndex = (page - 1) * postsPerPage;
   const endIndex = page * postsPerPage - startIndex;
   const privacy = req.query.privacy;
-
+  const date = req.query.date;
   let timelinePosts = [];
+
+  const authUserId = authCheckId(req);
+
+  const findQuery = {
+    userId: req.params.id,
+  };
+
+  if (authUserId === req.params.id && privacy === "private") {
+    findQuery.isPrivate = true;
+  } else {
+    findQuery.isPrivate = false;
+    findQuery.isBanned = false;
+  }
+
+  if (date) {
+    findQuery.createdAt = {
+      $gte: moment(date).startOf("day").toDate(),
+      $lte: moment(date).endOf("day").toDate(),
+    };
+  }
+
   try {
-    const authUserId = authCheckId(req);
-    if (authUserId === req.params.id && privacy === "private") {
-      timelinePosts = await Post.find({
-        userId: req.params.id,
-        isPrivate: true,
-      })
-        .sort({ createdAt: -1 })
-        .skip(startIndex)
-        .limit(endIndex)
-        .exec();
-    } else {
-      timelinePosts = await Post.find({
-        userId: req.params.id,
-        isPrivate: false,
-        isBanned: false,
-      })
-        .sort({ createdAt: -1 })
-        .skip(startIndex)
-        .limit(endIndex)
-        .exec();
-    }
+    timelinePosts = await Post.find(findQuery)
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(endIndex)
+      .exec();
 
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {

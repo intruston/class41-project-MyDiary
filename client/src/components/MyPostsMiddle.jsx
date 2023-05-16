@@ -25,8 +25,11 @@ const MyPostsMiddle = () => {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [modalActive, setModalActive] = useState(false);
   const [activeTab, setActiveTab] = useState("public");
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${user._id}?privacy=${activeTab}&limit=10&page=${currentPage}`,
+    `/post/timeline/${user._id}?privacy=${activeTab}&date=${
+      date ? date : ""
+    }&limit=10&page=${currentPage}`,
     (response) => {
       setPosts((prevPosts) => [...prevPosts, ...response.result]);
       setHasNextPage(Boolean(response.result.length));
@@ -36,13 +39,13 @@ const MyPostsMiddle = () => {
   useEffect(() => {
     setCurrentPage(1);
     setPosts([]);
-  }, [activeTab]);
+  }, [activeTab, date]);
 
   useEffect(() => {
     if (currentPage !== 1) return;
     performFetch();
     return cancelFetch;
-  }, [activeTab, currentPage]);
+  }, [activeTab, date, currentPage]);
 
   useEffect(() => {
     if (posts.length < 10 || currentPage === 1) return;
@@ -78,19 +81,7 @@ const MyPostsMiddle = () => {
     [isLoading, hasNextPage]
   );
 
-  // Dates filter
-  const filteredPosts =
-    posts &&
-    posts.filter((mappedPost) => {
-      const postDate = moment(mappedPost.createdAt).format("YYYY-MM-DD");
-      const isPostOnDate = !date || postDate === date;
-
-      if (isPostOnDate) {
-        return true;
-      }
-
-      return false;
-    });
+  const filteredPosts = posts;
 
   return (
     <div className="middle-section">
@@ -132,7 +123,9 @@ const MyPostsMiddle = () => {
           >
             My public posts
           </h4>
-          <h4>{date && " at " + date}</h4>
+          <h4 style={{ color: "darksalmon", fontSize: "1.2rem" }}>
+            {date && " On " + moment(date).format("DD MMMM YYYY")}
+          </h4>
           <h4
             className={activeTab === "private" ? "active-posts" : ""}
             onClick={() => handleTabClick("private")}
@@ -162,9 +155,13 @@ const MyPostsMiddle = () => {
               </div>
             ))}
           </>
+        ) : !isLoading && !date ? (
+          <div className="no-post has-loading">Lets start writing!</div>
         ) : (
           !isLoading && (
-            <div className="no-post has-loading">Lets start writing</div>
+            <div className="no-post has-loading">
+              You have no posts on this day, try to choose another.
+            </div>
           )
         )}
       </div>
