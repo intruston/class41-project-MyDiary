@@ -39,7 +39,11 @@ const FriendsMiddle = ({ searchData }) => {
       <div className="middle-container">
         <FriendsPageHeader friendCount={friendsList && friendsList.length} />
         <FriendsPageList friends={friendsList} refreshUser={performFetch} />
-        {isLoading && <Loading />}
+        {isLoading && (
+          <div className="load-container">
+            <Loading />
+          </div>
+        )}
         {error && (
           <div className="error">
             {error.toString()}

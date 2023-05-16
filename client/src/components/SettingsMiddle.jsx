@@ -184,11 +184,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
             </div>
           </div>
         </form>
-        {isLoading && (
-          <div>
-            <Loading />{" "}
-          </div>
-        )}
+        {isLoading && <Loading />}
         {error && (
           <div className="error">Something went wrong! Error: {error}</div>
         )}

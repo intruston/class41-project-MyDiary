@@ -115,7 +115,11 @@ const SearchMiddle = () => {
       {error && <p>Error: {error.message}</p>}
       {/* Posts */}
       <div className="middle-container-results">
-        {isLoading && <Loading />}
+        {isLoading && (
+          <div className="load-container">
+            <Loading />
+          </div>
+        )}
         {searchResult.length ? (
           searchResult.map((mappedPost, i) => (
             <div

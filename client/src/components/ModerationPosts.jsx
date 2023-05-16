@@ -81,7 +81,12 @@ const ModerationPosts = ({ status }) => {
         )}
       </div>
 
-      {isLoading && <Loading />}
+      {isLoading && (
+        <div className="load-container">
+          .
+          <Loading />
+        </div>
+      )}
       {error && <div className="error">{error.message}</div>}
     </>
   );
