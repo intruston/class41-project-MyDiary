@@ -66,7 +66,7 @@ const FeedsMiddle = () => {
   // or filter if we want banned post disappears at the same moment as ban pushed
   const filteredPosts = posts;
   // .filter((post) => {
-  //   return !post.isPrivate && !post.isBanned;
+  //   return !post.isBanned;
   // });
 
   return (

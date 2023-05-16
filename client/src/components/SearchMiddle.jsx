@@ -95,10 +95,15 @@ const SearchMiddle = () => {
             onChange={(event) => setSearchQuery(event.target.value)}
             className="search-input"
           />
+          {!isLoading && (searchedWord || most) && !searchResult.length && (
+            <p className="found-no-result search-results">
+              No results for: <strong>{searchedWord || most}</strong>
+            </p>
+          )}
 
           {searchResult && searchResult.length > 0 && (
             <p className="search-results">
-              {searchResult.length}{" "}
+              {searchResult.length >= 10 ? "many" : searchResult.length}{" "}
               {searchResult.length === 1 ? "result" : "results"}
             </p>
           )}
@@ -122,14 +127,7 @@ const SearchMiddle = () => {
             </div>
           ))
         ) : (
-          <>
-            {!isLoading && (searchedWord || most) && (
-              <div className="found-no-result">
-                No result for: <strong>{searchedWord || most}</strong>
-              </div>
-            )}
-            <MostLikedPosts />
-          </>
+          <MostLikedPosts />
         )}
       </div>
     </div>
