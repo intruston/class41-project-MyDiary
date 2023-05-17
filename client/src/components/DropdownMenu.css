@@ -14,8 +14,6 @@ a.dropdownButton {
 /* Dropdown styles */
 .dropdown {
   position: relative;
-  /* for hiding ugly arrors in Safari */
-  color: white;
 }
 
 .dropdown ul {
@@ -56,6 +54,8 @@ a.dropdownButton {
 .dropdown summary {
   list-style: none;
   list-style-type: none;
+  /* for hiding ugly arrors in Safari */
+  color: transparent;
 }
 /* Close the dropdown with outside clicks */
 .dropdown > summary::before {
