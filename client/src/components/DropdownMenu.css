@@ -14,6 +14,8 @@ a.dropdownButton {
 /* Dropdown styles */
 .dropdown {
   position: relative;
+  /* for hiding ugly arrors in Safari */
+  color: white;
 }
 
 .dropdown ul {
