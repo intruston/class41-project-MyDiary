@@ -1,12 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { useUserContext } from "../hooks/useUserContext";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import ProfilePicture from "./ProfilePicture";
+import PopUp from "./PopUp";
 
 const SettingsChangePP = () => {
   const { user, dispatch } = useUserContext();
   const inputFileRef = useRef(null);
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
 
   const { error, cancelFetch, performFetch } = useFetch(
     `/user/upload/${user?._id}`,
@@ -15,7 +17,7 @@ const SettingsChangePP = () => {
         type: "SET_USER",
         payload: { ...user, profilePicture: response.result },
       });
-      alert("Profile picture uploaded successfully");
+      setPopUpOpen(true);
     }
   );
 
@@ -37,12 +39,13 @@ const SettingsChangePP = () => {
     );
   };
 
-  if (error) {
-    alert(`Error uploading profile picture: ${error}`);
-  }
-
   return (
     <div className="settings-change-PP">
+      <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
+        <div className="popup-message">
+          Profile picture uploaded successfully!
+        </div>
+      </PopUp>
       <ProfilePicture profilePicture={user?.profilePicture} size={"medium"} />
 
       <button
@@ -59,6 +62,7 @@ const SettingsChangePP = () => {
         onChange={uploadPhotoSubmit}
         hidden
       />
+      {error && <div className="error">{error.message || error}</div>}
     </div>
   );
 };

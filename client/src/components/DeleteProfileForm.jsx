@@ -5,22 +5,20 @@ import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
 import useLogout from "../hooks/useLogout";
 import Loading from "./Loading";
+import PopUp from "./PopUp";
 
 const DeleteProfileForm = ({ setModalDeleteActive }) => {
   const { user } = useUserContext();
   const [deleteWord, setDeleteWord] = useState("");
   const logout = useLogout();
 
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
+  const [confirmPopup, setConfirmPopup] = useState(false);
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/${user?._id}`,
-    (response) => {
-      if (response.success) {
-        clearModal();
-        alert("Profile and all data DELETED successfully!");
-        logout();
-      } else {
-        alert("Profile and all data DELETED successfully!");
-      }
+    () => {
+      logout();
     }
   );
 
@@ -36,18 +34,17 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
   const deleteProfile = (e) => {
     e.preventDefault();
     if (deleteWord !== "delete") {
-      alert(
-        "If you want to delete your profile permanently enter 'delete' in the field below"
-      );
+      setPopUpOpen(true);
       return;
     }
-    if (confirm("Are you sure you want to DELETE your account and all data?")) {
-      performFetch({
-        method: "DELETE",
-      });
-    }
+    setConfirmPopup(true);
   };
-
+  const confirmDelete = () => {
+    setConfirmPopup(false);
+    performFetch({
+      method: "DELETE",
+    });
+  };
   return (
     <>
       <div className="deleteProfileWrapper">
@@ -85,6 +82,25 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
       <br />
       {isLoading && <Loading />}
       {error && <div className="error">{error}</div>}
+      <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen} isInModal={true}>
+        <div className="popup-message">
+          If you want to delete your profile permanently; enter
+          &apos;delete&apos; in the field below
+        </div>
+      </PopUp>
+      <PopUp
+        isOpen={confirmPopup}
+        setPopUpOpen={setConfirmPopup}
+        isInModal={true}
+      >
+        <div className="popup-message">
+          Are you sure you want to DELETE your account and all data?
+        </div>
+
+        <button className="button-white" onClick={confirmDelete}>
+          Yes
+        </button>
+      </PopUp>
     </>
   );
 };

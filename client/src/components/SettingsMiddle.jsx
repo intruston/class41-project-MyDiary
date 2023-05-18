@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch";
 import { useUserContext } from "../hooks/useUserContext";
 import SettingsChangePP from "./SettingsChangePP";
 import Loading from "./Loading";
+import PopUp from "./PopUp";
 
 const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const { user, dispatch } = useUserContext();
@@ -15,6 +16,8 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
+
   const onSuccess = () => {
     setFirstName("");
     setLastName("");
@@ -23,7 +26,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
     setCountry("");
     setBio("");
     setPassword("");
-    alert("Profile has been updated!");
+    setPopUpOpen(true);
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -43,11 +46,6 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!password) {
-      alert("Please enter your password for submit");
-      return;
-    }
 
     const updatedUser = {
       _id: user._id,
@@ -69,9 +67,9 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
 
   return (
     <div className="middle-section">
-      <div className="middle-container">
+      <div className="middle-container has-loading">
         <div className="settings-title">
-          <span className="settings-update-title">Update Your Account</span>
+          <span className="settings-update-title">Update Your Account 2</span>
         </div>
 
         <form className="settings-form" onSubmit={handleSubmit}>
@@ -190,8 +188,13 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
           </div>
         )}
         {error && (
-          <div className="error">Something went wrong! Error: {error}</div>
+          <div className="error">
+            {error.message || error.codeName || error}
+          </div>
         )}
+        <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
+          <div className="popup-message">Profile has been updated!</div>
+        </PopUp>
       </div>
     </div>
   );

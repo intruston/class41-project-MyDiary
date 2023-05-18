@@ -4,12 +4,16 @@ import useFetch from "../hooks/useFetch";
 import { useUserContext } from "../hooks/useUserContext";
 import Loading from "./Loading";
 import "./changePasswordForm.css";
+import PopUp from "./PopUp";
 
 const ChangePasswordForm = ({ setModalPasswordActive }) => {
   const { user, dispatch } = useUserContext();
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordCopy, setNewPasswordCopy] = useState("");
+
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
+  const [successPopUp, setSuccessPopUp] = useState(false);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/user/password/${user?._id}`,
@@ -18,8 +22,7 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
         type: "SET_USER",
         payload: response.result,
       });
-      clearModal();
-      alert("Password changed successfully!");
+      setSuccessPopUp(true);
     }
   );
 
@@ -49,8 +52,13 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
         body: JSON.stringify(updatedUserPassword),
       });
     } else {
-      alert("New passwords must match!");
+      setPopUpOpen(true);
     }
+  };
+
+  const closeModal = () => {
+    setSuccessPopUp(false);
+    clearModal();
   };
 
   return (
@@ -103,6 +111,12 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
       <br />
       {isLoading && <Loading />}
       {error && <div className="error">{error}</div>}
+      <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen} isInModal={true}>
+        <div className="popup-message"> New passwords must match! </div>
+      </PopUp>
+      <PopUp isOpen={successPopUp} setPopUpOpen={closeModal} isInModal={true}>
+        <div className="popup-message"> Password changed successfully! </div>
+      </PopUp>
     </>
   );
 };

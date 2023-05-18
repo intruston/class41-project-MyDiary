@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import "./PopUp.css";
 
-const PopUp = ({ children, isOpen, setPopUpOpen }) => {
+const PopUp = ({ children, isOpen, setPopUpOpen, isInModal }) => {
   const popUpRef = useRef(null);
 
   const closePopUp = (e) => {
@@ -21,7 +21,11 @@ const PopUp = ({ children, isOpen, setPopUpOpen }) => {
   return (
     <>
       {isOpen && (
-        <div onClick={closePopUp} ref={popUpRef} className="pop-up">
+        <div
+          onClick={closePopUp}
+          ref={popUpRef}
+          className={isInModal ? "pop-up modalPop" : "pop-up"}
+        >
           <div className="pop-up-content">
             <button
               onClick={closePopUpByButton}
@@ -42,6 +46,7 @@ PopUp.propTypes = {
   children: PropTypes.node,
   isOpen: PropTypes.bool,
   setPopUpOpen: PropTypes.func,
+  isInModal: PropTypes.bool,
 };
 
 export default PopUp;
