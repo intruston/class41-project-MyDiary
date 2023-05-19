@@ -53,7 +53,13 @@ const AddNewPostImage = ({ imageUrl, setImageUrl, userId, setImgLoading }) => {
         onChange={uploadImageSubmit}
         hidden
       />
-      {error && <div className="error">{error.message || error}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </>
   );
 };

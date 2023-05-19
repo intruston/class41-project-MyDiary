@@ -67,10 +67,18 @@ const AnotherUserMiddle = () => {
             <h3>{`"${anotherUser && anotherUser.bio}"`}</h3>
           </div>
         </div>
-        {error && <div className="error">{error.message || error}</div>}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
         {anotherUserError && (
           <div className="error">
-            {anotherUserError.message || anotherUserError}
+            {typeof anotherUserError === "string"
+              ? anotherUserError
+              : "Error happened. Refresh the page"}
           </div>
         )}
       </div>

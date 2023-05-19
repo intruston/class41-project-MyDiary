@@ -76,7 +76,13 @@ const SearchMiddle = () => {
           </button>
         </form>
       </div>
-      {error && <p>Error: {error.message}</p>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
       {/* Posts */}
       <div className="middle-container-results">
         {searchResult.length ? (

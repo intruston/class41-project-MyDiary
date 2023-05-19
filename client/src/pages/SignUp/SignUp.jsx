@@ -194,10 +194,18 @@ function RegisterForm() {
         <br />
         {isLoading && <Loading />}
         {signupError && (
-          <div className="error">{signupError.message || signupError}</div>
+          <div className="error">
+            {typeof signupError === "string"
+              ? signupError
+              : "Error happened. Refresh the page"}
+          </div>
         )}
         {userError && (
-          <div className="error">{userError.message || userError}</div>
+          <div className="error">
+            {typeof userError === "string"
+              ? userError
+              : "Error happened. Refresh the page"}
+          </div>
         )}
         <PopUp isOpen={isSuccess} setPopUpOpen={navigateMyPosts}>
           <div className="popup-message">User Signup successfully! </div>

@@ -62,7 +62,13 @@ const SettingsChangePP = () => {
         onChange={uploadPhotoSubmit}
         hidden
       />
-      {error && <div className="error">{error.message || error}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </div>
   );
 };

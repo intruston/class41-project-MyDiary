@@ -76,9 +76,19 @@ function LoginForm() {
         </form>
         <br />
         {isLoading && <Loading />}
-        {error && <div className="error">{error.message || error}</div>}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
         {userError && (
-          <div className="error">{userError.message || userError}</div>
+          <div className="error">
+            {typeof userError === "string"
+              ? userError
+              : "Error happened. Refresh the page"}
+          </div>
         )}
       </div>
     </div>

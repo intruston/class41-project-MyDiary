@@ -30,7 +30,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/user/${user?._id}`,
+    `/user2/${user?._id}`,
     (response) => {
       dispatch({
         type: "SET_USER",
@@ -189,7 +189,9 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
         )}
         {error && (
           <div className="error">
-            {error.message || error.codeName || error}
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
           </div>
         )}
         <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>

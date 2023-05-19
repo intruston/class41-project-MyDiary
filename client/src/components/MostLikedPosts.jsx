@@ -32,7 +32,13 @@ const MostLikedPosts = () => {
       <h3 className="most-liked">
         Take a look on our most trending posts or try another search
       </h3>
-      {error && <div className="error">{error.message}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
       {isLoading && (
         <div className="load-container">
           <Loading />
