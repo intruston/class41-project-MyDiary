@@ -38,10 +38,6 @@ const AddNewPostImage = ({ imageUrl, setImageUrl, userId, setImgLoading }) => {
     );
   };
 
-  if (error) {
-    alert(`Error uploading profile picture: ${error}`);
-  }
-
   return (
     <>
       <button
@@ -57,6 +53,7 @@ const AddNewPostImage = ({ imageUrl, setImageUrl, userId, setImgLoading }) => {
         onChange={uploadImageSubmit}
         hidden
       />
+      {error && <div className="error">{error.message || error}</div>}
     </>
   );
 };

@@ -10,12 +10,8 @@ const BanPost = ({ post, refreshUsers }) => {
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/${post._id}`,
     (response) => {
-      if (response.success) {
-        setBanState(response.isBanned);
-        refreshUsers();
-      } else {
-        alert(response.msg);
-      }
+      setBanState(response.isBanned);
+      refreshUsers();
     }
   );
 
@@ -39,13 +35,10 @@ const BanPost = ({ post, refreshUsers }) => {
 
   if (isLoading || !user.isModerator || user._id === post.userId) return null;
 
-  if (error) {
-    alert(error);
-  }
-
   return (
     <li>
       <span onClick={handleClick}>{banState ? "Unban post" : "Ban post"}</span>
+      {error && <div className="error">{error.message || error}</div>}
     </li>
   );
 };

@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useUserContext } from "./useUserContext";
-import { useNavigate } from "react-router-dom";
+
 import useFetch from "./useFetch";
 export const useSignup = () => {
+  const [isSuccess, setIsSuccess] = useState(false);
   const { dispatch: userDispatch } = useUserContext();
   const { dispatch, auth } = useAuthContext();
-  const navigate = useNavigate();
 
   // USER FETCH: Fetch for getting user info from database
   const {
@@ -16,8 +16,7 @@ export const useSignup = () => {
   } = useFetch(`/user/${auth?.id}`, (response) => {
     // Updating UserContext with: fetched User.
     userDispatch({ type: "SET_USER", payload: response.result });
-    alert("User created successfully");
-    navigate("/my-posts");
+    setIsSuccess(true);
   });
 
   // AUTH FETCH: Sign-up with user info. No Auth needed. Response will be the auth.
@@ -72,5 +71,5 @@ export const useSignup = () => {
     });
   };
 
-  return { userError, signupError, isLoading, signup };
+  return { userError, signupError, isLoading, signup, isSuccess };
 };

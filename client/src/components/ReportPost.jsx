@@ -10,12 +10,8 @@ const ReportPost = ({ post, refreshUsers }) => {
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/${post._id}`,
     (response) => {
-      if (response.success) {
-        setReportState(response.result.isReported);
-        refreshUsers();
-      } else {
-        alert(response.msg);
-      }
+      setReportState(response.result.isReported);
+      refreshUsers();
     }
   );
 
@@ -41,15 +37,12 @@ const ReportPost = ({ post, refreshUsers }) => {
 
   if (isLoading || user._id === post.userId) return null;
 
-  if (error) {
-    alert(error);
-  }
-
   return (
     <li>
       <span onClick={handleClick}>
         {reportState ? "Reported!" : "Report post"}
       </span>
+      {error && <div className="error">{error.message || error}</div>}
     </li>
   );
 };

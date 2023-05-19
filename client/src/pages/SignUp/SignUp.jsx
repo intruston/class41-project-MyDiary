@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSignup } from "../../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 import background from "../../assets/landing/landing-background.jpg";
@@ -18,13 +19,15 @@ function RegisterForm() {
   const [bio, setBio] = useState("");
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
   const [isPopUpOpen, setPopUpOpen] = useState(false);
+  const [alertPopup, setAlertPopup] = useState(false);
+  const navigate = useNavigate();
 
-  const { userError, signupError, isLoading, signup } = useSignup();
+  const { userError, signupError, isLoading, signup, isSuccess } = useSignup();
 
   async function handleSubmit(event) {
     event.preventDefault();
     if (!agreeToPrivacyPolicy) {
-      alert("You have to agree to privacy policy before signing up!");
+      setAlertPopup(true);
       return;
     }
     await signup(
@@ -41,6 +44,9 @@ function RegisterForm() {
   const openPopup = (e) => {
     e.stopPropagation(); // Prevent the click event from bubbling up to the document
     setPopUpOpen(true);
+  };
+  const navigateMyPosts = () => {
+    navigate("/my-posts");
   };
 
   return (
@@ -193,6 +199,14 @@ function RegisterForm() {
         {userError && (
           <div className="error">{userError.message || userError}</div>
         )}
+        <PopUp isOpen={isSuccess} setPopUpOpen={navigateMyPosts}>
+          <div className="popup-message">User Signup successfully! </div>
+        </PopUp>
+        <PopUp isOpen={alertPopup} setPopUpOpen={setAlertPopup}>
+          <div className="popup-message">
+            You have to agree to privacy policy before signing up!
+          </div>
+        </PopUp>
       </div>
     </div>
   );
