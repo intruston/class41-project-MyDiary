@@ -5,7 +5,8 @@ import { logError } from "../util/logging.js";
 import { comparePassword, hashPassword } from "../util/password.js";
 import { authCheckId } from "./auth.js";
 
-/** --- GET USER ---
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- GET USER -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
  * @route GET /api/user/:id
  * @desc Get one user
  * @access Public
@@ -46,14 +47,17 @@ export const getUser = async (req, res) => {
   }
 };
 
-/** --- UPDATE USER ---
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- UPDATE USER -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
  * @route PUT /api/user/:id
  * @desc Update a user
  * @access Private
  * @requiresAuth
  */
 export const updateUser = async (req, res) => {
-  if (req.body._id !== req.params.id) {
+  // Get main user
+  const authUserId = authCheckId(req);
+  if (authUserId !== req.params.id) {
     return res
       .status(403)
       .json({ success: false, msg: "You can update only your account!" });
@@ -84,14 +88,16 @@ export const updateUser = async (req, res) => {
   }
 };
 
-/** --- UPDATE USER PASSWORD ---
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- UPDATE USER PASSWORD -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
  * @route PUT /api/user/password/:id
  * @desc Change password
  * @access Private
  * @requiresAuth
  */
 export const updateUserPassword = async (req, res) => {
-  if (req.body._id !== req.params.id) {
+  const authUserId = authCheckId(req);
+  if (authUserId !== req.params.id) {
     return res
       .status(403)
       .json({ success: false, msg: "You can change only your password!" });
@@ -123,7 +129,8 @@ export const updateUserPassword = async (req, res) => {
   }
 };
 
-/** --- UPLOAD PROFILE PICTURE ---
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- UPLOAD PROFILE PICTURE -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
  * @route POST /api/user/upload/:id
  * @desc Upload profile picture
  * @access Private
@@ -178,7 +185,8 @@ export const uploadProfilePicture = async (req, res) => {
   }
 };
 
-/** --- DELETE USER ---
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- DELETE USER -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
  * @route DELETE /api/user/:id
  * @desc Delete user
  * @access Private
@@ -212,7 +220,8 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-/** --- FOLLOW USER ---
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- FOLLOW USER -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
  * @route PUT /api/user/:id/follow
  * @desc Follow or unfollow user
  * @access Private
@@ -223,7 +232,8 @@ export const followUser = async (req, res) => {
     // Get target User
     const targetUser = await User.findById(req.params.id).exec();
     // Get main user
-    const currentUser = await User.findById(req.body._id).exec();
+    const authUserId = authCheckId(req);
+    const currentUser = await User.findById(authUserId).exec();
     if (targetUser._id === currentUser._id) {
       return res.status(403).json({
         success: false,
@@ -240,11 +250,11 @@ export const followUser = async (req, res) => {
       );
       // remove main user from target user.Followers
       await targetUser.updateOne(
-        { $pull: { followers: req.body._id } },
+        { $pull: { followers: authUserId } },
         { new: true }
       );
 
-      const updatedUser = await User.findById(req.body._id).exec();
+      const updatedUser = await User.findById(authUserId).exec();
       // Only sending Current User.following back to the Client
       res.status(200).json({ success: true, result: updatedUser.following });
     } else {
@@ -258,11 +268,11 @@ export const followUser = async (req, res) => {
 
       await targetUser.updateOne(
         // add main user to target user.followers
-        { $push: { followers: req.body._id } },
+        { $push: { followers: authUserId } },
         { new: true }
       );
 
-      const updatedUser = await User.findById(req.body._id).exec();
+      const updatedUser = await User.findById(authUserId).exec();
       res.status(200).json({ success: true, result: updatedUser.following });
     }
   } catch (err) {
@@ -270,10 +280,11 @@ export const followUser = async (req, res) => {
   }
 };
 
-/** --- GET USER FRIENDS ---
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- GET USER FRIENDS -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
  * @route GET /api/user/friends/:userId
- * @desc Upload profile picture
- * @access Private
+ * @desc Get user friends
+ * @access Public
  * @requiresAuth
  */
 export const getUserFriends = async (req, res) => {

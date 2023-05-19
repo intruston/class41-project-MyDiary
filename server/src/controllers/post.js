@@ -202,14 +202,22 @@ export const deletePost = async (req, res) => {
   }
 };
 
+/** ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ -- LIKE POST -- ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩ ⇩
+ *
+ * @route PUT /api/post/:id/like
+ * @desc Like a post
+ * @access Private
+ * @requiresAuth
+ */
 export const likePost = async (req, res) => {
   try {
+    const authUserId = authCheckId(req);
     const post = await Post.findById(req.params.id).exec();
 
-    if (!post.likes.includes(req.body.userId)) {
-      await post.updateOne({ $push: { likes: req.body.userId } });
+    if (!post.likes.includes(authUserId)) {
+      await post.updateOne({ $push: { likes: authUserId } });
     } else {
-      await post.updateOne({ $pull: { likes: req.body.userId } });
+      await post.updateOne({ $pull: { likes: authUserId } });
     }
 
     const updatedPost = await Post.findById(req.params.id).exec();
@@ -217,7 +225,7 @@ export const likePost = async (req, res) => {
     res.status(200).json({
       success: true,
       msg: `The post has been ${
-        post.likes.includes(req.body.userId) ? "disliked" : "liked"
+        post.likes.includes(authUserId) ? "disliked" : "liked"
       }`,
       result: updatedPost.likes,
     });
