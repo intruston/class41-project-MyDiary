@@ -73,7 +73,7 @@ const SettingsRight = () => {
               <span className="privacy-button" onClick={openCopyright}>
                 Copyright
               </span>{" "}
-              © 2023 <br /> HackYourFuture students team
+              &copy; 2023 <br /> HackYourFuture students team
             </small>
             <PopUp isOpen={copyrightOpen} setPopUpOpen={setCopyrightOpen}>
               <Copyright />
