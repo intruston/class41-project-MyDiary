@@ -11,7 +11,7 @@ const SearchRight = () => {
             <TrendingTags />
           </div>
         </div>
-        <div className="bottom-div">
+        <div className="middle-div">
           <FriendsList />
         </div>
       </div>
