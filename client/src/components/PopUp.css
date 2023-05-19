@@ -68,8 +68,8 @@
 .popUp-Image-container {
   border-radius: 10px;
   overflow: hidden;
-  max-width: 50vh;
-  max-height: 50vh;
+  max-width: 60vh;
+  max-height: 60vh;
 }
 .pop-up-content img {
   display: block;
