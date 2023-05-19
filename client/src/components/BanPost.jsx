@@ -38,7 +38,13 @@ const BanPost = ({ post, refreshUsers }) => {
   return (
     <li>
       <span onClick={handleClick}>{banState ? "Unban post" : "Ban post"}</span>
-      {error && <div className="error">{error.message || error}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </li>
   );
 };

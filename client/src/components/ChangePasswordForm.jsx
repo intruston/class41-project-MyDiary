@@ -110,7 +110,13 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
       </div>
       <br />
       {isLoading && <Loading />}
-      {error && <div className="error">{error}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
       <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen} isInModal={true}>
         <div className="popup-message"> New passwords must match! </div>
       </PopUp>

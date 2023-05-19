@@ -129,7 +129,13 @@ function FriendsToFollow({ onSearchDataChange }) {
       </form>
       <br />
       {isLoading && <Loading />}
-      {error && <div className="error">Something went wrong.</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </div>
   );
 }

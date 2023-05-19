@@ -67,7 +67,13 @@ const Home = () => {
             <Link to={"/signup"}>
               <button className="landing-signup">Sign up</button>
             </Link>
-            {error && <div className="error">{error.message || error}</div>}
+            {error && (
+              <div className="error">
+                {typeof error === "string"
+                  ? error
+                  : "Error happened. Refresh the page"}
+              </div>
+            )}
             {isLoading && <Loading />}
           </div>
         </div>

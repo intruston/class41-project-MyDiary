@@ -42,7 +42,13 @@ const ReportPost = ({ post, refreshUsers }) => {
       <span onClick={handleClick}>
         {reportState ? "Reported!" : "Report post"}
       </span>
-      {error && <div className="error">{error.message || error}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </li>
   );
 };

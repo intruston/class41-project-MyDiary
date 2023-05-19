@@ -81,7 +81,13 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
       </div>
       <br />
       {isLoading && <Loading />}
-      {error && <div className="error">{error}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
       <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen} isInModal={true}>
         <div className="popup-message">
           If you want to delete your profile permanently; enter
