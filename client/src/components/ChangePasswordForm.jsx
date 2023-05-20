@@ -63,7 +63,7 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
 
   return (
     <>
-      <div className="changePasswordWrapper">
+      <div className="changePasswordWrapper has-loading">
         <h2>Change password</h2>
         <form className="changePasswordForm" onSubmit={changePassword}>
           <label>Enter your old password</label>
@@ -107,9 +107,10 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
             </button>
           </div>
         </form>
+        {isLoading && <Loading />}
       </div>
       <br />
-      {isLoading && <Loading />}
+
       {error && (
         <div className="error">
           {typeof error === "string"

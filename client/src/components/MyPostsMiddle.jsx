@@ -116,7 +116,6 @@ const MyPostsMiddle = () => {
       {/* POSTS */}
       {isLoading && (
         <div className="load-container">
-          .
           <Loading />
         </div>
       )}

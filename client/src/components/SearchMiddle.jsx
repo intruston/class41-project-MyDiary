@@ -70,6 +70,11 @@ const SearchMiddle = () => {
           </button>
         </form>
       </div>
+      {isLoading && (
+        <div className="load-container">
+          <Loading />
+        </div>
+      )}
       {error && (
         <div className="error">
           {typeof error === "string"
@@ -85,8 +90,7 @@ const SearchMiddle = () => {
               return !mappedPost.isPrivate && !mappedPost.isBanned;
             })
             .map((mappedPost) => (
-              <div className="single-post has-loading" key={mappedPost._id}>
-                {isLoading && <Loading />}
+              <div className="single-post" key={mappedPost._id}>
                 <SinglePost
                   mappedPost={mappedPost}
                   refreshUsers={performFetch}

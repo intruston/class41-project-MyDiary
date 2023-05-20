@@ -59,8 +59,19 @@ const ModerationMiddle = () => {
             <br /> You can remove the ban from posts.
           </p>
         )}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
       </div>
-
+      {isLoading && (
+        <div className="load-container">
+          <Loading />
+        </div>
+      )}
       <div>
         {getPosts === [] ? (
           <div className="no-banned-posts">No any reports now</div>
@@ -72,15 +83,6 @@ const ModerationMiddle = () => {
           ))
         )}
       </div>
-
-      {isLoading && <Loading />}
-      {error && (
-        <div className="error">
-          {typeof error === "string"
-            ? error
-            : "Error happened. Refresh the page"}
-        </div>
-      )}
     </div>
   );
 };

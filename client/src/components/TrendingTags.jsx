@@ -34,7 +34,7 @@ const TrendingTags = () => {
         )}
         {popularTags.map((popularTag) => {
           return (
-            <div key={popularTag} className="tags">
+            <div key={popularTag} className="tags has-loading">
               {isLoading && <Loading />}
               <Link to={`/search/tags/${sanitizeTags(popularTag)}`}>
                 <p>{sanitizeTags(popularTag)}</p>

@@ -31,7 +31,7 @@ function LoginForm() {
         backgroundPosition: "center",
       }}
     >
-      <div className="login-div">
+      <div className="login-div has-loading">
         <h2>Log in to My diary</h2>
         <br />
         <p>
