@@ -47,7 +47,7 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
   };
   return (
     <>
-      <div className="deleteProfileWrapper">
+      <div className="deleteProfileWrapper has-loading">
         <h2>DELETE PROFILE</h2>
         <div className="attention">
           ATTENTION!!! This action is irreversible!
@@ -78,9 +78,10 @@ const DeleteProfileForm = ({ setModalDeleteActive }) => {
             </button>
           </div>
         </form>
+        {isLoading && <Loading />}
       </div>
       <br />
-      {isLoading && <Loading />}
+
       {error && (
         <div className="error">
           {typeof error === "string"

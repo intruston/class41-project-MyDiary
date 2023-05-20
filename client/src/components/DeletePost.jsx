@@ -42,8 +42,8 @@ const DeletePost = ({ postId, refreshUsers, anotherUserId }) => {
           </button>
         </>
       </PopUp>
-      <li>
-        <a className="has-loading" onClick={openPopup}>
+      <li className="has-loading">
+        <a onClick={openPopup}>
           {error && (
             <div className="error">
               {typeof error === "string"
@@ -51,8 +51,9 @@ const DeletePost = ({ postId, refreshUsers, anotherUserId }) => {
                 : "Error happened. Refresh the page"}
             </div>
           )}
-          {isLoading && <Loading />}Delete
+          Delete
         </a>
+        {isLoading && <Loading />}
       </li>
     </>
   );

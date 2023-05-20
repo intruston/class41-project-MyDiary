@@ -30,7 +30,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/user2/${user?._id}`,
+    `/user/${user?._id}`,
     (response) => {
       dispatch({
         type: "SET_USER",
@@ -184,7 +184,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
         </form>
         {isLoading && (
           <div>
-            <Loading />{" "}
+            <Loading />
           </div>
         )}
         {error && (

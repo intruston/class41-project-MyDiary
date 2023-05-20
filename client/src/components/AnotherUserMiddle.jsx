@@ -85,7 +85,6 @@ const AnotherUserMiddle = () => {
       {/* Posts */}
       {isLoading && (
         <div className="load-container">
-          .
           <Loading />
         </div>
       )}

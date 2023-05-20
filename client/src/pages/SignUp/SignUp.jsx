@@ -58,7 +58,7 @@ function RegisterForm() {
         backgroundPosition: "center",
       }}
     >
-      <div className="signup-div">
+      <div className="signup-div has-loading">
         <form onSubmit={handleSubmit}>
           <h2>Register</h2>
           <button type="button" className="exit-button">
