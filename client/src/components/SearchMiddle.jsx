@@ -90,7 +90,7 @@ const SearchMiddle = () => {
               return !mappedPost.isPrivate && !mappedPost.isBanned;
             })
             .map((mappedPost) => (
-              <div className="single-post" key={mappedPost._id}>
+              <div className="single-post has-loading" key={mappedPost._id}>
                 <SinglePost
                   mappedPost={mappedPost}
                   refreshUsers={performFetch}
