@@ -14,34 +14,12 @@ import { authCheckId } from "./auth.js";
  */
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).exec();
-
-    const {
-      _id,
-      email,
-      firstName,
-      lastName,
-      profilePicture,
-      birthday,
-      country,
-      bio,
-      isModerator,
-      following,
-    } = user;
-    const userInfo = {
-      _id,
-      email,
-      firstName,
-      lastName,
-      profilePicture,
-      birthday,
-      country,
-      bio,
-      isModerator,
-      following,
-    };
-
-    res.status(200).json({ success: true, result: userInfo });
+    const user = await User.findById(req.params.id)
+      .select(
+        "_id email firstName lastName profilePicture birthday country bio isModerator following followers"
+      )
+      .exec();
+    res.status(200).json({ success: true, result: user });
   } catch (err) {
     res.status(500).json({ success: false, msg: err });
   }
@@ -55,9 +33,7 @@ export const getUser = async (req, res) => {
  * @requiresAuth
  */
 export const updateUser = async (req, res) => {
-  // Get main user
-  const authUserId = authCheckId(req);
-  if (authUserId !== req.params.id) {
+  if (req.body._id !== req.params.id) {
     return res
       .status(403)
       .json({ success: false, msg: "You can update only your account!" });
@@ -67,14 +43,22 @@ export const updateUser = async (req, res) => {
     const match = await comparePassword(req.body.password, user.password);
 
     if (match) {
-      delete req.body.password;
+      const { email, firstName, lastName, birthday, country, bio } = req.body;
+      const updateFields = {};
+
+      if (email) updateFields.email = email;
+      if (firstName) updateFields.firstName = firstName;
+      if (lastName) updateFields.lastName = lastName;
+      if (birthday) updateFields.birthday = birthday;
+      if (country) updateFields.country = country;
+      if (bio) updateFields.bio = bio;
 
       const user = await User.findByIdAndUpdate(
         req.params.id,
-        {
-          $set: req.body,
-        },
+        { $set: updateFields },
         { new: true }
+      ).select(
+        "_id email firstName lastName profilePicture birthday country bio isModerator following followers"
       );
       res.status(200).json({ success: true, result: user });
     } else {
@@ -96,8 +80,7 @@ export const updateUser = async (req, res) => {
  * @requiresAuth
  */
 export const updateUserPassword = async (req, res) => {
-  const authUserId = authCheckId(req);
-  if (authUserId !== req.params.id) {
+  if (req.body._id !== req.params.id) {
     return res
       .status(403)
       .json({ success: false, msg: "You can change only your password!" });
@@ -107,15 +90,17 @@ export const updateUserPassword = async (req, res) => {
     const match = await comparePassword(req.body.password, user.password);
 
     if (match) {
-      req.body.password = await hashPassword(req.body.newPassword);
-      delete req.body.newPassword;
+      const newPassword = req.body.newPassword;
+      const hashedPassword = await hashPassword(newPassword);
 
       const user = await User.findByIdAndUpdate(
         req.params.id,
         {
-          $set: req.body,
+          $set: { password: hashedPassword },
         },
         { new: true }
+      ).select(
+        "_id email firstName lastName profilePicture birthday country bio isModerator following followers"
       );
       res.status(200).json({ success: true, result: user });
     } else {
