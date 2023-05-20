@@ -120,6 +120,7 @@ function RegisterForm() {
               required
               placeholder="example@mail.com"
               className="login-input"
+              autoComplete="email"
             />
           </label>
           <label>
@@ -134,6 +135,7 @@ function RegisterForm() {
               minLength="8"
               placeholder="Your password"
               className="login-input"
+              autoComplete="current-password"
             />
           </label>
           <label>

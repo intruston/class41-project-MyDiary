@@ -50,6 +50,7 @@ function LoginForm() {
               required
               placeholder="Email"
               className="login-input"
+              autoComplete="email"
             />
           </label>
           <br />
@@ -64,6 +65,7 @@ function LoginForm() {
               minLength="8"
               placeholder="Password"
               className="login-input"
+              autoComplete="current-password"
             />
           </label>
           <br />

@@ -146,6 +146,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
                 value={email}
                 type="email"
                 placeholder={user?.email}
+                autoComplete="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -159,6 +160,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
                 type="password"
                 required
                 minLength="8"
+                autoComplete="off"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
