@@ -95,3 +95,13 @@ abbr[title] {
     width: 20.5vw;
   }
 }
+/* ===========================[ 1024px ]================================== */
+@media screen and (max-width: 1024px) {
+  .calendar-container {
+    padding: 0 var(--whiteSpaceMedium);
+    width: 250px;
+  }
+  .icon-container h2 {
+    font-size: 1rem;
+  }
+}
