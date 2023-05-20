@@ -67,12 +67,17 @@ export const updateUser = async (req, res) => {
     const match = await comparePassword(req.body.password, user.password);
 
     if (match) {
-      delete req.body.password;
+      const { email, firstName, lastName, birthday, country, bio } = req.body;
 
       const user = await User.findByIdAndUpdate(
         req.params.id,
         {
-          $set: req.body,
+          $set: email,
+          firstName,
+          lastName,
+          birthday,
+          country,
+          bio,
         },
         { new: true }
       );
@@ -107,13 +112,13 @@ export const updateUserPassword = async (req, res) => {
     const match = await comparePassword(req.body.password, user.password);
 
     if (match) {
-      req.body.password = await hashPassword(req.body.newPassword);
-      delete req.body.newPassword;
+      const newPassword = req.body.newPassword;
+      const hashedPassword = await hashPassword(newPassword);
 
       const user = await User.findByIdAndUpdate(
         req.params.id,
         {
-          $set: req.body,
+          $set: { password: hashedPassword },
         },
         { new: true }
       );
