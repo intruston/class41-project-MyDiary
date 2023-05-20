@@ -286,8 +286,12 @@ export const getUserFriends = async (req, res) => {
       })
     );
 
+    const filteredFriends = friends.filter(
+      (friend) => friend !== null && friend !== undefined
+    );
+
     // Remove unnecessary parts of the users in friends.
-    const userFriends = friends.map((friend) => {
+    const userFriends = filteredFriends.map((friend) => {
       const { _id, firstName, lastName, profilePicture, bio } = friend;
       return { _id, firstName, lastName, profilePicture, bio };
     });
