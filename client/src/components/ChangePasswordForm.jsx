@@ -73,6 +73,7 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
             type="password"
             required
             minLength="8"
+            autoComplete="off"
             onChange={(e) => setPassword(e.target.value)}
           />
           <label>Enter the new password</label>
@@ -82,6 +83,7 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
             type="password"
             required
             minLength="8"
+            autoComplete="off"
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <label>Enter the new password again</label>
@@ -91,6 +93,7 @@ const ChangePasswordForm = ({ setModalPasswordActive }) => {
             type="password"
             required
             minLength="8"
+            autoComplete="off"
             onChange={(e) => setNewPasswordCopy(e.target.value)}
             className={newPassword !== newPasswordCopy ? "input-warning" : ""}
           />
