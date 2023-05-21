@@ -10,7 +10,12 @@ const Friends = () => {
   return (
     <div className="page-container">
       <Navbar active={"Friends"} />
-      <FriendsMiddle searchData={searchData} />
+      <FriendsMiddle
+        searchData={searchData}
+        onSearchDataChange={(newSearchData) => {
+          setSearchData(newSearchData);
+        }}
+      />
       <FriendsRight
         onSearchDataChange={(newSearchData) => {
           setSearchData(newSearchData);
