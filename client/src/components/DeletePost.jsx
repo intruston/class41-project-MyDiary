@@ -67,7 +67,6 @@ const DeletePost = ({ postId, anotherUserId }) => {
 
 DeletePost.propTypes = {
   postId: PropTypes.string,
-  refreshUsers: PropTypes.func,
   anotherUserId: PropTypes.string,
 };
 

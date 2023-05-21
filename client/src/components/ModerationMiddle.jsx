@@ -31,8 +31,8 @@ const ModerationMiddle = () => {
         )}
         {activeTab === "banned" && (
           <p>
-            These posts are banned by moderation. Users can&apos;t see them.
-            <br /> You can remove the ban from posts.
+            These posts are banned by moderator. Users can&apos;t see them.
+            <br /> Moderator can remove the ban from posts.
           </p>
         )}
       </div>

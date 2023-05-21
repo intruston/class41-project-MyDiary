@@ -39,7 +39,7 @@ const AnotherUserPosts = ({ id }) => {
   // or filter if we want banned post disappears at the same moment as ban pushed
   const filteredPosts = posts;
   // .filter((post) => {
-  //   return !post.isPrivate && !post.isBanned;
+  //   return !post.isBanned;
   // });
 
   // using Intersection Observer for fetching new posts when we see the last post on the page

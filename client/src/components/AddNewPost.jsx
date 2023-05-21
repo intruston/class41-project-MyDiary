@@ -8,7 +8,7 @@ import AddNewPostImage from "./AddNewPostImage.jsx";
 import noImage from "../assets/no-image.png";
 import { sanitizeTagsAddNewPost } from "../util/sanitizeTags.js";
 
-const AddNewPost = ({ setActive, refreshUsers }) => {
+const AddNewPost = ({ setActive }) => {
   const { auth } = useAuthContext();
   const userId = auth.id;
   const [imgLoading, setImgLoading] = useState(false);
@@ -43,7 +43,6 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
     setIsPrivate(false);
     setImageUrl(null);
     setActive(false);
-    refreshUsers();
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -175,7 +174,6 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
 
 AddNewPost.propTypes = {
   setActive: PropTypes.func.isRequired,
-  refreshUsers: PropTypes.func.isRequired,
 };
 
 export default AddNewPost;
