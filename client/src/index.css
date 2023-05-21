@@ -92,10 +92,8 @@ input {
 .right-section {
   position: sticky;
   top: 0;
-
   width: 26%;
   height: 100vh;
-
   margin-right: var(--whiteSpaceSmaller);
   padding: var(--whiteSpaceLarger) var(--whiteSpaceMedium)
     var(--whiteSpaceMedium) var(--whiteSpaceMedium);
@@ -103,7 +101,7 @@ input {
 .triple-container {
   /* Position */
   display: grid;
-  grid-template-rows: auto 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
   row-gap: var(--whiteSpaceMedium);
 
   /* Size */
@@ -130,7 +128,6 @@ input {
   padding: var(--whiteSpaceLarger);
   width: 100%;
   height: calc(100vh - (var(--whiteSpaceLarger)) - (var(--whiteSpaceLarger)));
-
   border-radius: 37px;
   background-color: white;
 }
@@ -179,6 +176,7 @@ input {
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
   background-color: white;
+  height: min-content;
 }
 
 /* ==========================================================================
