@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./EntryCalendar.css";
@@ -28,7 +28,7 @@ const EntryCalendar = () => {
     return cancelFetch;
   }, []);
 
-  const { date, setDate } = useContext(useDateContext);
+  const { date, setDate } = useDateContext();
   //set value to selected day
   const handleDateChange = (value) => {
     //the value of data that passing into setDate have to be in a format (Does not mater which one!)

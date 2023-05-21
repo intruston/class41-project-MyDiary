@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useUserContext } from "../hooks/useUserContext";
 import { useDateContext } from "../hooks/useDateContext";
 import { usePostsContext } from "../hooks/usePostsContext";
@@ -21,7 +15,7 @@ import EntryCalendar from "./EntryCalendar";
 
 const MyPostsMiddle = () => {
   const { user } = useUserContext();
-  const { date } = useContext(useDateContext);
+  const { date } = useDateContext();
   const { posts, setPosts } = usePostsContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);

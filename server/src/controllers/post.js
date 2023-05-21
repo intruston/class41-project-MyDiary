@@ -58,6 +58,7 @@ export const getFeed = async (req, res) => {
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
   const endIndex = page * postsPerPage - startIndex;
+  const date = req.query.date;
   const sort = req.query.sort;
 
   try {
@@ -73,6 +74,19 @@ export const getFeed = async (req, res) => {
     const currentUser = await User.findById(req.params.id).exec();
     const userFriendsId = currentUser.following;
     const usersForFeed = [...userFriendsId, currentUser._id.toString()];
+
+    const feedQuery = {
+      userId: { $in: usersForFeed },
+      isPrivate: false,
+      isBanned: false,
+    };
+
+    if (date) {
+      feedQuery.createdAt = {
+        $gte: moment(date).startOf("day").toDate(),
+        $lte: moment(date).endOf("day").toDate(),
+      };
+    }
 
     const feedPosts =
       sort === "likes"
@@ -97,11 +111,7 @@ export const getFeed = async (req, res) => {
           ])
             .skip(startIndex)
             .limit(endIndex)
-        : await Post.find({
-            userId: { $in: usersForFeed },
-            isPrivate: false,
-            isBanned: false,
-          })
+        : await Post.find(feedQuery)
             .sort({ createdAt: -1 })
             .skip(startIndex)
             .limit(endIndex)

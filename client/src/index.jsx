@@ -7,6 +7,7 @@ import "./index.css";
 import App from "./App";
 import DatesProvider from "./hooks/useDateContext";
 import { PostsContextProvider } from "./context/PostsContext";
+
 ReactDOM.render(
   <AppWrapper>
     <AuthContextProvider>

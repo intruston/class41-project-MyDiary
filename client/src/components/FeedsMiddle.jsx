@@ -7,18 +7,22 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useUserContext } from "../hooks/useUserContext";
 import { usePostsContext } from "../hooks/usePostsContext";
 import { sanitizeTags } from "../util/sanitizeTags";
+import { useDateContext } from "../hooks/useDateContext";
 
 const FeedsMiddle = () => {
   // Getting user information and logout function from context
   const { user } = useUserContext();
   const { posts, setPosts } = usePostsContext();
+  const { date } = useDateContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/feed/${user._id}?limit=10&page=${currentPage}`,
+    `/post/feed/${user._id}?date=${
+      date ? date : ""
+    }&limit=10&page=${currentPage}`,
     (response) => {
       setPosts((prevPosts) => [...prevPosts, ...response.result]);
       setHasNextPage(Boolean(response.result.length));
@@ -26,9 +30,14 @@ const FeedsMiddle = () => {
   );
 
   useEffect(() => {
+    setCurrentPage(1);
+    setPosts([]);
+  }, [date]);
+
+  useEffect(() => {
     performFetch();
     return cancelFetch;
-  }, [currentPage]);
+  }, [currentPage, date]);
 
   useEffect(() => {
     setPosts([]);
