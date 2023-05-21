@@ -3,9 +3,14 @@ import User from "../models/User.js";
 import { logError } from "../util/logging.js";
 
 export const searchTags = async (req, res) => {
+  const query = req.query.q;
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+
   // search through tags
   try {
-    const query = req.query.q;
     const terms = query.split(" ").map((term) => new RegExp(term.trim(), "i"));
     const searchQuery = await Post.aggregate([
       {
@@ -27,7 +32,9 @@ export const searchTags = async (req, res) => {
       {
         $sort: { score: -1, createdAt: -1 },
       },
-    ]);
+    ])
+      .skip(startIndex)
+      .limit(endIndex);
 
     res.status(200).json({ success: true, result: searchQuery });
   } catch (error) {

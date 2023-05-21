@@ -7,12 +7,19 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 import { authCheckId } from "./auth.js";
 
 export const getTimeline = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+
   let timelinePosts = [];
   try {
     const authUserId = authCheckId(req);
     if (authUserId === req.params.id) {
       timelinePosts = await Post.find({ userId: req.params.id })
         .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
         .exec();
     } else {
       timelinePosts = await Post.find({
@@ -21,6 +28,8 @@ export const getTimeline = async (req, res) => {
         isBanned: false,
       })
         .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
         .exec();
     }
 
@@ -35,6 +44,12 @@ export const getTimeline = async (req, res) => {
 };
 
 export const getFeed = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+  const sort = req.query.sort;
+
   try {
     const authUserId = authCheckId(req);
 
@@ -49,46 +64,43 @@ export const getFeed = async (req, res) => {
     const userFriendsId = currentUser.following;
     const usersForFeed = [...userFriendsId, currentUser._id.toString()];
 
-    const feedPosts = await Post.find({
-      userId: { $in: usersForFeed },
-      isPrivate: false,
-      isBanned: false,
-    })
-      .sort({ createdAt: -1 })
-      .exec();
+    const feedPosts =
+      sort === "likes"
+        ? await Post.aggregate([
+            {
+              $match: {
+                userId: { $in: usersForFeed },
+                isPrivate: false,
+                isBanned: false,
+              },
+            },
+            {
+              $addFields: {
+                likesLength: {
+                  $size: "$likes",
+                },
+              },
+            },
+            {
+              $sort: { likesLength: -1 },
+            },
+          ])
+            .skip(startIndex)
+            .limit(endIndex)
+        : await Post.find({
+            userId: { $in: usersForFeed },
+            isPrivate: false,
+            isBanned: false,
+          })
+            .sort({ createdAt: -1 })
+            .skip(startIndex)
+            .limit(endIndex)
+            .exec();
 
-    res.status(200).json({ success: true, result: feedPosts });
-  } catch (error) {
-    logError(error);
-    res.status(500).json({
-      success: false,
-      msg: `Unable to get feed posts, error: ${error}`,
+    res.status(200).json({
+      success: true,
+      result: feedPosts,
     });
-  }
-};
-
-export const getBannedPosts = async (req, res) => {
-  try {
-    const authUserId = authCheckId(req);
-
-    const currentUser = await User.findById(req.params.id).exec();
-    const userId = currentUser._id.toString();
-
-    // Compare that user is real and moderator rights
-    if (userId === authUserId && currentUser.isModerator) {
-      const moderationPosts = await Post.find({
-        $or: [{ isBanned: true }, { isReported: true }],
-      })
-        .sort({ createdAt: -1 })
-        .exec();
-
-      res.status(200).json({ success: true, result: moderationPosts });
-    } else {
-      return res.status(403).json({
-        success: false,
-        msg: "You do not have moderation permission!",
-      });
-    }
   } catch (error) {
     logError(error);
     res.status(500).json({
@@ -302,6 +314,79 @@ export const updatePost = async (req, res) => {
     res.status(500).json({
       success: false,
       msg: "Unable to update post. Error: " + error,
+    });
+  }
+};
+
+// Moderator routes
+export const getReportedPosts = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+
+  try {
+    const authUserId = authCheckId(req);
+    const currentUser = await User.findById(req.params.id).exec();
+    const userId = currentUser._id.toString();
+
+    // Compare that user is real and moderator rights
+    if (userId === authUserId && currentUser.isModerator) {
+      const reportedPosts = await Post.find({
+        $and: [{ isBanned: false }, { isReported: true }],
+      })
+        .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
+        .exec();
+
+      res.status(200).json({ success: true, result: reportedPosts });
+    } else {
+      return res.status(403).json({
+        success: false,
+        msg: "You do not have moderation permission!",
+      });
+    }
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get reported posts, error: ${error}`,
+    });
+  }
+};
+
+export const getBannedPosts = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const postsPerPage = parseInt(req.query.limit);
+  const startIndex = (page - 1) * postsPerPage;
+  const endIndex = page * postsPerPage - startIndex;
+
+  try {
+    const authUserId = authCheckId(req);
+    const currentUser = await User.findById(req.params.id).exec();
+    const userId = currentUser._id.toString();
+
+    // Compare that user is real and moderator rights
+    if (userId === authUserId && currentUser.isModerator) {
+      const bannedPosts = await Post.find({ isBanned: true })
+        .sort({ createdAt: -1 })
+        .skip(startIndex)
+        .limit(endIndex)
+        .exec();
+
+      res.status(200).json({ success: true, result: bannedPosts });
+    } else {
+      return res.status(403).json({
+        success: false,
+        msg: "You do not have moderation permission!",
+      });
+    }
+  } catch (error) {
+    logError(error);
+    res.status(500).json({
+      success: false,
+      msg: `Unable to get banned posts, error: ${error}`,
     });
   }
 };

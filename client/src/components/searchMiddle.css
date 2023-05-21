@@ -28,6 +28,10 @@
   color: #b2b1b0;
 }
 
+.found-no-result {
+  color: darksalmon;
+}
+
 .search-search-button {
   cursor: pointer;
   border: transparent;
@@ -83,12 +87,6 @@
   margin-top: var(--whiteSpaceLarge);
   margin-bottom: var(--whiteSpaceLarge);
   text-align: center;
-}
-
-.found-no-result {
-  margin-top: var(--whiteSpaceLarger);
-  text-align: center;
-  color: var(--error);
 }
 
 /* ==========================================================================

@@ -20,16 +20,16 @@ import ReportPost from "./ReportPost";
 import noImage from "../assets/no-image.png";
 
 //Use this for mapped post or single post. Sending post alone is enough. It takes required info from the post itself and make required fetch operations.
-const SinglePost = ({ mappedPost, refreshUsers }) => {
+const SinglePost = ({ mappedPost }) => {
   const [isPopUpOpen, setPopUpOpen] = useState(false);
   const { user } = useUserContext();
   const { isLoading, error, anotherUser } = useGetAnotherUser({
     anotherUserId: mappedPost.userId,
   });
 
-  //Limit text inside result in 140 symbols. Otherwise ...Show more
-  const MAX_CONTENT_LENGTH = 140;
-  const MAX_CONTENT_LINES = 3;
+  //Limit text inside result in 250 symbols. Otherwise ...Show more
+  const MAX_CONTENT_LENGTH = 250;
+  const MAX_CONTENT_LINES = 5;
   const [showMore, setShowMore] = useState(false);
   const numLines = mappedPost.content.split("\n").length;
   const content = showMore
@@ -87,17 +87,28 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                 <ul>
                   <DeletePost
                     postId={mappedPost._id}
-                    refreshUsers={refreshUsers}
                     anotherUserId={anotherUser?._id}
                   />
-                  <ReportPost post={mappedPost} refreshUsers={refreshUsers} />
-                  <BanPost post={mappedPost} refreshUsers={refreshUsers} />
+                  <ReportPost post={mappedPost} />
+                  <BanPost post={mappedPost} />
                 </ul>
               </DropdownMenu>
             </div>
           </div>
           {/* Post Content */}{" "}
-          <div className="post-context-text">
+          <div className="post-content-contents">
+            <div className="post-content-text">
+              {content}
+              {(mappedPost.content.length > MAX_CONTENT_LENGTH ||
+                numLines > MAX_CONTENT_LINES) && (
+                <span>
+                  {showMore ? " " : "... "}
+                  <a href="#" className="show-link" onClick={handleShowMore}>
+                    {showMore ? " Show less" : "Show more"}
+                  </a>
+                </span>
+              )}
+            </div>
             {mappedPost.image && (
               <>
                 <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
@@ -118,16 +129,6 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
                   ></img>
                 </div>
               </>
-            )}
-            {content}
-            {(mappedPost.content.length > MAX_CONTENT_LENGTH ||
-              numLines > MAX_CONTENT_LINES) && (
-              <span>
-                {showMore ? " " : "... "}
-                <a href="#" className="show-link" onClick={handleShowMore}>
-                  {showMore ? " Show less" : "Show more"}
-                </a>
-              </span>
             )}
           </div>
         </div>
@@ -161,7 +162,6 @@ const SinglePost = ({ mappedPost, refreshUsers }) => {
 
 SinglePost.propTypes = {
   mappedPost: PropTypes.object.isRequired,
-  refreshUsers: PropTypes.func.isRequired,
 };
 
 export default SinglePost;

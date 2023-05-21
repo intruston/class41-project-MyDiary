@@ -1,34 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import SinglePost from "./SinglePost";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import SearchIcon from "@mui/icons-material/Search";
 import { useUserContext } from "../hooks/useUserContext";
+import { usePostsContext } from "../hooks/usePostsContext";
 import { sanitizeTags } from "../util/sanitizeTags";
 
 const FeedsMiddle = () => {
   // Getting user information and logout function from context
   const { user } = useUserContext();
-  const [posts, setPosts] = useState([]);
+  const { posts, setPosts } = usePostsContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/feed/${user._id}`,
+    `/post/feed/${user._id}?limit=10&page=${currentPage}`,
     (response) => {
-      setPosts(response.result);
+      setPosts((prevPosts) => [...prevPosts, ...response.result]);
+      setHasNextPage(Boolean(response.result.length));
     }
   );
 
   useEffect(() => {
     performFetch();
     return cancelFetch;
+  }, [currentPage]);
+
+  useEffect(() => {
+    setPosts([]);
+    return cancelFetch;
   }, []);
 
-  const feedPosts = posts.filter((post) => {
-    return !post.isPrivate && !post.isBanned;
-  });
+  // using Intersection Observer for fetching new posts when we see the last post on the page
+  const intObserver = useRef(null);
+  const lastPostRef = useCallback(
+    (post) => {
+      if (isLoading) return;
+
+      if (intObserver.current) intObserver.current.disconnect();
+      intObserver.current = new IntersectionObserver((posts) => {
+        if (posts[0].isIntersecting && hasNextPage) {
+          setCurrentPage((prevPage) => prevPage + 1);
+        }
+      });
+
+      if (post) intObserver.current.observe(post);
+    },
+    [isLoading, hasNextPage]
+  );
 
   //Handle Search
   const handleSubmit = (event) => {
@@ -38,6 +61,13 @@ const FeedsMiddle = () => {
       ? navigate(`/search/tags/${sanitizedTags}`)
       : navigate("/search");
   };
+
+  // NO filter posts so Moderator will se sign but post disappear from feed only after fetching
+  // or filter if we want banned post disappears at the same moment as ban pushed
+  const filteredPosts = posts;
+  // .filter((post) => {
+  //   return !post.isBanned;
+  // });
 
   return (
     <div className="middle-section">
@@ -79,13 +109,14 @@ const FeedsMiddle = () => {
         </div>
       )}
       <div>
-        {feedPosts.length > 0
-          ? feedPosts.map((mappedPost) => (
-              <div className="single-post has-loading" key={mappedPost._id}>
-                <SinglePost
-                  mappedPost={mappedPost}
-                  refreshUsers={performFetch}
-                />
+        {filteredPosts.length > 0
+          ? filteredPosts.map((mappedPost, i) => (
+              <div
+                className="single-post has-loading"
+                ref={filteredPosts.length === i + 1 ? lastPostRef : null}
+                key={mappedPost._id}
+              >
+                <SinglePost mappedPost={mappedPost} />
               </div>
             ))
           : !isLoading && (
