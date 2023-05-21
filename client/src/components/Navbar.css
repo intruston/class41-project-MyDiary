@@ -19,34 +19,41 @@
 .nav-top {
   padding-top: var(--whiteSpaceMedium);
 }
+
 .nav-top .profile-picture-component {
   min-width: 55px;
   min-height: 55px;
 }
+
 .user-status {
   display: flex;
   align-items: start;
   justify-content: start;
   padding: 0 0 var(--whiteSpaceMedium) var(--whiteSpaceLarge);
 }
+
 .user-online {
   padding-top: var(--whiteSpaceSmaller);
   padding-right: var(--whiteSpaceSmaller);
 }
+
 .user-online svg {
   width: 100%;
 }
+
 .user-information {
   display: flex;
   flex-direction: column;
   cursor: default;
 }
+
 .user-information h3 {
   margin-top: 0px;
   font-size: 1.3rem;
   text-align: left;
   text-transform: capitalize;
 }
+
 .user-information .moderator {
   font-size: smaller;
   color: var(--softGray);
@@ -93,7 +100,6 @@
 }
 
 /* Bottom */
-
 .logout {
   display: flex;
   flex-direction: column;
@@ -121,6 +127,7 @@
   color: var(--yellow);
   font-weight: 700;
 }
+
 .active .link-group svg {
   fill: var(--yellow);
 }
