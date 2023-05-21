@@ -2,16 +2,30 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
+import { usePostsContext } from "../hooks/usePostsContext";
 
-const BanPost = ({ post, refreshUsers }) => {
+const BanPost = ({ post }) => {
   const { user } = useUserContext();
+  const { posts, setPosts } = usePostsContext();
   const [banState, setBanState] = useState(post.isBanned);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/${post._id}`,
     (response) => {
-      setBanState(response.isBanned);
-      refreshUsers();
+      if (response.success) {
+        setPosts(
+          posts.map((p) => {
+            if (p._id === post._id) {
+              return response.result;
+            } else {
+              return p;
+            }
+          })
+        );
+        setBanState(response.result.isBanned);
+      } else {
+        alert(response.msg);
+      }
     }
   );
 
@@ -51,7 +65,6 @@ const BanPost = ({ post, refreshUsers }) => {
 
 BanPost.propTypes = {
   post: PropTypes.object,
-  refreshUsers: PropTypes.func,
 };
 
 export default BanPost;

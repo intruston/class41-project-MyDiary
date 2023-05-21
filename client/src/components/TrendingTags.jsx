@@ -7,7 +7,6 @@ import { sanitizeTags } from "../util/sanitizeTags";
 
 const TrendingTags = () => {
   const [popularTags, setPopularTags] = useState([]);
-
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags/${8}`,
     (data) => {
