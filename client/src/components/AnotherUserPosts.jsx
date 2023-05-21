@@ -4,14 +4,18 @@ import PropTypes from "prop-types";
 import useFetch from "../hooks/useFetch";
 import SinglePost from "./SinglePost";
 import Loading from "./Loading";
+import { useDateContext } from "../hooks/useDateContext";
 
 const AnotherUserPosts = ({ id }) => {
   const { posts, setPosts } = usePostsContext();
+  const { date } = useDateContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${id}?limit=10&page=${currentPage}`,
+    `/post/timeline/${id}?date=${
+      date ? date : ""
+    }&limit=10&page=${currentPage}`,
     (response) => {
       setPosts((prevPosts) => [...prevPosts, ...response.result]);
       setHasNextPage(Boolean(response.result.length));
@@ -21,13 +25,13 @@ const AnotherUserPosts = ({ id }) => {
   useEffect(() => {
     setCurrentPage(1);
     setPosts([]);
-  }, [id]);
+  }, [id, date]);
 
   useEffect(() => {
     if (currentPage !== 1) return;
     performFetch();
     return cancelFetch;
-  }, [id, currentPage]);
+  }, [id, date, currentPage]);
 
   useEffect(() => {
     if (posts.length < 10 || currentPage === 1) return;
