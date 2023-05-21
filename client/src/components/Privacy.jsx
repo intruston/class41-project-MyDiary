@@ -62,34 +62,6 @@ const Privacy = () => {
         <br />
         <br />
         <small>6.05.2023</small>
-        <br />
-        <br />
-        <br />
-        <br />
-        <strong className="privacy-header">Copyright</strong>
-        <br />
-        <br />
-        This app has:
-        <br />
-        GNU GENERAL PUBLIC LICENSE
-        <br />
-        Version 3, 29 June 2007
-        <br />
-        <br />
-        Copyright (C) 2007 Free Software Foundation, Inc. https://fsf.org/
-        Everyone is permitted to copy and distribute verbatim copies of this
-        license document, but changing it is not allowed.
-        <br />
-        <br />
-        Check{" "}
-        <a
-          href="https://www.gnu.org/licenses/gpl-3.0.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          here
-        </a>{" "}
-        for more information about Copyright.
       </p>
     </>
   );

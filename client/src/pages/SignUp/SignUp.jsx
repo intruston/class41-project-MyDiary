@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSignup } from "../../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 import background from "../../assets/landing/landing-background.jpg";
@@ -18,13 +19,15 @@ function RegisterForm() {
   const [bio, setBio] = useState("");
   const [agreeToPrivacyPolicy, setAgreeToPrivacyPolicy] = useState(false);
   const [isPopUpOpen, setPopUpOpen] = useState(false);
+  const [alertPopup, setAlertPopup] = useState(false);
+  const navigate = useNavigate();
 
-  const { userError, signupError, isLoading, signup } = useSignup();
+  const { userError, signupError, isLoading, signup, isSuccess } = useSignup();
 
   async function handleSubmit(event) {
     event.preventDefault();
     if (!agreeToPrivacyPolicy) {
-      alert("You have to agree to privacy policy before signing up!");
+      setAlertPopup(true);
       return;
     }
     await signup(
@@ -42,6 +45,9 @@ function RegisterForm() {
     e.stopPropagation(); // Prevent the click event from bubbling up to the document
     setPopUpOpen(true);
   };
+  const navigateMyPosts = () => {
+    navigate("/my-posts");
+  };
 
   return (
     <div
@@ -52,7 +58,7 @@ function RegisterForm() {
         backgroundPosition: "center",
       }}
     >
-      <div className="signup-div">
+      <div className="signup-div has-loading">
         <form onSubmit={handleSubmit}>
           <h2>Register</h2>
           <button type="button" className="exit-button">
@@ -114,6 +120,7 @@ function RegisterForm() {
               required
               placeholder="example@mail.com"
               className="login-input"
+              autoComplete="email"
             />
           </label>
           <label>
@@ -128,6 +135,7 @@ function RegisterForm() {
               minLength="8"
               placeholder="Your password"
               className="login-input"
+              autoComplete="current-password"
             />
           </label>
           <label>
@@ -188,11 +196,27 @@ function RegisterForm() {
         <br />
         {isLoading && <Loading />}
         {signupError && (
-          <div className="error">{signupError.message || signupError}</div>
+          <div className="error">
+            {typeof signupError === "string"
+              ? signupError
+              : "Error happened. Refresh the page"}
+          </div>
         )}
         {userError && (
-          <div className="error">{userError.message || userError}</div>
+          <div className="error">
+            {typeof userError === "string"
+              ? userError
+              : "Error happened. Refresh the page"}
+          </div>
         )}
+        <PopUp isOpen={isSuccess} setPopUpOpen={navigateMyPosts}>
+          <div className="popup-message">User Signup successfully! </div>
+        </PopUp>
+        <PopUp isOpen={alertPopup} setPopUpOpen={setAlertPopup}>
+          <div className="popup-message">
+            You have to agree to privacy policy before signing up!
+          </div>
+        </PopUp>
       </div>
     </div>
   );

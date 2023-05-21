@@ -20,12 +20,11 @@ a.dropdownButton {
   position: absolute;
   margin: 0px 0px 0 0;
   padding: var(--whiteSpaceSmaller) 0;
-  width: var(--dropdown-width);
+  min-width: var(--dropdown-width);
   left: 50%;
   margin-left: calc((var(--dropdown-width) * -1));
   box-sizing: border-box;
   z-index: 12;
-
   background: white;
   border-radius: 6px;
   list-style: none;
@@ -40,7 +39,6 @@ a.dropdownButton {
   display: inline-block;
   width: 100%;
   box-sizing: border-box;
-
   color: var(--grey);
   user-select: none;
   text-decoration: none;

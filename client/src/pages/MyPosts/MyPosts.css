@@ -95,6 +95,10 @@
   width: 100%;
   min-height: 80px;
 }
+
+.small-date {
+  display: none;
+}
 /* ==========================================================================
                              Responsive Design
   ========================================================================== */
@@ -144,6 +148,9 @@
   }
   .public-private h4 {
     font-size: 1rem;
+  }
+  .small-date {
+    display: block;
   }
 }
 

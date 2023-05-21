@@ -16,6 +16,8 @@ import Modal from "./Modal";
 import AddNewPost from "./AddNewPost";
 import moment from "moment";
 import noImage from "../assets/no-image.png";
+import DropdownMenu from "./DropdownMenu";
+import EntryCalendar from "./EntryCalendar";
 
 const MyPostsMiddle = () => {
   const { user } = useUserContext();
@@ -113,7 +115,13 @@ const MyPostsMiddle = () => {
             <button onClick={() => setModalActive(true)}>+ Add Post</button>
           </div>
         </div>
-        {error && <div className="error">{error.message || error}</div>}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
 
         {/* Public - Private */}
         <div className="public-private">
@@ -126,6 +134,17 @@ const MyPostsMiddle = () => {
           <h4 style={{ color: "darksalmon", fontSize: "1.2rem" }}>
             {date && " On " + moment(date).format("DD MMMM YYYY")}
           </h4>
+          <div className="small-date">
+            <DropdownMenu>
+              <summary role="button">
+                <h4 className="dropdownButton">{date ? date : "Date"}</h4>
+              </summary>
+              <ul>
+                <EntryCalendar />
+              </ul>
+            </DropdownMenu>
+          </div>
+
           <h4
             className={activeTab === "private" ? "active-posts" : ""}
             onClick={() => handleTabClick("private")}
@@ -138,7 +157,6 @@ const MyPostsMiddle = () => {
       {/* POSTS */}
       {isLoading && (
         <div className="load-container">
-          .
           <Loading />
         </div>
       )}

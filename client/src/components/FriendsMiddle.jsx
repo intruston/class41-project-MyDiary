@@ -39,17 +39,6 @@ const FriendsMiddle = ({ searchData }) => {
       <div className="middle-container">
         <FriendsPageHeader friendCount={friendsList && friendsList.length} />
         <FriendsPageList friends={friendsList} refreshUser={performFetch} />
-        {isLoading && (
-          <div className="load-container">
-            <Loading />
-          </div>
-        )}
-        {error && (
-          <div className="error">
-            {error.toString()}
-            {user}
-          </div>
-        )}
       </div>
       {/* Display 'You can find friends...' or 'No users found' or search results */}
       <h3
@@ -62,7 +51,13 @@ const FriendsMiddle = ({ searchData }) => {
           ? "No users found"
           : "You can find friends by filling the search form →"}
       </h3>
-      {error && <div className="error">{error.message}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
       {isLoading && (
         <div className="load-container">
           <Loading />

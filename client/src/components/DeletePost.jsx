@@ -48,11 +48,18 @@ const DeletePost = ({ postId, anotherUserId }) => {
           </button>
         </>
       </PopUp>
-      <li>
-        <a className="has-loading" onClick={openPopup}>
-          {error && <div className="error">{error.message || error}</div>}
-          {isLoading && <Loading />}Delete
+      <li className="has-loading">
+        <a onClick={openPopup}>
+          {error && (
+            <div className="error">
+              {typeof error === "string"
+                ? error
+                : "Error happened. Refresh the page"}
+            </div>
+          )}
+          Delete
         </a>
+        {isLoading && <Loading />}
       </li>
     </>
   );

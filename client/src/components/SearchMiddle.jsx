@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useParams } from "react-router-dom";
 import SinglePost from "./SinglePost";
+import SearchIcon from "@mui/icons-material/Search";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import "./searchMiddle.css";
-import SearchIcon from "@mui/icons-material/Search";
-import { useParams } from "react-router-dom";
 import MostLikedPosts from "./MostLikedPosts";
 import { sanitizeTags } from "../util/sanitizeTags";
 
@@ -112,7 +111,18 @@ const SearchMiddle = () => {
           </button>
         </form>
       </div>
-      {error && <p>Error: {error.message}</p>}
+      {isLoading && (
+        <div className="load-container">
+          <Loading />
+        </div>
+      )}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
       {/* Posts */}
       <div className="middle-container-results">
         {isLoading && (

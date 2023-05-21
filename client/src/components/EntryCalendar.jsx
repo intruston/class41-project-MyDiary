@@ -98,7 +98,13 @@ const EntryCalendar = () => {
             locale="en"
             maxDate={new Date()} //this line disables selecting future dates
           />
-          {error && <div className="error">{error.message}</div>}
+          {error && (
+            <div className="error">
+              {typeof error === "string"
+                ? error
+                : "Error happened. Refresh the page"}
+            </div>
+          )}
         </div>
       </div>
     );

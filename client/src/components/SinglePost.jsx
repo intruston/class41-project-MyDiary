@@ -147,8 +147,13 @@ const SinglePost = ({ mappedPost }) => {
           <PostReaction id={mappedPost._id} totalLikes={mappedPost.likes} />
         )}
       </div>
-
-      {error && <div className="error">{error.message || error}</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </div>
   );
 };

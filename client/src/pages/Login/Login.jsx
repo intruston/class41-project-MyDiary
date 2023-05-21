@@ -31,7 +31,7 @@ function LoginForm() {
         backgroundPosition: "center",
       }}
     >
-      <div className="login-div">
+      <div className="login-div has-loading">
         <h2>Log in to My diary</h2>
         <br />
         <p>
@@ -50,6 +50,7 @@ function LoginForm() {
               required
               placeholder="Email"
               className="login-input"
+              autoComplete="email"
             />
           </label>
           <br />
@@ -64,6 +65,7 @@ function LoginForm() {
               minLength="8"
               placeholder="Password"
               className="login-input"
+              autoComplete="current-password"
             />
           </label>
           <br />
@@ -76,9 +78,19 @@ function LoginForm() {
         </form>
         <br />
         {isLoading && <Loading />}
-        {error && <div className="error">{error.message || error}</div>}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
         {userError && (
-          <div className="error">{userError.message || userError}</div>
+          <div className="error">
+            {typeof userError === "string"
+              ? userError
+              : "Error happened. Refresh the page"}
+          </div>
         )}
       </div>
     </div>

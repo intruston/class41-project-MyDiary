@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch";
 import { useUserContext } from "../hooks/useUserContext";
 import SettingsChangePP from "./SettingsChangePP";
 import Loading from "./Loading";
+import PopUp from "./PopUp";
 
 const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const { user, dispatch } = useUserContext();
@@ -15,6 +16,8 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isPopUpOpen, setPopUpOpen] = useState(false);
+
   const onSuccess = () => {
     setFirstName("");
     setLastName("");
@@ -23,7 +26,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
     setCountry("");
     setBio("");
     setPassword("");
-    alert("Profile has been updated!");
+    setPopUpOpen(true);
   };
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -43,11 +46,6 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!password) {
-      alert("Please enter your password for submit");
-      return;
-    }
 
     const updatedUser = {
       _id: user._id,
@@ -69,9 +67,9 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
 
   return (
     <div className="middle-section">
-      <div className="middle-container">
+      <div className="middle-container has-loading">
         <div className="settings-title">
-          <span className="settings-update-title">Update Your Account</span>
+          <span className="settings-update-title">Update Your Account 2</span>
         </div>
 
         <form className="settings-form" onSubmit={handleSubmit}>
@@ -148,6 +146,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
                 value={email}
                 type="email"
                 placeholder={user?.email}
+                autoComplete="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -161,6 +160,7 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
                 type="password"
                 required
                 minLength="8"
+                autoComplete="off"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
@@ -184,10 +184,21 @@ const SettingsMiddle = ({ setModalPasswordActive, setModalDeleteActive }) => {
             </div>
           </div>
         </form>
-        {isLoading && <Loading />}
-        {error && (
-          <div className="error">Something went wrong! Error: {error}</div>
+        {isLoading && (
+          <div>
+            <Loading />
+          </div>
         )}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
+        <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
+          <div className="popup-message">Profile has been updated!</div>
+        </PopUp>
       </div>
     </div>
   );

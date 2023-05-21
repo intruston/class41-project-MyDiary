@@ -24,10 +24,16 @@ const TrendingTags = () => {
     <>
       <h3 className="popular-tag-h3">Popular Tags</h3>
       <div className="tags-container">
-        {error && <p>Error: {error.message}</p>}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
         {popularTags.map((popularTag) => {
           return (
-            <div key={popularTag} className="tags">
+            <div key={popularTag} className="tags has-loading">
               {isLoading && <Loading />}
               <Link to={`/search/tags/${sanitizeTags(popularTag)}`}>
                 <p>{sanitizeTags(popularTag)}</p>

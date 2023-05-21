@@ -46,7 +46,7 @@ function FriendsToFollow({ onSearchDataChange }) {
   }, []);
 
   return (
-    <div className="form-container">
+    <div className="form-container has-loading">
       <h3>+ Friends to follow</h3>
       <form onSubmit={handleSubmitSearch}>
         <div className="input-container">
@@ -129,7 +129,13 @@ function FriendsToFollow({ onSearchDataChange }) {
       </form>
       <br />
       {isLoading && <Loading />}
-      {error && <div className="error">Something went wrong.</div>}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </div>
   );
 }

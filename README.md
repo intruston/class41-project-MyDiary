@@ -1,12 +1,22 @@
-`TODO: Add a nice screenshot of the app!`
+![Landing](https://res.cloudinary.com/dc4yu3ljd/image/upload/v1684581466/Landing_gmex1h.png)
 
-# Class XX final project
+# Class 41 final project
 
 This is the final project for the HackYourFuture curriculum we did as a class using the MERN stack by following the agile methodology with our team and a group of mentors. A quick guide to what we built:
 
-> TODO: Add short description of the app
+The project _'My diary'_ is a social networking website developed by Team 2 of class 41. It provides a platform for users to create personal diaries and share their stories with friends and the community. Users can sign up and create profiles, add friends, and search for other users and posts. The website provides offers a variety of features and menu sections:
 
-`[Click here for the Demo version](TODO: add link)`
+- My Diary: Create your own personal diary and share your stories with friends, or create private posts just for yourself. Express yourself, capture your thoughts, and keep your memories in one place. You can even enhance your posts by adding photos to make them even more memorable and engaging.
+- Friends: Connect with friends by adding them to your friends list. Utilize the search functionality to find and connect with other users based on their first name, last name, birthday, country, or email. Expand your social circle and stay connected.
+- Feeds: Stay updated with the latest posts and activities from your friends. Explore a dynamic feed that displays posts, photos, and updates from the people you follow.
+- Search: Discover new users and posts through our comprehensive search functionality. Search for specific users posts or explore popular tags to find posts related to your interests. It's a great way to explore and engage with the community.
+- Settings: Customize your profile! Personalize your experience and manage your account settings with ease.
+
+Additionally, our website is moderated by a dedicated team to ensure a safe and enjoyable environment. Our moderators have the ability to ban any inappropriate content to maintain a positive user experience for all.
+
+Experience the power of social networking and connect with others through our user-friendly interface, designed to provide a smooth and engaging experience. Start sharing your stories, discovering new connections, and exploring a vibrant community on our social networking website.
+
+[Click here for the Demo version](https://c41-team-two.herokuapp.com/)
 
 ## 1. Setup
 
@@ -116,3 +126,7 @@ For more information on how these work together including the automatic deployme
 - `mongodb-memory-server` || To mock out our database in our backend tests. See [docs](https://github.com/nodkz/mongodb-memory-server)
 - `cors` || To open up our API. See [docs](https://github.com/expressjs/cors#readme)
 - `mongoose` || To add schemas to our database. See [docs](https://mongoosejs.com/)
+- `cloudinary` || A cloud-based service for managing and delivering images and other media files. See [docs](https://cloudinary.com/documentation)
+- `express-fileupload` || A middleware for handling file uploads in Express.js. See [docs](https://www.npmjs.com/package/express-fileupload)
+- `bcrypt` || A library used for hashing passwords and performing password hashing functions. See [docs](https://www.npmjs.com/package/bcrypt)
+- `helmet` || A middleware for Express.js that helps secure your application by setting various HTTP headers. See [docs](https://helmetjs.github.io/)

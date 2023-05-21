@@ -51,15 +51,18 @@ const ReportPost = ({ post }) => {
 
   if (isLoading || user._id === post.userId) return null;
 
-  if (error) {
-    alert(error);
-  }
-
   return (
     <li>
       <span onClick={handleClick}>
         {reportState ? "Reported!" : "Report post"}
       </span>
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
+        </div>
+      )}
     </li>
   );
 };

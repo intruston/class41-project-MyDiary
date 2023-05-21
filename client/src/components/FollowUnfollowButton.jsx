@@ -53,7 +53,11 @@ const FollowUnfollowButton = ({ anotherUserId, refreshUser = () => {} }) => {
         </div>
       )}
       {followError && (
-        <div className="error">{followError.message || followError}</div>
+        <div className="error">
+          {typeof followError === "string"
+            ? followError
+            : "Error happened. Refresh the page"}
+        </div>
       )}
     </>
   );

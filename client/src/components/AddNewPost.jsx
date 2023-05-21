@@ -162,7 +162,13 @@ const AddNewPost = ({ setActive, handlePostsRefresh }) => {
             </button>
           </div>
         </div>
-        {error && <div className="error">{error.message || error}</div>}
+        {error && (
+          <div className="error">
+            {typeof error === "string"
+              ? error
+              : "Error happened. Refresh the page"}
+          </div>
+        )}
         {isLoading && <Loading />}
       </div>
     </form>
