@@ -6,13 +6,16 @@ import AppWrapper from "./AppWrapper";
 import "./index.css";
 import App from "./App";
 import DatesProvider from "./hooks/useDateContext";
+import { PostsContextProvider } from "./context/PostsContext";
 ReactDOM.render(
   <AppWrapper>
     <AuthContextProvider>
       <UserContextProvider>
-        <DatesProvider>
-          <App />
-        </DatesProvider>
+        <PostsContextProvider>
+          <DatesProvider>
+            <App />
+          </DatesProvider>
+        </PostsContextProvider>
       </UserContextProvider>
     </AuthContextProvider>
   </AppWrapper>,

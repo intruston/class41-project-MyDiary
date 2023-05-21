@@ -2,16 +2,30 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useUserContext } from "../hooks/useUserContext";
 import useFetch from "../hooks/useFetch";
+import { usePostsContext } from "../hooks/usePostsContext";
 
-const ReportPost = ({ post, refreshUsers }) => {
+const ReportPost = ({ post }) => {
   const { user } = useUserContext();
+  const { posts, setPosts } = usePostsContext();
   const [reportState, setReportState] = useState(post.isReported);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/post/${post._id}`,
     (response) => {
-      setReportState(response.result.isReported);
-      refreshUsers();
+      if (response.success) {
+        setPosts(
+          posts.map((p) => {
+            if (p._id === post._id) {
+              return response.result;
+            } else {
+              return p;
+            }
+          })
+        );
+        setReportState(response.result.isReported);
+      } else {
+        alert(response.msg);
+      }
     }
   );
 
@@ -55,7 +69,6 @@ const ReportPost = ({ post, refreshUsers }) => {
 
 ReportPost.propTypes = {
   post: PropTypes.object,
-  refreshUsers: PropTypes.func,
 };
 
 export default ReportPost;

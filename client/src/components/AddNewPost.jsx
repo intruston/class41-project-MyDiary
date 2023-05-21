@@ -36,7 +36,7 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
     setIsPrivate(tab);
   };
 
-  //When Post submitted succesfully
+  //When Post submitted successfully
   const onSuccess = () => {
     setContent("");
     setTags("");
@@ -97,6 +97,7 @@ const AddNewPost = ({ setActive, refreshUsers }) => {
           }}
           required
           minLength="3"
+          maxLength="10000"
           className="new-post-content"
           id="new-post-content"
           placeholder="My Dear Diary,"

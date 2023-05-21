@@ -4,7 +4,7 @@ import validateAllowedFields from "../util/validateAllowedFields.js";
 
 const postSchema = new mongoose.Schema(
   {
-    content: { type: String, required: true, minLength: 3 },
+    content: { type: String, required: true, minLength: 3, maxLength: 10000 },
     image: { type: String, default: "" },
     isPrivate: { type: Boolean, default: true },
     isBanned: { type: Boolean, default: false },
