@@ -95,6 +95,7 @@ input {
 
   width: 26%;
   height: 100vh;
+  max-height: 1080px;
 
   margin-right: var(--whiteSpaceSmaller);
   padding: var(--whiteSpaceLarger) var(--whiteSpaceMedium)
@@ -130,7 +131,7 @@ input {
   padding: var(--whiteSpaceLarger);
   width: 100%;
   height: calc(100vh - (var(--whiteSpaceLarger)) - (var(--whiteSpaceLarger)));
-
+  max-height: 1080px;
   border-radius: 37px;
   background-color: white;
 }

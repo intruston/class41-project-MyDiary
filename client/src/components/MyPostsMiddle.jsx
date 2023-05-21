@@ -9,8 +9,7 @@ import Modal from "./Modal";
 import AddNewPost from "./AddNewPost";
 import moment from "moment";
 import noImage from "../assets/no-image.png";
-import DropdownMenu from "./DropdownMenu";
-import EntryCalendar from "./EntryCalendar";
+import CalendarSmall from "./CalendarSmall";
 const MyPostsMiddle = () => {
   const { user } = useUserContext();
   const { date } = useContext(useDateContext);
@@ -71,7 +70,9 @@ const MyPostsMiddle = () => {
                 {(publicCount || privateCount) && publicCount + privateCount}
               </strong>{" "}
               {publicCount + privateCount > 1 ? "posts" : "post"}
-              {date && " at " + date}
+              {date && " at:"}
+              <br />
+              {date && date}
             </h4>
           </div>
           <div className="right">
@@ -106,17 +107,7 @@ const MyPostsMiddle = () => {
           >
             Public: <span>{publicCount}</span>
           </h4>
-          <div className="small-date">
-            <DropdownMenu>
-              <summary role="button">
-                <h4 className="dropdownButton">{date ? date : "Date"}</h4>
-              </summary>
-              <ul>
-                <EntryCalendar />
-              </ul>
-            </DropdownMenu>
-          </div>
-
+          <CalendarSmall />
           <h4
             className={activeTab === "private" ? "active-posts" : ""}
             onClick={() => handleTabClick("private")}

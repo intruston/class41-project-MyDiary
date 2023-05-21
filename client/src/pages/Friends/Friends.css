@@ -47,6 +47,7 @@
 }
 
 .friends-search-button {
+  width: 20%;
   cursor: pointer;
   border: transparent;
   background-color: transparent;
@@ -185,6 +186,9 @@
 .friends-second {
   margin-top: 5%;
 }
+.friend-form-small {
+  display: none;
+}
 
 /* ==========================================================================
                              Responsive Design
@@ -196,12 +200,32 @@
 
 /* ===========================[ 1024px ]================================== */
 @media screen and (max-width: 1024px) {
+  .friend-form-small {
+    display: block;
+  }
+  .friend-form-small h3 {
+    text-align: center;
+  }
+  .friend-form-small h4 {
+    text-align: center;
+    font-weight: 400;
+    border: 1px dotted var(--orangeYellow);
+    border-radius: 15px;
+    padding: var(--whiteSpaceMedium) 0;
+    margin-bottom: var(--whiteSpaceLarger);
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
 }
 
 /* ===========================[ 768px ]================================== */
 @media screen and (max-width: 768px) {
   .friends-page {
     flex-direction: column;
+  }
+
+  .friends-page-header .right {
+    width: 48%;
   }
 }
 

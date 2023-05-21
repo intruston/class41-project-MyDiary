@@ -45,6 +45,7 @@
 }
 
 .feed-search-button {
+  width: 20%;
   cursor: pointer;
   border: transparent;
   background-color: transparent;
@@ -71,6 +72,13 @@
 
 /* ===========================[ 768px ]================================== */
 @media screen and (max-width: 768px) {
+  .feed-header .left {
+    width: 48%;
+  }
+
+  .feed-header .right {
+    width: 48%;
+  }
 }
 
 /* ===========================[ 480px ]================================== */

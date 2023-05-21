@@ -27,7 +27,7 @@ const FriendsPageHeader = ({ friendCount }) => {
         <form className="friends-search-form">
           <input
             type="text"
-            placeholder="Find in my friends"
+            placeholder="Find friends"
             className="friends-search-input"
             ref={inputRef}
           />
