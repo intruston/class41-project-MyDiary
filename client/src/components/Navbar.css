@@ -254,4 +254,7 @@
     justify-content: end;
     align-items: center;
   }
+  .link-group {
+    margin: 0 4px;
+  }
 }
