@@ -306,4 +306,10 @@ input {
 
 /* ===========================[ 480px ]================================== */
 @media screen and (max-width: 480px) {
+  .page-container {
+    flex-direction: column;
+  }
+  .middle-section {
+    width: 100%;
+  }
 }
