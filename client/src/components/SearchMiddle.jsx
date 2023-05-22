@@ -15,6 +15,7 @@ const SearchMiddle = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
+  const [newSearch, setNewSearch] = useState(1);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags?q=${searchQuery}&limit=10&page=${currentPage}`,
@@ -56,10 +57,21 @@ const SearchMiddle = () => {
     return cancelFetch;
   }, [most, searchQuery]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchResult([]);
+    performFetch();
+
+    return cancelFetch;
+  }, [newSearch]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
     setSearchedWord(searchQuery);
     setSearchResult([]);
+    setCurrentPage(1);
+    setNewSearch(!newSearch);
     if (!searchQuery) return;
     performFetch();
   };
