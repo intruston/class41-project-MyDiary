@@ -97,7 +97,7 @@ const SearchMiddle = () => {
             />
             {!isLoading && (searchedWord || most) && !searchResult.length && (
               <p className="found-no-result search-results">
-                No results:
+                No results for:
                 <strong> {searchedWord || most}</strong>
               </p>
             )}
