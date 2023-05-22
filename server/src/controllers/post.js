@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import moment from "moment";
 import Post, { validatePost } from "../models/Post.js";
 import User from "../models/User.js";
 import { logError } from "../util/logging.js";
@@ -10,28 +11,36 @@ export const getTimeline = async (req, res) => {
   const page = parseInt(req.query.page);
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
-  const endIndex = page * postsPerPage - startIndex;
-
+  const privacy = req.query.privacy;
+  const date = req.query.date;
   let timelinePosts = [];
+
+  const authUserId = authCheckId(req);
+
+  const findQuery = {
+    userId: req.params.id,
+  };
+
+  if (authUserId === req.params.id && privacy === "private") {
+    findQuery.isPrivate = true;
+  } else {
+    findQuery.isPrivate = false;
+    findQuery.isBanned = false;
+  }
+
+  if (date) {
+    findQuery.createdAt = {
+      $gte: moment(date).startOf("day").toDate(),
+      $lte: moment(date).endOf("day").toDate(),
+    };
+  }
+
   try {
-    const authUserId = authCheckId(req);
-    if (authUserId === req.params.id) {
-      timelinePosts = await Post.find({ userId: req.params.id })
-        .sort({ createdAt: -1 })
-        .skip(startIndex)
-        .limit(endIndex)
-        .exec();
-    } else {
-      timelinePosts = await Post.find({
-        userId: req.params.id,
-        isPrivate: false,
-        isBanned: false,
-      })
-        .sort({ createdAt: -1 })
-        .skip(startIndex)
-        .limit(endIndex)
-        .exec();
-    }
+    timelinePosts = await Post.find(findQuery)
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(postsPerPage)
+      .exec();
 
     res.status(200).json({ success: true, result: timelinePosts });
   } catch (error) {
@@ -47,7 +56,7 @@ export const getFeed = async (req, res) => {
   const page = parseInt(req.query.page);
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
-  const endIndex = page * postsPerPage - startIndex;
+  const date = req.query.date;
   const sort = req.query.sort;
 
   try {
@@ -63,6 +72,19 @@ export const getFeed = async (req, res) => {
     const currentUser = await User.findById(req.params.id).exec();
     const userFriendsId = currentUser.following;
     const usersForFeed = [...userFriendsId, currentUser._id.toString()];
+
+    const feedQuery = {
+      userId: { $in: usersForFeed },
+      isPrivate: false,
+      isBanned: false,
+    };
+
+    if (date) {
+      feedQuery.createdAt = {
+        $gte: moment(date).startOf("day").toDate(),
+        $lte: moment(date).endOf("day").toDate(),
+      };
+    }
 
     const feedPosts =
       sort === "likes"
@@ -86,15 +108,11 @@ export const getFeed = async (req, res) => {
             },
           ])
             .skip(startIndex)
-            .limit(endIndex)
-        : await Post.find({
-            userId: { $in: usersForFeed },
-            isPrivate: false,
-            isBanned: false,
-          })
+            .limit(postsPerPage)
+        : await Post.find(feedQuery)
             .sort({ createdAt: -1 })
             .skip(startIndex)
-            .limit(endIndex)
+            .limit(postsPerPage)
             .exec();
 
     res.status(200).json({
@@ -152,7 +170,7 @@ export const createPost = async (req, res) => {
     } else {
       const newPost = await Post.create(post);
 
-      res.status(201).json({ success: true, post: newPost });
+      res.status(201).json({ success: true, result: newPost });
     }
   } catch (error) {
     logError(error);
@@ -323,7 +341,6 @@ export const getReportedPosts = async (req, res) => {
   const page = parseInt(req.query.page);
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
-  const endIndex = page * postsPerPage - startIndex;
 
   try {
     const authUserId = authCheckId(req);
@@ -337,7 +354,7 @@ export const getReportedPosts = async (req, res) => {
       })
         .sort({ createdAt: -1 })
         .skip(startIndex)
-        .limit(endIndex)
+        .limit(postsPerPage)
         .exec();
 
       res.status(200).json({ success: true, result: reportedPosts });
@@ -360,7 +377,6 @@ export const getBannedPosts = async (req, res) => {
   const page = parseInt(req.query.page);
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
-  const endIndex = page * postsPerPage - startIndex;
 
   try {
     const authUserId = authCheckId(req);
@@ -372,7 +388,7 @@ export const getBannedPosts = async (req, res) => {
       const bannedPosts = await Post.find({ isBanned: true })
         .sort({ createdAt: -1 })
         .skip(startIndex)
-        .limit(endIndex)
+        .limit(postsPerPage)
         .exec();
 
       res.status(200).json({ success: true, result: bannedPosts });

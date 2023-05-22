@@ -1,28 +1,7 @@
-import { createContext, useState } from "react";
-import PropTypes from "prop-types";
-import React from "react";
-//Creating a date context to hold selected date information
-export const useDateContext = createContext(null);
-export const DatesProvider = ({ children }) => {
-  const [date, setDate] = useState(null);
+import { useContext } from "react";
+import { DateContext } from "../context/DateContext";
 
-  // This will be provided
-  const contextValue = {
-    date,
-    setDate,
-  };
-
-  // We will provide from Index.jsx, otherwise can't call date in MyPostsMiddle.jsx
-  return (
-    <useDateContext.Provider value={contextValue}>
-      {children}
-    </useDateContext.Provider>
-  );
+export const useDateContext = () => {
+  const context = useContext(DateContext);
+  return context;
 };
-
-// This required for Eslint, without this: { children } make a problem.
-DatesProvider.propTypes = {
-  children: PropTypes.element.isRequired,
-};
-
-export default DatesProvider;

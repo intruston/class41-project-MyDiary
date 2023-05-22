@@ -141,6 +141,11 @@ const SearchMiddle = () => {
       )}
       {/* Posts */}
       <div className="middle-container-results">
+        {isLoading && (
+          <div className="load-container">
+            <Loading />
+          </div>
+        )}
         {searchResult.length ? (
           searchResult.map((mappedPost, i) => (
             <div

@@ -54,7 +54,7 @@ a.dropdownButton {
 .dropdown summary {
   list-style: none;
   list-style-type: none;
-  /* for hiding ugly arrors in Safari */
+  /* for hiding ugly arrows in Safari */
   color: transparent;
 }
 /* Close the dropdown with outside clicks */

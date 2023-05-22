@@ -7,7 +7,6 @@ export const searchTags = async (req, res) => {
   const page = parseInt(req.query.page);
   const postsPerPage = parseInt(req.query.limit);
   const startIndex = (page - 1) * postsPerPage;
-  const endIndex = page * postsPerPage - startIndex;
 
   // search through tags
   try {
@@ -34,7 +33,7 @@ export const searchTags = async (req, res) => {
       },
     ])
       .skip(startIndex)
-      .limit(endIndex);
+      .limit(postsPerPage);
 
     res.status(200).json({ success: true, result: searchQuery });
   } catch (error) {

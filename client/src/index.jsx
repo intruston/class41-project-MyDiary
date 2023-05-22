@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { UserContextProvider } from "./context/UserContext";
+import DatesProvider from "./context/DateContext";
 import AppWrapper from "./AppWrapper";
 import "./index.css";
 import App from "./App";
-import DatesProvider from "./hooks/useDateContext";
 import { PostsContextProvider } from "./context/PostsContext";
+
 ReactDOM.render(
   <AppWrapper>
     <AuthContextProvider>
