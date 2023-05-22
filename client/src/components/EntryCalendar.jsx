@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./EntryCalendar.css";
@@ -12,6 +13,8 @@ import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 const EntryCalendar = () => {
   const [value, onChange] = useState(new Date());
   const { posts } = usePostsContext();
+  const { pathname } = useLocation();
+
   // const { user } = useUserContext();
 
   // TODO: clean up this component if not use fetch here
@@ -72,7 +75,9 @@ const EntryCalendar = () => {
       });
       const dateString = date.toISOString().substr(0, 10);
       const hasPost = postDates.includes(dateString);
-      return hasPost ? "highlight" : null;
+      return hasPost && pathname !== "/feeds" && pathname !== "/moderation"
+        ? "highlight"
+        : null;
     };
 
     // Helper function to pad zero to single digit numbers
