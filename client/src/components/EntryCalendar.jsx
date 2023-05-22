@@ -1,32 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./EntryCalendar.css";
 import { useDateContext } from "../hooks/useDateContext";
-import { useUserContext } from "../hooks/useUserContext";
-import useFetch from "../hooks/useFetch";
-import Loading from "./Loading";
+import { usePostsContext } from "../hooks/usePostsContext";
+// import { useUserContext } from "../hooks/useUserContext";
+// import useFetch from "../hooks/useFetch";
+// import Loading from "./Loading";
 import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 
 const EntryCalendar = () => {
   const [value, onChange] = useState(new Date());
-  const { user } = useUserContext();
+  const { posts } = usePostsContext();
+  // const { user } = useUserContext();
 
-  //getting post data
-  const [posts, setPosts] = useState([]);
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/post/timeline/${user._id}`,
-    (response) => {
-      setPosts(response.result);
-    }
-  );
-  useEffect(() => {
-    performFetch();
-    return cancelFetch;
-  }, []);
-  useEffect(() => {
-    return cancelFetch;
-  }, []);
+  // TODO: clean up this component if not use fetch here
+
+  // //getting post data
+  // const [posts, setPosts] = useState([]);
+  // const { isLoading, error, performFetch, cancelFetch } = useFetch(
+  //   `/post/timeline/${user._id}`,
+  //   (response) => {
+  //     setPosts(response.result);
+  //   }
+  // );
+
+  // useEffect(() => {
+  //   performFetch();
+  //   return cancelFetch;
+  // }, []);
+
+  // useEffect(() => {
+  //   return cancelFetch;
+  // }, []);
 
   const { date, setDate } = useDateContext();
   //set value to selected day
@@ -89,7 +95,7 @@ const EntryCalendar = () => {
         </div>
 
         <div className="calendar-container has-loading">
-          {isLoading && <Loading />}
+          {/* {isLoading && <Loading />} */}
           <Calendar
             calendarClassName="my-calendar"
             onChange={handleDateChange}
@@ -98,13 +104,13 @@ const EntryCalendar = () => {
             locale="en"
             maxDate={new Date()} //this line disables selecting future dates
           />
-          {error && (
+          {/* {error && (
             <div className="error">
               {typeof error === "string"
                 ? error
                 : "Error happened. Refresh the page"}
             </div>
-          )}
+          )} */}
         </div>
       </div>
     );
