@@ -135,4 +135,9 @@
   .landing-container {
     display: none;
   }
+
+  .landing-left {
+    position: absolute;
+    max-width: 70%;
+  }
 }
