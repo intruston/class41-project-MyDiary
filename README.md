@@ -42,11 +42,12 @@ client
 └── src
 |   └── __tests__
 |   └── __testUtils__
+|   └── assets
 |   └── components
+|   └── context
 |   └── hooks
 |   └── pages
 |       └── __tests__
-|       └── components
 |   └── util
 |   index.jsx
 cypress
@@ -60,6 +61,7 @@ server
     └── __testUtils__
     └── controllers
     └── db
+    └── middleware
     └── models
     └── routes
     └── util
@@ -129,4 +131,5 @@ For more information on how these work together including the automatic deployme
 - `cloudinary` || A cloud-based service for managing and delivering images and other media files. See [docs](https://cloudinary.com/documentation)
 - `express-fileupload` || A middleware for handling file uploads in Express.js. See [docs](https://www.npmjs.com/package/express-fileupload)
 - `bcrypt` || A library used for hashing passwords and performing password hashing functions. See [docs](https://www.npmjs.com/package/bcrypt)
-- `helmet` || A middleware for Express.js that helps secure your application by setting various HTTP headers. See [docs](https://helmetjs.github.io/)
+- `jsonwebtoken` || A library for generating and verifying JSON Web Tokens (JWTs) in Node.js. The jsonwebtoken library provides functions to generate tokens, verify their authenticity, and extract the payload information. See [docs](https://github.com/auth0/node-jsonwebtoken)\
+  To protect certain routes or endpoints that require authentication, we use the jsonwebtoken library along with custom middleware. The middleware verifies the integrity and authenticity of the JWT provided in the Authorization header of the request. If the token is valid, it allows access to the protected resource; otherwise, it returns an appropriate error response.
