@@ -65,6 +65,11 @@ const ModerationPosts = ({ status }) => {
 
   return (
     <>
+      {isLoading && (
+        <div className="load-container">
+          <Loading />
+        </div>
+      )}
       <div>
         {filteredPosts === [] ? (
           <div className="no-banned-posts">No any posts yet</div>
@@ -81,7 +86,6 @@ const ModerationPosts = ({ status }) => {
         )}
       </div>
 
-      {isLoading && <Loading />}
       {error && (
         <div className="error">
           {typeof error === "string"

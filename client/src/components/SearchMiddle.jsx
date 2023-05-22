@@ -86,26 +86,30 @@ const SearchMiddle = () => {
     <div className="middle-section">
       <div className="middle-container">
         <form onSubmit={handleSubmit} className="search-form">
-          <input
-            type="text"
-            minLength="2"
-            required
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-            className="search-input"
-          />
-          {!isLoading && (searchedWord || most) && !searchResult.length && (
-            <p className="found-no-result search-results">
-              No results for: <strong>{searchedWord || most}</strong>
-            </p>
-          )}
+          <div className="search-info">
+            <input
+              type="text"
+              minLength="2"
+              required
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              className="search-input"
+            />
+            {!isLoading && (searchedWord || most) && !searchResult.length && (
+              <p className="found-no-result search-results">
+                No results for:
+                <strong> {searchedWord || most}</strong>
+              </p>
+            )}
 
-          {searchResult && searchResult.length > 0 && (
-            <p className="search-results">
-              {searchResult.length >= 10 ? "many" : searchResult.length}{" "}
-              {searchResult.length === 1 ? "result" : "results"}
-            </p>
-          )}
+            {searchResult && searchResult.length > 0 && (
+              <p className="search-results">
+                {searchResult.length >= 10 ? "many" : searchResult.length}{" "}
+                {searchResult.length === 1 ? "result" : "results"}
+              </p>
+            )}
+          </div>
+
           <button type="submit" className="search-search-button">
             <SearchIcon className="search-search-icon" />
           </button>
@@ -125,7 +129,6 @@ const SearchMiddle = () => {
       )}
       {/* Posts */}
       <div className="middle-container-results">
-        {isLoading && <Loading />}
         {searchResult.length ? (
           searchResult.map((mappedPost, i) => (
             <div
