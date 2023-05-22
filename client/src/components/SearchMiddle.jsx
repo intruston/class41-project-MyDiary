@@ -15,7 +15,7 @@ const SearchMiddle = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const [newSearch, setNewSearch] = useState(1);
+  const [newSearch, setNewSearch] = useState(false);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags?q=${searchQuery}&limit=10&page=${currentPage}`,
