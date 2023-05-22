@@ -21,14 +21,14 @@
 }
 .search-input {
   font-size: 1.1rem;
-  padding-left: var(--whiteSpaceSmaller);
   color: var(--gray);
   width: 100%;
   border: transparent;
   border-bottom: 1px solid var(--invisible);
 }
 
-.search-input:focus {
+.search-input:focus,
+.search-input:hover {
   outline: none;
   border-bottom: 1px solid #b2b1b0;
 }
