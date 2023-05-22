@@ -15,6 +15,7 @@ const SearchMiddle = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
+  const [newSearch, setNewSearch] = useState(false);
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/search/tags?q=${searchQuery}&limit=10&page=${currentPage}`,
@@ -56,10 +57,21 @@ const SearchMiddle = () => {
     return cancelFetch;
   }, [most, searchQuery]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchResult([]);
+    performFetch();
+
+    return cancelFetch;
+  }, [newSearch]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
     setSearchedWord(searchQuery);
     setSearchResult([]);
+    setCurrentPage(1);
+    setNewSearch(!newSearch);
     if (!searchQuery) return;
     performFetch();
   };
@@ -86,26 +98,30 @@ const SearchMiddle = () => {
     <div className="middle-section">
       <div className="middle-container">
         <form onSubmit={handleSubmit} className="search-form">
-          <input
-            type="text"
-            minLength="2"
-            required
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-            className="search-input"
-          />
-          {!isLoading && (searchedWord || most) && !searchResult.length && (
-            <p className="found-no-result search-results">
-              No results for: <strong>{searchedWord || most}</strong>
-            </p>
-          )}
+          <div className="search-info">
+            <input
+              type="text"
+              minLength="2"
+              required
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              className="search-input"
+            />
+            {!isLoading && (searchedWord || most) && !searchResult.length && (
+              <p className="found-no-result search-results">
+                No results for:
+                <strong> {searchedWord || most}</strong>
+              </p>
+            )}
 
-          {searchResult && searchResult.length > 0 && (
-            <p className="search-results">
-              {searchResult.length >= 10 ? "many" : searchResult.length}{" "}
-              {searchResult.length === 1 ? "result" : "results"}
-            </p>
-          )}
+            {searchResult && searchResult.length > 0 && (
+              <p className="search-results">
+                {searchResult.length >= 10 ? "many" : searchResult.length}{" "}
+                {searchResult.length === 1 ? "result" : "results"}
+              </p>
+            )}
+          </div>
+
           <button type="submit" className="search-search-button">
             <SearchIcon className="search-search-icon" />
           </button>
