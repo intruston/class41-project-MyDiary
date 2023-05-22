@@ -8,7 +8,6 @@ import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import Modal from "./Modal";
 import AddNewPost from "./AddNewPost";
-import moment from "moment";
 import noImage from "../assets/no-image.png";
 import CalendarSmall from "./CalendarSmall";
 
@@ -123,9 +122,6 @@ const MyPostsMiddle = () => {
             onClick={() => handleTabClick("public")}
           >
             My public posts
-          </h4>
-          <h4 style={{ color: "darksalmon", fontSize: "1.2rem" }}>
-            {date && " On " + moment(date).format("DD MMMM YYYY")}
           </h4>
           <CalendarSmall />
           <h4
