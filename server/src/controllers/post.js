@@ -114,11 +114,7 @@ export const getFeed = async (req, res) => {
             .skip(startIndex)
             .limit(postsPerPage)
             .exec();
-    console.log(
-      "post per page=" + postsPerPage,
-      "start index=" + startIndex,
-      "end index=" + postsPerPage
-    );
+
     res.status(200).json({
       success: true,
       result: feedPosts,
