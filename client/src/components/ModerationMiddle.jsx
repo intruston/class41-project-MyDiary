@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ModerationPosts from "./ModerationPosts copy";
+import ModerationPosts from "./ModerationPosts";
 
 const ModerationMiddle = () => {
   const [activeTab, setActiveTab] = useState("reported");

@@ -10,8 +10,7 @@ import Modal from "./Modal";
 import AddNewPost from "./AddNewPost";
 import moment from "moment";
 import noImage from "../assets/no-image.png";
-import DropdownMenu from "./DropdownMenu";
-import EntryCalendar from "./EntryCalendar";
+import CalendarSmall from "./CalendarSmall";
 
 const MyPostsMiddle = () => {
   const { user } = useUserContext();
@@ -128,17 +127,7 @@ const MyPostsMiddle = () => {
           <h4 style={{ color: "darksalmon", fontSize: "1.2rem" }}>
             {date && " On " + moment(date).format("DD MMMM YYYY")}
           </h4>
-          <div className="small-date">
-            <DropdownMenu>
-              <summary role="button">
-                <h4 className="dropdownButton">{date ? date : "Date"}</h4>
-              </summary>
-              <ul>
-                <EntryCalendar />
-              </ul>
-            </DropdownMenu>
-          </div>
-
+          <CalendarSmall />
           <h4
             className={activeTab === "private" ? "active-posts" : ""}
             onClick={() => handleTabClick("private")}

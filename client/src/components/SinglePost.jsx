@@ -27,9 +27,9 @@ const SinglePost = ({ mappedPost }) => {
     anotherUserId: mappedPost.userId,
   });
 
-  //Limit text inside result in 140 symbols. Otherwise ...Show more
-  const MAX_CONTENT_LENGTH = 140;
-  const MAX_CONTENT_LINES = 3;
+  //Limit text inside result in 250 symbols. Otherwise ...Show more
+  const MAX_CONTENT_LENGTH = 250;
+  const MAX_CONTENT_LINES = 5;
   const [showMore, setShowMore] = useState(false);
   const numLines = mappedPost.content.split("\n").length;
   const content = showMore
@@ -96,7 +96,19 @@ const SinglePost = ({ mappedPost }) => {
             </div>
           </div>
           {/* Post Content */}{" "}
-          <div className="post-context-text">
+          <div className="post-content-contents">
+            <div className="post-content-text">
+              {content}
+              {(mappedPost.content.length > MAX_CONTENT_LENGTH ||
+                numLines > MAX_CONTENT_LINES) && (
+                <span>
+                  {showMore ? " " : "... "}
+                  <a href="#" className="show-link" onClick={handleShowMore}>
+                    {showMore ? " Show less" : "Show more"}
+                  </a>
+                </span>
+              )}
+            </div>
             {mappedPost.image && (
               <>
                 <PopUp isOpen={isPopUpOpen} setPopUpOpen={setPopUpOpen}>
@@ -117,16 +129,6 @@ const SinglePost = ({ mappedPost }) => {
                   ></img>
                 </div>
               </>
-            )}
-            {content}
-            {(mappedPost.content.length > MAX_CONTENT_LENGTH ||
-              numLines > MAX_CONTENT_LINES) && (
-              <span>
-                {showMore ? " " : "... "}
-                <a href="#" className="show-link" onClick={handleShowMore}>
-                  {showMore ? " Show less" : "Show more"}
-                </a>
-              </span>
             )}
           </div>
         </div>

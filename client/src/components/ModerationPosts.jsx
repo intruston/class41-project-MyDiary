@@ -81,13 +81,14 @@ const ModerationPosts = ({ status }) => {
         )}
       </div>
 
-      {isLoading && (
-        <div className="load-container">
-          .
-          <Loading />
+      {isLoading && <Loading />}
+      {error && (
+        <div className="error">
+          {typeof error === "string"
+            ? error
+            : "Error happened. Refresh the page"}
         </div>
       )}
-      {error && <div className="error">{error.message}</div>}
     </>
   );
 };

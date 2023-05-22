@@ -92,9 +92,10 @@ input {
 .right-section {
   position: sticky;
   top: 0;
-
   width: 26%;
   height: 100vh;
+
+  max-height: 1080px;
 
   margin-right: var(--whiteSpaceSmaller);
   padding: var(--whiteSpaceLarger) var(--whiteSpaceMedium)
@@ -103,7 +104,7 @@ input {
 .triple-container {
   /* Position */
   display: grid;
-  grid-template-rows: auto 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
   row-gap: var(--whiteSpaceMedium);
 
   /* Size */
@@ -130,6 +131,8 @@ input {
   padding: var(--whiteSpaceLarger);
   width: 100%;
   height: calc(100vh - (var(--whiteSpaceLarger)) - (var(--whiteSpaceLarger)));
+
+  max-height: 1080px;
 
   border-radius: 37px;
   background-color: white;
@@ -179,6 +182,7 @@ input {
   padding: var(--whiteSpaceMedium);
   border-radius: 37px;
   background-color: white;
+  height: min-content;
 }
 
 /* ==========================================================================
@@ -231,7 +235,7 @@ input {
   left: 0%;
   border-radius: 10px;
   backdrop-filter: blur(0.2rem);
-  z-index: 1;
+  z-index: 3;
 }
 
 .loadingSpinner {
@@ -306,4 +310,10 @@ input {
 
 /* ===========================[ 480px ]================================== */
 @media screen and (max-width: 480px) {
+  .page-container {
+    flex-direction: column;
+  }
+  .middle-section {
+    width: 100%;
+  }
 }
