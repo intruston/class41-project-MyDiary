@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import User from "../models/User.js";
+import Post from "../models/Post.js";
 import { logError } from "../util/logging.js";
 import { comparePassword, hashPassword } from "../util/password.js";
 import { authCheckId } from "./auth.js";
@@ -192,9 +193,8 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ success: false, msg: "User not found" });
     }
 
-    // TODO: to let user delete profile uncomment
-    // await Post.deleteMany({ userId: user._id });
-    // await User.findByIdAndDelete(user._id);
+    await Post.deleteMany({ userId: user._id });
+    await User.findByIdAndDelete(user._id);
 
     res
       .status(200)

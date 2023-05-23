@@ -39,7 +39,7 @@ userSchema.statics.signup = async function (user) {
       )}`
     );
   } else {
-    // TODO: THIS CHECK DOESN't WORK added another one in auth
+    // THIS CHECK DOESN't WORK added another one in auth
     const exists = await this.findOne({ email: user.email });
 
     if (exists) {
