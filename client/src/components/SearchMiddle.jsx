@@ -58,9 +58,11 @@ const SearchMiddle = () => {
   }, [most, searchQuery]);
 
   useEffect(() => {
-    setCurrentPage(1);
-    setSearchResult([]);
-    performFetch();
+    if (searchQuery) {
+      setCurrentPage(1);
+      setSearchResult([]);
+      performFetch();
+    }
 
     return cancelFetch;
   }, [newSearch]);
