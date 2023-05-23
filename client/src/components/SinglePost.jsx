@@ -27,9 +27,9 @@ const SinglePost = ({ mappedPost }) => {
     anotherUserId: mappedPost.userId,
   });
 
-  //Limit text inside result in 250 symbols. Otherwise ...Show more
-  const MAX_CONTENT_LENGTH = 250;
-  const MAX_CONTENT_LINES = 5;
+  //Limit text inside result in 200 symbols. Otherwise ...Show more
+  const MAX_CONTENT_LENGTH = 200;
+  const MAX_CONTENT_LINES = 4;
   const [showMore, setShowMore] = useState(false);
   const numLines = mappedPost.content.split("\n").length;
   const content = showMore
@@ -57,7 +57,7 @@ const SinglePost = ({ mappedPost }) => {
 
   return (
     <div className="single-post-component">
-      <div className="pos-container">
+      <div className="post-container">
         {/* Profile Picture */}
         <div className="side-profile has-loading">
           <Link to={profileLink}>
