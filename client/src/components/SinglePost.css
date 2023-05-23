@@ -34,7 +34,7 @@
   cursor: pointer;
 }
 
-.pos-container {
+.post-container {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -49,8 +49,7 @@
   min-width: 100px;
   height: 100px;
   border-radius: 10px;
-  margin: 10px;
-  /* margin-bottom: var(--whiteSpaceSmaller); */
+  margin-left: 10px;
   border: 1px solid var(--softYellow);
 }
 .post-image img {
@@ -159,6 +158,16 @@
 @media screen and (max-width: 768px) {
   .inside-profile h3 {
     font-size: 0.8rem;
+  }
+}
+
+/* ===========================[ 650px ]================================== */
+@media screen and (max-width: 650px) {
+  .post-image {
+    margin-top: 10px;
+  }
+  .post-content-contents {
+    flex-direction: column;
   }
 }
 

@@ -7,6 +7,9 @@ This is the final project for the HackYourFuture curriculum we did as a class us
 The project _'My diary'_ is a social networking website developed by Team 2 of class 41. It provides a platform for users to create personal diaries and share their stories with friends and the community. Users can sign up and create profiles, add friends, and search for other users and posts. The website provides offers a variety of features and menu sections:
 
 - My Diary: Create your own personal diary and share your stories with friends, or create private posts just for yourself. Express yourself, capture your thoughts, and keep your memories in one place. You can even enhance your posts by adding photos to make them even more memorable and engaging.
+
+  ![My posts page screenshot](./client/src/assets/readme/Screenshot%202023-05-23%20at%2009.42.20.png)
+
 - Friends: Connect with friends by adding them to your friends list. Utilize the search functionality to find and connect with other users based on their first name, last name, birthday, country, or email. Expand your social circle and stay connected.
 - Feeds: Stay updated with the latest posts and activities from your friends. Explore a dynamic feed that displays posts, photos, and updates from the people you follow.
 - Search: Discover new users and posts through our comprehensive search functionality. Search for specific users posts or explore popular tags to find posts related to your interests. It's a great way to explore and engage with the community.
