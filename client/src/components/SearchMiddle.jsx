@@ -129,17 +129,10 @@ const SearchMiddle = () => {
           </button>
         </form>
       </div>
-      {isLoading && (
-        <div className="load-container">
-          <Loading />
-        </div>
-      )}
-      {error && (
-        <div className="error">
-          {typeof error === "string"
-            ? error
-            : "Error happened. Refresh the page"}
-        </div>
+      {error && typeof error === "string" ? (
+        <div className="error">error</div>
+      ) : (
+        ""
       )}
       {/* Posts */}
       <div className="middle-container-results">
