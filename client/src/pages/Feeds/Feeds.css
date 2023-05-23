@@ -68,17 +68,23 @@
 
 /* ===========================[ 1024px ]================================== */
 @media screen and (max-width: 1024px) {
-}
-
-/* ===========================[ 768px ]================================== */
-@media screen and (max-width: 768px) {
   .feed-header .left {
     width: 48%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .feed-header .right {
     width: 48%;
   }
+  .feed-header .calendar-small {
+    width: 33%;
+  }
+}
+
+/* ===========================[ 768px ]================================== */
+@media screen and (max-width: 768px) {
 }
 
 /* ===========================[ 480px ]================================== */
