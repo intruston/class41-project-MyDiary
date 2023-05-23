@@ -103,12 +103,10 @@ const FeedsMiddle = () => {
             </form>
           </div>
         </div>
-        {error && (
-          <div className="error">
-            {typeof error === "string"
-              ? error
-              : "Error happened. Refresh the page"}
-          </div>
+        {error && typeof error === "string" ? (
+          <div className="error">error</div>
+        ) : (
+          ""
         )}
       </div>
       {/* Posts */}
