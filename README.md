@@ -12,9 +12,6 @@ The project _'My diary'_ is a social networking website developed by Team 2 of c
 
 - Friends: Connect with friends by adding them to your friends list. Utilize the search functionality to find and connect with other users based on their first name, last name, birthday, country, or email. Expand your social circle and stay connected.
 - Feeds: Stay updated with the latest posts and activities from your friends. Explore a dynamic feed that displays posts, photos, and updates from the people you follow.
-
-  ![My posts page screenshot](./client/src/assets/readme/Screenshot%202023-05-23%20at%2009.42.00.png)
-
 - Search: Discover new users and posts through our comprehensive search functionality. Search for specific users posts or explore popular tags to find posts related to your interests. It's a great way to explore and engage with the community.
 - Settings: Customize your profile! Personalize your experience and manage your account settings with ease.
 
