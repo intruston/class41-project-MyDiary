@@ -8,6 +8,7 @@ import { useUserContext } from "../hooks/useUserContext";
 import { usePostsContext } from "../hooks/usePostsContext";
 import { sanitizeTags } from "../util/sanitizeTags";
 import { useDateContext } from "../hooks/useDateContext";
+import CalendarSmall from "./CalendarSmall";
 
 const FeedsMiddle = () => {
   // Getting user information and logout function from context
@@ -85,7 +86,9 @@ const FeedsMiddle = () => {
         <div className="feed-header">
           <div className="left">
             <h2>Feed</h2>
+            <CalendarSmall />
           </div>
+
           <div className="right">
             {/* Search Bar */}
             <form onSubmit={handleSubmit} className="feed-search-form">

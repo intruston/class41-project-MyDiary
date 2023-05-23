@@ -36,6 +36,10 @@
 .another-profile {
   padding-right: var(--whiteSpaceSmaller);
 }
+.another-profile .profile-picture-component {
+  min-width: 80px;
+  min-height: 80px;
+}
 
 .page-header .right {
   width: 30%;

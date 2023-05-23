@@ -17,7 +17,9 @@ const CalendarSmall = () => {
             {date ? (
               moment(date).format("DD MMMM YYYY")
             ) : (
-              <CalendarMonthIcon fontSize="large" sx={{ color: "#292929" }} />
+              <div className="little-calendar-icon">
+                <CalendarMonthIcon fontSize="large" sx={{ color: "#292929" }} />
+              </div>
             )}
           </h4>
         </summary>
